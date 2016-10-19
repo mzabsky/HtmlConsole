@@ -1,4 +1,4 @@
-stylesheet ::= ruleset*;
+stylesheet ::= ruleset*
 
 ruleset ::= selectors "{" declarations "}"
 
@@ -8,9 +8,9 @@ selector ::= element_name (hash|class|attrib|pseudo)* | (hash|class|attrib|pseud
 
 element_name ::= ident | "*"
 
-hash ::= "#" ident;
+hash ::= "#" ident
 
-class ::= "." ident;
+class ::= "." ident
 
 attrib ::= "[" ident (("="|"~="|"|=") (ident|string))? "]"
 
@@ -26,7 +26,7 @@ expression ::= term (operator? term)*
 
 prio ::= "!important"
 
-term ::= unary_operator? (number | percentage | length | ems | exs | angle | time | freq | string | ident | uri | hexcolor | function)
+term ::= unary_operator? (number | percentage | length | ems | exs | angle | time | freq | ident | uri | hexcolor | function)
 
 unary_operator ::= "+" | "-"
 
@@ -36,6 +36,6 @@ length ::= number ("px" | "cm" | "ex" | "em" | "mm" | "in" | "pt" | "pc")
 angle ::= number ("deg" | "rad" | "grad")
 time ::= number ("ms" | "s")
 freq ::= number ("hz" | "khz")
-string ::= "\"" .* "\"" 
+
 ident ::= [_a-z][_a-z0-9]
 hexcolor ::= "#" [0-9]+
