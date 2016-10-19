@@ -1,0 +1,41 @@
+stylesheet ::= ruleset*;
+
+ruleset ::= selectors "{" declarations "}"
+
+selectors ::= selector ("," selector)*
+
+selector ::= element_name (hash|class|attrib|pseudo)* | (hash|class|attrib|pseudo)+
+
+element_name ::= ident | "*"
+
+hash ::= "#" ident;
+
+class ::= "." ident;
+
+attrib ::= "[" ident (("="|"~="|"|=") (ident|string))? "]"
+
+pseudo ::= ":" (ident | function)
+
+function ::= ident "(" expression ")"
+
+declarations ::= declaration (";" declaration?)*
+
+declaration ::= ident ":" expression prio?
+
+expression ::= term (operator? term)*
+
+prio ::= "!important"
+
+term ::= unary_operator? (number | percentage | length | ems | exs | angle | time | freq | string | ident | uri | hexcolor | function)
+
+unary_operator ::= "+" | "-"
+
+number ::= [0-9]+("." [0-9]+)?
+percentage ::= number "%"
+length ::= number ("px" | "cm" | "ex" | "em" | "mm" | "in" | "pt" | "pc")
+angle ::= number ("deg" | "rad" | "grad")
+time ::= number ("ms" | "s")
+freq ::= number ("hz" | "khz")
+string ::= "\"" .* "\"" 
+ident ::= [_a-z][_a-z0-9]
+hexcolor ::= "#" [0-9]+
