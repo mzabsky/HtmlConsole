@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using Eto.Parse;
 using Eto.Parse.Grammars;
@@ -7,13 +9,11 @@ namespace HtmlConsole.Css
 {
     public class StyleParser
     {
-        private Grammar _grammar;
+        private readonly Grammar _grammar;
 
         public StyleParser()
         {
-            var a = Assembly.GetExecutingAssembly().GetManifestResourceNames();
-
-             var assembly = Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetExecutingAssembly();
             var resourceName = "HtmlConsole.Css.cssgrammar.txt";
 
             string grammarText;
@@ -23,12 +23,20 @@ namespace HtmlConsole.Css
                 grammarText = reader.ReadToEnd();
             }
 
-            _grammar = new EbnfGrammar(EbnfStyle.W3c).Build(grammarText, "stylesheet");
+            _grammar = new EbnfGrammar(EbnfStyle.W3c | EbnfStyle.WhitespaceSeparator).Build(grammarText, "stylesheet");
         }
 
         public void Parse(string str)
         {
-            var match = _grammar.Match("");
+            // Lack of trailing newline can mess up the parser
+            if (str.Last() != '\n') str += Environment.NewLine;
+
+            var match = _grammar.Match(str);
+
+            if (!match.Success || !string.IsNullOrEmpty(match.ErrorMessage))
+            {
+                throw new Exception(match.ErrorMessage);
+            }
         }
     }
 }

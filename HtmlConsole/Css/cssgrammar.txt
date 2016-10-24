@@ -4,7 +4,7 @@ ruleset ::= selectors "{" declarations "}"
 
 selectors ::= selector ("," selector)*
 
-selector ::= element_name (hash|class|attrib|pseudo)* | (hash|class|attrib|pseudo)+
+selector ::= element_name? (hash|class|attrib|pseudo)* | (hash|class|attrib|pseudo)+
 
 element_name ::= ident | "*"
 
@@ -30,12 +30,13 @@ term ::= unary_operator? (number | percentage | length | ems | exs | angle | tim
 
 unary_operator ::= "+" | "-"
 
+operator ::= "/" | ","
 number ::= [0-9]+("." [0-9]+)?
-percentage ::= number "%"
-length ::= number ("px" | "cm" | "ex" | "em" | "mm" | "in" | "pt" | "pc")
-angle ::= number ("deg" | "rad" | "grad")
-time ::= number ("ms" | "s")
-freq ::= number ("hz" | "khz")
+percentage ::= [0-9]+("." [0-9]+)? "%"
+length ::= [0-9]+("." [0-9]+)? ("px" | "cm" | "ex" | "em" | "mm" | "in" | "pt" | "pc")
+angle ::= [0-9]+("." [0-9]+)? ("deg" | "rad" | "grad")
+time ::= [0-9]+("." [0-9]+)? ("ms" | "s")
+freq ::= [0-9]+("." [0-9]+)? ("hz" | "khz")
 
-ident ::= [_a-z][_a-z0-9]
+ident ::= [_a-z][_a-z0-9]+
 hexcolor ::= "#" [0-9]+
