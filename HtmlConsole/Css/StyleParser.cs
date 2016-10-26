@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Eto.Parse;
 using Eto.Parse.Grammars;
 
@@ -33,9 +34,27 @@ namespace HtmlConsole.Css
 
             var match = _grammar.Match(str);
 
+            Console.Write(PrintSyntaxTree(match));
+
             if (!match.Success || !string.IsNullOrEmpty(match.ErrorMessage))
             {
                 throw new Exception(match.ErrorMessage);
+            }
+        }
+
+        public string PrintSyntaxTree(GrammarMatch match)
+        {
+            var sb = new StringBuilder();
+            PrintSyntaxTree(match, sb, 0);
+            return sb.ToString();
+        }
+
+        private void PrintSyntaxTree(Match match, StringBuilder sb, int level)
+        {
+            sb.AppendLine($"{new string('\t', level)}{match.Name} - {match.Text}");
+            foreach (var child in match.Matches)
+            {
+                PrintSyntaxTree(child, sb, level + 1);
             }
         }
     }
