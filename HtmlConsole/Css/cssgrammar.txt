@@ -1,10 +1,10 @@
-stylesheet ::= ruleset*
+stylesheet ::= (ruleset)*
 
-ruleset ::= selectors "{" declarations "}"
+ruleset ::= S? selectors S? "{" S? declarations S? "}" S?
 
-selectors ::= selector ("," selector)*
+selectors ::= selector S? ("," S? selector)*
 
-selector ::= element_name? (hash|class|attrib|pseudo)* | (hash|class|attrib|pseudo)+
+selector ::= (element_name? (hash|class|attrib|pseudo)*) | (hash|class|attrib|pseudo)+
 
 element_name ::= ident | "*"
 
@@ -18,25 +18,22 @@ pseudo ::= ":" (ident | function)
 
 function ::= ident "(" expression ")"
 
-declarations ::= declaration (";" declaration?)*
+declarations ::= S? declaration S? (";" S? declaration? S?)*
 
-declaration ::= ident ":" expression prio?
+declaration ::= ident S? ":" S? expression S? prio?
 
-expression ::= term (operator? term)*
+expression ::= term (operator term)*
 
 prio ::= "!important"
 
-term ::= unary_operator? (number | percentage | length | ems | exs | angle | time | freq | ident | uri | hexcolor | function)
+term ::= unary_operator? S? (number | ident | uri | hexcolor | function)
 
 unary_operator ::= "+" | "-"
 
-operator ::= "/" | ","
-number ::= [0-9]+("." [0-9]+)?
-percentage ::= [0-9]+("." [0-9]+)? "%"
-length ::= [0-9]+("." [0-9]+)? ("px" | "cm" | "ex" | "em" | "mm" | "in" | "pt" | "pc")
-angle ::= [0-9]+("." [0-9]+)? ("deg" | "rad" | "grad")
-time ::= [0-9]+("." [0-9]+)? ("ms" | "s")
-freq ::= [0-9]+("." [0-9]+)? ("hz" | "khz")
+operator ::= S | (S? ("/" | ",") S?)
+number ::= [0-9]+("." [0-9]+)? ("px" | "cm" | "ex" | "em" | "mm" | "in" | "pt" | "pc" | "deg" | "rad" | "grad" | "ms" | "s" | "hz" | "khz" | "%")?
 
 ident ::= [_a-z][_a-z0-9]+
 hexcolor ::= "#" [0-9]+
+
+S ::= (#x20 | #x9 | #xD | #xA)+

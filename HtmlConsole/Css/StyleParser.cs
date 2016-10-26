@@ -24,13 +24,13 @@ namespace HtmlConsole.Css
                 grammarText = reader.ReadToEnd();
             }
 
-            _grammar = new EbnfGrammar(EbnfStyle.W3c | EbnfStyle.WhitespaceSeparator).Build(grammarText, "stylesheet");
+            _grammar = new EbnfGrammar(EbnfStyle.W3c).Build(grammarText, "stylesheet");
         }
 
         public void Parse(string str)
         {
             // Lack of trailing newline can mess up the parser
-            if (str.Last() != '\n') str += Environment.NewLine;
+            //if (str.Last() != '\n') str += Environment.NewLine;
 
             var match = _grammar.Match(str);
 
