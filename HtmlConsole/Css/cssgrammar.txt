@@ -33,7 +33,7 @@ unary_operator ::= "+" | "-"
 operator ::= S | (S? ("/" | ",") S?)
 number ::= [0-9]+("." [0-9]+)? ("px" | "cm" | "ex" | "em" | "mm" | "in" | "pt" | "pc" | "deg" | "rad" | "grad" | "ms" | "s" | "hz" | "khz" | "%")?
 
-ident ::= [_a-z][_a-z0-9]+
+ident ::= [_a-z][_a-z0-9]*
 hexcolor ::= "#" [0-9]+
 
 S ::= (#x20 | #x9 | #xD | #xA)+
