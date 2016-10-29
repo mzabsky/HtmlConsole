@@ -34,7 +34,7 @@ namespace HtmlConsole.Css
 
             var match = _grammar.Match(str);
 
-            Console.Write(PrintSyntaxTree(match));
+            Console.Write(PrintPrettySyntaxTree(match));
 
             if (!match.Success || !string.IsNullOrEmpty(match.ErrorMessage))
             {
@@ -42,19 +42,33 @@ namespace HtmlConsole.Css
             }
         }
 
-        public string PrintSyntaxTree(GrammarMatch match)
+        public string PrintSyntaxTree(GrammarMatch match, Func<Match, int, string> printer)
         {
             var sb = new StringBuilder();
-            PrintSyntaxTree(match, sb, 0);
+            PrintSyntaxTree(match, printer, sb, 0);
             return sb.ToString();
         }
 
-        private void PrintSyntaxTree(Match match, StringBuilder sb, int level)
+        private void PrintSyntaxTree(Match match, Func<Match, int, string> printer, StringBuilder sb, int level)
+        {
+            sb.AppendLine(printer(match, level));
+            foreach (var child in match.Matches)
+            {
+                PrintPrettySyntaxTree(child, sb, level + 1);
+            }
+        }
+
+        public string PrintPrettySyntaxTree(GrammarMatch match)
+        {
+            return PrintSyntaxTree(match, (m, l) => $"{new string('\t', l)}{m.Name} - {m.Text}");
+        }
+
+        private void PrintPrettySyntaxTree(Match match, StringBuilder sb, int level)
         {
             sb.AppendLine($"{new string('\t', level)}{match.Name} - {match.Text}");
             foreach (var child in match.Matches)
             {
-                PrintSyntaxTree(child, sb, level + 1);
+                PrintPrettySyntaxTree(child, sb, level + 1);
             }
         }
     }
