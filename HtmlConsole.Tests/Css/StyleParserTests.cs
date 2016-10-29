@@ -52,10 +52,11 @@ namespace HtmlConsole.Tests.Css
                     ruleset
                         selectors
                             selector
-                                element_name
-                                    ident=div
-                                hash
-                                    ident=hash
+                                simple_selector
+                                    element_name
+                                        ident=div
+                                    hash
+                                        ident=hash
                         declarations
                             declaration
                                 ident=background
@@ -66,8 +67,9 @@ namespace HtmlConsole.Tests.Css
                     ruleset
                         selectors
                             selector
-                                hash
-                                    ident=someid
+                                simple_selector
+                                    hash
+                                        ident=someid
                         declarations
                             declaration
                                 ident=padding
@@ -78,6 +80,116 @@ namespace HtmlConsole.Tests.Css
                                         S=
                                     term
                                         number=1px");
+        }
+
+        [TestMethod]
+        public void GetSyntaxTree_ComplicatedSimpleSelector_ParsesCorrectly()
+        {
+            TestGetSyntaxTree(
+                "div#id.class1.class2:hover[color=red] {}",
+                @"
+                stylesheet
+                    ruleset
+                        selectors
+                            selector
+                                simple_selector
+                                    element_name
+                                        ident=div
+                                    hash
+                                        ident=id
+                                    class
+                                        ident=class1
+                                    class
+                                        ident=class2
+                                    pseudo
+                                        ident=hover
+                                    attrib
+                                        ident=color
+                                        ident=red
+                        S=");
+        }
+
+        [TestMethod]
+        public void GetSyntaxTree_ComplicatedSimpleSelectorWeirdOrder_ParsesCorrectly()
+        {
+            TestGetSyntaxTree(
+                "div:hover.class1#id[color=red].class2 {}",
+                @"
+                stylesheet
+                    ruleset
+                        selectors
+                            selector
+                                simple_selector
+                                    element_name
+                                        ident=div
+                                    pseudo
+                                        ident=hover
+                                    class
+                                        ident=class1
+                                    hash
+                                        ident=id
+                                    attrib
+                                        ident=color
+                                        ident=red
+                                    class
+                                        ident=class2
+                        S=");
+        }
+
+        [TestMethod]
+        public void GetSyntaxTree_SelectorWithCombinators_ParsesCorrectly()
+        {
+            TestGetSyntaxTree(
+                "a,b1+b2>b3,c,d1+d2+d3,e1>e2>e3 {}",
+                @"
+                stylesheet
+                    ruleset
+                        selectors
+                            selector
+                                simple_selector
+                                    element_name
+                                        ident=a
+                            selector
+                                simple_selector
+                                    element_name
+                                        ident=b1
+                                combinator=+
+                                simple_selector
+                                    element_name
+                                        ident=b2
+                                combinator=>
+                                simple_selector
+                                    element_name
+                                        ident=b3
+                            selector
+                                simple_selector
+                                    element_name
+                                        ident=c
+                            selector
+                                simple_selector
+                                    element_name
+                                        ident=d1
+                                combinator=+
+                                simple_selector
+                                    element_name
+                                        ident=d2
+                                combinator=+
+                                simple_selector
+                                    element_name
+                                        ident=d3
+                            selector
+                                simple_selector
+                                    element_name
+                                        ident=e1
+                                combinator=>
+                                simple_selector
+                                    element_name
+                                        ident=e2
+                                combinator=>
+                                simple_selector
+                                    element_name
+                                        ident=e3
+                        S=");
         }
     }
 }

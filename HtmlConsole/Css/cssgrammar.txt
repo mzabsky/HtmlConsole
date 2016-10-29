@@ -4,7 +4,11 @@ ruleset ::= S? selectors S? "{" S? declarations? S? "}" S?
 
 selectors ::= selector S? ("," S? selector)*
 
-selector ::= (element_name? (hash|class|attrib|pseudo)*) | (hash|class|attrib|pseudo)+
+selector ::= simple_selector S? (combinator S? simple_selector)*
+
+combinator ::= "+" | ">"
+
+simple_selector ::= (element_name? (hash|class|attrib|pseudo)*) | (hash|class|attrib|pseudo)+
 
 element_name ::= ident | "*"
 
