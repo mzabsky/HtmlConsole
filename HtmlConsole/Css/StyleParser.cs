@@ -32,17 +32,24 @@ namespace HtmlConsole.Css
             // Lack of trailing newline can mess up the parser
             //if (str.Last() != '\n') str += Environment.NewLine;
 
+            var syntaxTree = GetSyntaxTree(str);
+        }
+
+        protected Match GetSyntaxTree(string str)
+        {
             var match = _grammar.Match(str);
 
             Console.Write(PrintPrettySyntaxTree(match));
 
-            if (!match.Success || !string.IsNullOrEmpty(match.ErrorMessage))
+            if (!match.Success/* || !string.IsNullOrEmpty(match.ErrorMessage)*/)
             {
                 throw new Exception(match.ErrorMessage);
             }
+
+            return match;
         }
 
-        public string PrintSyntaxTree(GrammarMatch match, Func<Match, int, string> printer)
+        public string PrintSyntaxTree(Match match, Func<Match, int, string> printer)
         {
             var sb = new StringBuilder();
             PrintSyntaxTree(match, printer, sb, 0);
@@ -51,16 +58,16 @@ namespace HtmlConsole.Css
 
         private void PrintSyntaxTree(Match match, Func<Match, int, string> printer, StringBuilder sb, int level)
         {
-            sb.AppendLine(printer(match, level));
+            sb.Append(printer(match, level));
             foreach (var child in match.Matches)
             {
-                PrintPrettySyntaxTree(child, sb, level + 1);
+                PrintSyntaxTree(child, printer, sb, level + 1);
             }
         }
 
-        public string PrintPrettySyntaxTree(GrammarMatch match)
+        public string PrintPrettySyntaxTree(Match match)
         {
-            return PrintSyntaxTree(match, (m, l) => $"{new string('\t', l)}{m.Name} - {m.Text}");
+            return PrintSyntaxTree(match, (m, l) => $"{new string('\t', l)}{m.Name} - {m.Text}{Environment.NewLine}");
         }
 
         private void PrintPrettySyntaxTree(Match match, StringBuilder sb, int level)
