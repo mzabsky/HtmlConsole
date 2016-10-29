@@ -1,6 +1,6 @@
 stylesheet ::= (ruleset)*
 
-ruleset ::= S? selectors S? "{" S? declarations S? "}" S?
+ruleset ::= S? selectors S? "{" S? declarations? S? "}" S?
 
 selectors ::= selector S? ("," S? selector)*
 
