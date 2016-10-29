@@ -61,7 +61,7 @@ namespace HtmlConsole.Tests.Css
                                 expression
                                     term
                                         ident=red
-                        S=     
+                        S=
                     ruleset
                         selectors
                             selector
@@ -74,7 +74,7 @@ namespace HtmlConsole.Tests.Css
                                     term
                                         number=1px
                                     operator
-                                        S= 
+                                        S=
                                     term
                                         number=1px",
                 "div#hash{background:red;}     #someid{padding:1px 1px;}");
