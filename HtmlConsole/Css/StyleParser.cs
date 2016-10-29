@@ -39,8 +39,6 @@ namespace HtmlConsole.Css
         {
             var match = _grammar.Match(str);
 
-            Console.Write(PrintPrettySyntaxTree(match));
-
             if (!match.Success/* || !string.IsNullOrEmpty(match.ErrorMessage)*/)
             {
                 throw new Exception(match.ErrorMessage);
