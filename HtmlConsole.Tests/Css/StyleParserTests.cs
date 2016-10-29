@@ -16,7 +16,7 @@ namespace HtmlConsole.Tests.Css
         // The parser is immutable
         private readonly TestingStyleParser _parser = new TestingStyleParser();
 
-        private void TestGetSyntaxTree(string expectedTreeString, string code)
+        private void TestGetSyntaxTree(string code, string expectedTreeString)
         {
             var syntaxTree = _parser.TestingGetSyntaxTree(code);
             var actualTreeString = _parser.PrintSyntaxTree(syntaxTree,
@@ -46,6 +46,7 @@ namespace HtmlConsole.Tests.Css
         public void GetSyntaxTree_SimpleCss_ParsesCorrectly()
         {
             TestGetSyntaxTree(
+                "div#hash{background:red;}     #someid{padding:1px 1px;}",
                 @"
                 stylesheet
                     ruleset
@@ -76,8 +77,7 @@ namespace HtmlConsole.Tests.Css
                                     operator
                                         S=
                                     term
-                                        number=1px",
-                "div#hash{background:red;}     #someid{padding:1px 1px;}");
+                                        number=1px");
         }
     }
 }
