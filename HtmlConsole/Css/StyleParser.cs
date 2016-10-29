@@ -67,14 +67,5 @@ namespace HtmlConsole.Css
         {
             return PrintSyntaxTree(match, (m, l) => $"{new string('\t', l)}{m.Name} - {m.Text}{Environment.NewLine}");
         }
-
-        private void PrintPrettySyntaxTree(Match match, StringBuilder sb, int level)
-        {
-            sb.AppendLine($"{new string('\t', level)}{match.Name} - {match.Text}");
-            foreach (var child in match.Matches)
-            {
-                PrintPrettySyntaxTree(child, sb, level + 1);
-            }
-        }
     }
 }
