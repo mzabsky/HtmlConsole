@@ -196,7 +196,7 @@ namespace HtmlConsole.Tests.Css
         public void GetSyntaxTree_BasicDeclarations_ParsesCorrectly()
         {
             TestGetSyntaxTree(
-                "* {background:red;padding:1px 1px;margin-left:-1em;width:50%;color:#ffffff}",
+                "* {background:red;padding:1px 1px;margin-left:-1em;width:50%;color:#ffffff;z-index:5}",
                 @"
                 stylesheet
                     ruleset
@@ -235,7 +235,39 @@ namespace HtmlConsole.Tests.Css
                                 ident=color
                                 expression
                                     term
-                                        hexcolor=#ffffff");
+                                        hexcolor=#ffffff
+                            declaration
+                                ident=z-index
+                                expression
+                                    term
+                                        number=5");
+        }
+
+        [TestMethod]
+        public void GetSyntaxTree_CodeWithUpperCase_ParsesCorrectly()
+        {
+            TestGetSyntaxTree(
+                "SpaN {backGround:reD;COLOR:#ffFF09}",
+                @"
+                stylesheet
+                    ruleset
+                        selectors
+                            selector
+                                simple_selector
+                                    element_name
+                                        ident=SpaN
+                            S=
+                        declarations
+                            declaration
+                                ident=backGround
+                                expression
+                                    term
+                                        ident=reD
+                            declaration
+                                ident=COLOR
+                                expression
+                                    term
+                                        hexcolor=#ffFF09");
         }
     }
 }
