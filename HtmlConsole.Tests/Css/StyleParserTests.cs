@@ -191,5 +191,51 @@ namespace HtmlConsole.Tests.Css
                                         ident=e3
                         S=");
         }
+
+        [TestMethod]
+        public void GetSyntaxTree_BasicDeclarations_ParsesCorrectly()
+        {
+            TestGetSyntaxTree(
+                "* {background:red;padding:1px 1px;margin-left:-1em;width:50%;color:#ffffff}",
+                @"
+                stylesheet
+                    ruleset
+                        selectors
+                            selector
+                                simple_selector
+                                    element_name=*
+                            S=
+                        declarations
+                            declaration
+                                ident=background
+                                expression
+                                    term
+                                        ident=red
+                            declaration
+                                ident=padding
+                                expression
+                                    term
+                                        number=1px
+                                    operator
+                                        S=
+                                    term
+                                        number=1px
+                            declaration
+                                ident=margin-left
+                                expression
+                                    term
+                                        unary_operator=-
+                                        number=1em
+                            declaration
+                                ident=width
+                                expression
+                                    term
+                                        number=50%
+                            declaration
+                                ident=color
+                                expression
+                                    term
+                                        hexcolor=#ffffff");
+        }
     }
 }
