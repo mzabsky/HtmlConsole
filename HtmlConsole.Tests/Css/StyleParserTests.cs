@@ -269,5 +269,27 @@ namespace HtmlConsole.Tests.Css
                                     term
                                         hexcolor=#ffFF09");
         }
+
+        [TestMethod]
+        public void GetSyntaxTree_ImportantDeclaration_ParsesCorrectly()
+        {
+            TestGetSyntaxTree(
+                "* {backGround:red!important;}",
+                @"
+                stylesheet
+                    ruleset
+                        selectors
+                            selector
+                                simple_selector
+                                    element_name=*
+                            S=
+                        declarations
+                            declaration
+                                ident=backGround
+                                expression
+                                    term
+                                        ident=red
+                                prio=!important");
+        }
     }
 }
