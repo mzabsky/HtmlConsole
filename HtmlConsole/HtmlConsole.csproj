@@ -53,6 +53,8 @@
   <ItemGroup>
     <Compile Include="Css\AndSelector.cs" />
     <Compile Include="Css\ElementSelector.cs" />
+    <Compile Include="Css\ClassSelector.cs" />
+    <Compile Include="Css\IdSelector.cs" />
     <Compile Include="Css\IsDescendantOfSelector.cs" />
     <Compile Include="Css\OrSelector.cs" />
     <Compile Include="Css\RuleSet.cs" />
