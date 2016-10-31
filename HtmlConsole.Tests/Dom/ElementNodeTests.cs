@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace HtmlConsole.Tests.Dom
 {
     [TestClass]
-    public class TagNodeTests
+    public class ElementNodeTests
     {
         private HtmlDocument StringToDoc(string str)
         {
@@ -21,7 +21,7 @@ namespace HtmlConsole.Tests.Dom
 
         private void TestParseNode(INode expected, string str)
         {
-            var calculated = TagNode.ParseNode(StringToDoc(str).DocumentNode.FirstChild);
+            var calculated = ElementNode.ParseNode(StringToDoc(str).DocumentNode.FirstChild);
 
             Assert.IsTrue(expected.Equals(calculated));
         }
@@ -30,9 +30,9 @@ namespace HtmlConsole.Tests.Dom
         public void ParseNode_SingleNode_ParsesCorrectly()
         {
             var input = "<el/>";
-            var expected = new TagNode
+            var expected = new ElementNode
             {
-                Tag = "el"
+                Element = "el"
             };
 
             TestParseNode(expected, input);
@@ -42,9 +42,9 @@ namespace HtmlConsole.Tests.Dom
         public void ParseNode_NodeWithAllTheThings_ParsesCorrectly()
         {
             var input = @"<el id=""testid"" class=""class1 class2"" another=""1234"">Hello world!</el>";
-            var expected = new TagNode
+            var expected = new ElementNode
             {
-                Tag = "el",
+                Element = "el",
                 Id = "testid",
                 Classes = new [] {"class1", "class2"},
                 Attributes = new Dictionary<string, string>
@@ -66,9 +66,9 @@ namespace HtmlConsole.Tests.Dom
         public void ParseNode_NodeWithCapitalization_LowerCaseInTagIdAndClasses()
         {
             var input = @"<EL iD=""TeStid"" cLASs=""cLass1 claSS2"" another=""Test1234"">Hello world!</El>";
-            var expected = new TagNode
+            var expected = new ElementNode
             {
-                Tag = "el",
+                Element = "el",
                 Id = "testid",
                 Classes = new [] {"class1", "class2"},
                 Attributes = new Dictionary<string, string>
@@ -86,6 +86,7 @@ namespace HtmlConsole.Tests.Dom
             TestParseNode(expected, input);
         }
 
+        //
         [TestMethod]
         public void Find_SimpleChain_ReturnsCorrectNodes()
         {
@@ -105,7 +106,7 @@ namespace HtmlConsole.Tests.Dom
                     </div>
                 </strong>";
             var documentNode = StringToDoc(html).DocumentNode;
-            var node = (TagNode) TagNode.ParseNode(documentNode.FirstChild);
+            var node = (ElementNode) ElementNode.ParseNode(documentNode.FirstChild);
 
             // Equivalent to "div a"
             var selector = new AndSelector
@@ -126,8 +127,8 @@ namespace HtmlConsole.Tests.Dom
             var foundNodes = node.Find(selector).ToList();
 
             Assert.AreEqual(1, foundNodes.Count);
-            Assert.AreEqual("a", foundNodes.Single().Tag);
-            CollectionAssert.AreEquivalent(new [] {"span", "div", "div", "strong"}, foundNodes.Single().GetAncestors().OfType<TagNode>().Select(p => p.Tag).ToList());
+            Assert.AreEqual("a", foundNodes.Single().Element);
+            CollectionAssert.AreEquivalent(new [] {"span", "div", "div", "strong"}, foundNodes.Single().GetAncestors().OfType<ElementNode>().Select(p => p.Element).ToList());
         }
     }
 }

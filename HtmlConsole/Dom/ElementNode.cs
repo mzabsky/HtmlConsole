@@ -7,26 +7,26 @@ using HtmlConsole.Css;
 
 namespace HtmlConsole.Dom
 {
-    public class TagNode : INode
+    public class ElementNode : INode
     {
-        public string Tag { get; set; }
+        public string Element { get; set; }
         public string Id { get; set; }
         public string[] Classes { get; set; } = new string[0];
         // TODO: Stylesheet
         public Dictionary<string, string> Attributes { get; set; } = new Dictionary<string, string>();
 
-        public TagNode Parent { get; set; }
+        public ElementNode Parent { get; set; }
         public IEnumerable<INode> Children { get; set; } = new INode[0];
 
         public Dictionary<string, StyleValue> Styles { get; set; } = new Dictionary<string, StyleValue>();
 
-        public TagNode()
+        public ElementNode()
         {
         }
 
-        public TagNode(HtmlNode htmlNode, TagNode parent)
+        public ElementNode(HtmlNode htmlNode, ElementNode parent)
         {
-            Tag = htmlNode.Name.ToLowerInvariant();
+            Element = htmlNode.Name.ToLowerInvariant();
             Id = htmlNode.Attributes?["id"]?.Value.ToLowerInvariant();
 
             var classesString = htmlNode.Attributes?["class"]?.Value.ToLowerInvariant();
@@ -39,7 +39,7 @@ namespace HtmlConsole.Dom
             Children = htmlNode.ChildNodes.Select(p => ParseNode(p, this)).ToList();
         }
 
-        public static INode ParseNode(HtmlNode xmlNode, TagNode parent = null)
+        public static INode ParseNode(HtmlNode xmlNode, ElementNode parent = null)
         {
             var text = xmlNode as HtmlTextNode;
             if (text != null)
@@ -48,16 +48,16 @@ namespace HtmlConsole.Dom
             }
             else
             {
-                return new TagNode(xmlNode, parent);
+                return new ElementNode(xmlNode, parent);
             }
         }
 
         public void EvaluateStylesheet(Stylesheet stylesheet)
         {
-            EvaluateStylesheet(stylesheet, new List<TagNode>());
+            EvaluateStylesheet(stylesheet, new List<ElementNode>());
         }
 
-        private void EvaluateStylesheet(Stylesheet stylesheet, List<TagNode> path)
+        private void EvaluateStylesheet(Stylesheet stylesheet, List<ElementNode> path)
         {
             // TODO parse HTML attribute "style"
             var currentPath = path.Concat(new[] {this});
@@ -68,9 +68,9 @@ namespace HtmlConsole.Dom
             }*/
         }
 
-        public IEnumerable<TagNode> Find(Selector selector)
+        public IEnumerable<ElementNode> Find(Selector selector)
         {
-            return this.GetAllNodes().OfType<TagNode>().Where(selector.Match);
+            return this.GetAllNodes().OfType<ElementNode>().Where(selector.Match);
         }
 
         public bool Equals(INode other)
@@ -79,10 +79,10 @@ namespace HtmlConsole.Dom
 
             if (GetType() != other.GetType()) return false;
 
-            var tagNode = (TagNode) other;
+            var tagNode = (ElementNode) other;
 
             return
-                Tag == tagNode.Tag &&
+                Element == tagNode.Element &&
                 Id == tagNode.Id &&
                 Classes.SequenceEqual(tagNode.Classes) &&
                 Attributes.SequenceEqual(tagNode.Attributes) &&

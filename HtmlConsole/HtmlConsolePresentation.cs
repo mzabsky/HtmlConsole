@@ -113,7 +113,7 @@ namespace HtmlConsole
     //        //blockWriterStack.Push(new BlockWriter(GetConsoleWidth(), false));
 
     //        // Parse
-    //        var root = TagNode.ParseNode(doc.DocumentNode);
+    //        var root = ElementNode.ParseNode(doc.DocumentNode);
 
     //        // Calculate styles
 
