@@ -15,7 +15,7 @@ namespace HtmlConsole.Dom
         // TODO: Stylesheet
         public Dictionary<string, string> Attributes { get; set; } = new Dictionary<string, string>();
 
-        public INode Parent { get; set; }
+        public TagNode Parent { get; set; }
         public IEnumerable<INode> Children { get; set; } = new INode[0];
 
         public Dictionary<string, StyleValue> Styles { get; set; } = new Dictionary<string, StyleValue>();
@@ -24,7 +24,7 @@ namespace HtmlConsole.Dom
         {
         }
 
-        public TagNode(HtmlNode htmlNode, INode parent)
+        public TagNode(HtmlNode htmlNode, TagNode parent)
         {
             Tag = htmlNode.Name.ToLowerInvariant();
             Id = htmlNode.Attributes?["id"]?.Value.ToLowerInvariant();
@@ -39,7 +39,7 @@ namespace HtmlConsole.Dom
             Children = htmlNode.ChildNodes.Select(p => ParseNode(p, this)).ToList();
         }
 
-        public static INode ParseNode(HtmlNode xmlNode, INode parent = null)
+        public static INode ParseNode(HtmlNode xmlNode, TagNode parent = null)
         {
             var text = xmlNode as HtmlTextNode;
             if (text != null)
@@ -50,6 +50,27 @@ namespace HtmlConsole.Dom
             {
                 return new TagNode(xmlNode, parent);
             }
+        }
+
+        public void EvaluateStylesheet(Stylesheet stylesheet)
+        {
+            EvaluateStylesheet(stylesheet, new List<TagNode>());
+        }
+
+        private void EvaluateStylesheet(Stylesheet stylesheet, List<TagNode> path)
+        {
+            // TODO parse HTML attribute "style"
+            var currentPath = path.Concat(new[] {this});
+
+            /*foreach (var ruleSet in stylesheet.RuleSets)
+            {
+                var selector = 
+            }*/
+        }
+
+        public IEnumerable<TagNode> Find(Selector selector)
+        {
+            return this.GetAllNodes().OfType<TagNode>().Where(selector.Match);
         }
 
         public bool Equals(INode other)

@@ -51,8 +51,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Css\AndSelector.cs" />
+    <Compile Include="Css\ElementSelector.cs" />
+    <Compile Include="Css\IsDescendantOfSelector.cs" />
+    <Compile Include="Css\OrSelector.cs" />
+    <Compile Include="Css\RuleSet.cs" />
+    <Compile Include="Css\Selector.cs" />
     <Compile Include="Css\StyleParser.cs" />
+    <Compile Include="Css\Stylesheet.cs" />
+    <Compile Include="Css\StyleValue.cs" />
     <Compile Include="Dom\INode.cs" />
+    <Compile Include="Dom\NodeExtensions.cs" />
     <Compile Include="Dom\TagNode.cs" />
     <Compile Include="Dom\TextNode.cs" />
     <Compile Include="Extensions\ConsolePresentationExtensions.cs" />

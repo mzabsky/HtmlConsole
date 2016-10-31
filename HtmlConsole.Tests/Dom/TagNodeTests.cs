@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using HtmlAgilityPack;
+using HtmlConsole.Css;
 using HtmlConsole.Dom;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -81,6 +84,50 @@ namespace HtmlConsole.Tests.Dom
             };
 
             TestParseNode(expected, input);
+        }
+
+        [TestMethod]
+        public void Find_SimpleChain_ReturnsCorrectNodes()
+        {
+            var html = @"<strong>
+                    <span>
+                        <a></a>
+                    </span>
+                    <div>
+                        <div>
+                            <span>
+                                <strong></strong>
+                            </span>
+                            <span>
+                                <a></a>
+                            </span>
+                        </div>
+                    </div>
+                </strong>";
+            var documentNode = StringToDoc(html).DocumentNode;
+            var node = (TagNode) TagNode.ParseNode(documentNode.FirstChild);
+
+            // Equivalent to "div a"
+            var selector = new AndSelector
+            {
+                Children = new List<Selector>
+                {
+                    new ElementSelector {ElementName = "a"},
+                    new IsDescendantOfSelector
+                    {
+                        SubSelector = new ElementSelector
+                        {
+                            ElementName = "div"
+                        }
+                    }
+                }
+            };
+
+            var foundNodes = node.Find(selector).ToList();
+
+            Assert.AreEqual(1, foundNodes.Count);
+            Assert.AreEqual("a", foundNodes.Single().Tag);
+            CollectionAssert.AreEquivalent(new [] {"span", "div", "div", "strong"}, foundNodes.Single().GetAncestors().OfType<TagNode>().Select(p => p.Tag).ToList());
         }
     }
 }
