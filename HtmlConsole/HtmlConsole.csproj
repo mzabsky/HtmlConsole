@@ -62,7 +62,7 @@
     <Compile Include="Css\StyleValue.cs" />
     <Compile Include="Dom\INode.cs" />
     <Compile Include="Dom\NodeExtensions.cs" />
-    <Compile Include="Dom\TagNode.cs" />
+    <Compile Include="Dom\ElementNode.cs" />
     <Compile Include="Dom\TextNode.cs" />
     <Compile Include="Extensions\ConsolePresentationExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />

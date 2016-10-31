@@ -6,7 +6,7 @@ namespace HtmlConsole.Css
     {
         public Selector SubSelector { get; set; }
 
-        public override bool Match(TagNode node)
+        public override bool Match(ElementNode node)
         {
             // TODO: recusion very unnecessary here
             if (SubSelector.Match(node)) return true;

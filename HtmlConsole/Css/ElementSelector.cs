@@ -6,9 +6,9 @@ namespace HtmlConsole.Css
     {
         public string ElementName { get; set; }
 
-        public override bool Match(TagNode node)
+        public override bool Match(ElementNode node)
         {
-            return node.Tag == ElementName;
+            return node.Element == ElementName;
         }
     }
 }

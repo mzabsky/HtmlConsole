@@ -8,7 +8,7 @@ namespace HtmlConsole.Css
     {
         public List<Selector> Children { get; set; }
 
-        public override bool Match(TagNode path)
+        public override bool Match(ElementNode path)
         {
             return Children.All(p => p.Match(path));
         }

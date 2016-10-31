@@ -49,9 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Css\OrSelectorTests.cs" />
+    <Compile Include="Css\AndSelectorTests.cs" />
+    <Compile Include="Css\ElementSelectorTests.cs" />
     <Compile Include="Css\StyleParserTests.cs" />
     <Compile Include="Css\Testing\TestingStyleParser.cs" />
-    <Compile Include="Dom\TagNodeTests.cs" />
+    <Compile Include="Dom\ElementNodeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,7 +69,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Css\Testing\ConstantSelector.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

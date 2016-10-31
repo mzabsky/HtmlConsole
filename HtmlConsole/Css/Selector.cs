@@ -12,7 +12,7 @@ namespace HtmlConsole.Css
             throw new NotImplementedException();
         }
 
-        public abstract bool Match(TagNode node);
+        public abstract bool Match(ElementNode node);
 
         // There will be some "match" memthod
     }

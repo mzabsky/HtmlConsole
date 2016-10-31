@@ -5,7 +5,7 @@ namespace HtmlConsole.Dom
 {
     public interface INode : IEquatable<INode>
     {
-        TagNode Parent { get; set; }
+        ElementNode Parent { get; set; }
         IEnumerable<INode> Children { get; }
     }
 }
