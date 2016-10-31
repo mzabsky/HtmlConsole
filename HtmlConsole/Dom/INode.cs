@@ -8,6 +8,7 @@ namespace HtmlConsole.Dom
 {
     public interface INode : IEquatable<INode>
     {
+        INode Parent { get; set; }
         IEnumerable<INode> Children { get; }
     }
 }

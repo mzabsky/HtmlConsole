@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
 using HtmlAgilityPack;
+using HtmlConsole.Css;
 
 namespace HtmlConsole.Dom
 {
@@ -13,13 +15,16 @@ namespace HtmlConsole.Dom
         // TODO: Stylesheet
         public Dictionary<string, string> Attributes { get; set; } = new Dictionary<string, string>();
 
+        public INode Parent { get; set; }
         public IEnumerable<INode> Children { get; set; } = new INode[0];
+
+        public Dictionary<string, StyleValue> Styles { get; set; } = new Dictionary<string, StyleValue>();
 
         public TagNode()
         {
         }
 
-        public TagNode(HtmlNode htmlNode)
+        public TagNode(HtmlNode htmlNode, INode parent)
         {
             Tag = htmlNode.Name.ToLowerInvariant();
             Id = htmlNode.Attributes?["id"]?.Value.ToLowerInvariant();
@@ -30,19 +35,20 @@ namespace HtmlConsole.Dom
             Attributes = htmlNode.Attributes?.ToDictionary(p => p.Name.ToLower(), p => p.Value) 
                 ?? new Dictionary<string, string>();
 
-            Children = htmlNode.ChildNodes.Select(ParseNode).ToList();
+            Parent = parent;
+            Children = htmlNode.ChildNodes.Select(p => ParseNode(p, this)).ToList();
         }
 
-        public static INode ParseNode(HtmlNode xmlNode)
+        public static INode ParseNode(HtmlNode xmlNode, INode parent = null)
         {
             var text = xmlNode as HtmlTextNode;
             if (text != null)
             {
-                return new TextNode(text);
+                return new TextNode(text, parent);
             }
             else
             {
-                return new TagNode(xmlNode);
+                return new TagNode(xmlNode, parent);
             }
         }
 
