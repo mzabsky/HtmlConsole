@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Css\StarSelector.cs" />
     <Compile Include="Css\AndSelector.cs" />
     <Compile Include="Css\ElementSelector.cs" />
     <Compile Include="Css\ClassSelector.cs" />

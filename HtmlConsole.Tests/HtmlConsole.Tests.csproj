@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Css\StarSelectorTests.cs" />
     <Compile Include="Css\ClassSelectorTests.cs" />
     <Compile Include="Css\IdSelectorTests.cs" />
     <Compile Include="Css\OrSelectorTests.cs" />
