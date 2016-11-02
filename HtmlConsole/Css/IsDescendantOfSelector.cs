@@ -9,9 +9,9 @@ namespace HtmlConsole.Css
         public override bool Match(ElementNode node)
         {
             // TODO: recusion very unnecessary here
-            if (SubSelector.Match(node)) return true;
-
             if (node.Parent == null) return false;
+
+            if (SubSelector.Match(node.Parent)) return true;
 
             return Match(node.Parent);
         }
