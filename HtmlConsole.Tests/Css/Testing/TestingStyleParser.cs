@@ -5,9 +5,9 @@ namespace HtmlConsole.Tests.Css.Testing
 {
     public class TestingStyleParser : StyleParser
     {
-        public Match TestingGetSyntaxTree(string str)
+        public Match TestingGetSyntaxTree(string str, StyleParserMode mode)
         {
-            return GetSyntaxTree(str);
+            return GetSyntaxTree(str, mode);
         }
     }
 }

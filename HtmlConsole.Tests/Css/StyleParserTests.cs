@@ -16,9 +16,9 @@ namespace HtmlConsole.Tests.Css
         // The parser is immutable
         private readonly TestingStyleParser _parser = new TestingStyleParser();
 
-        private void TestGetSyntaxTree(string code, string expectedTreeString)
+        private void TestGetSyntaxTree(StyleParserMode mode, string code, string expectedTreeString)
         {
-            var syntaxTree = _parser.TestingGetSyntaxTree(code);
+            var syntaxTree = _parser.TestingGetSyntaxTree(code, mode);
             var actualTreeString = _parser.PrintSyntaxTree(syntaxTree,
                 (match, level) =>
                     $"{new string('\t', level)}{(match.Matches.Any() ? match.Name : match.Name + "=" + match.Text)}{Environment.NewLine}");
@@ -43,9 +43,10 @@ namespace HtmlConsole.Tests.Css
         }
 
         [TestMethod]
-        public void GetSyntaxTree_SimpleCss_ParsesCorrectly()
+        public void GetSyntaxTree_StylesheetModeSimpleCss_ParsesCorrectly()
         {
             TestGetSyntaxTree(
+                StyleParserMode.Stylesheet,
                 "div#hash{background:red;}     #someid{padding:1px 1px;}",
                 @"
                 stylesheet
@@ -83,10 +84,11 @@ namespace HtmlConsole.Tests.Css
         }
 
         [TestMethod]
-        public void GetSyntaxTree_ComplicatedSimpleSelector_ParsesCorrectly()
+        public void GetSyntaxTree_StylesheetModeComplicatedSimpleSelector_ParsesCorrectly()
         {
             TestGetSyntaxTree(
-                "div#id.class1.class2:hover[color=red] {}",
+                StyleParserMode.Stylesheet,
+                "div#id.class1.class2:hover[color=red]{}",
                 @"
                 stylesheet
                     ruleset
@@ -105,15 +107,15 @@ namespace HtmlConsole.Tests.Css
                                         ident=hover
                                     attrib
                                         ident=color
-                                        ident=red
-                        S=");
+                                        ident=red");
         }
 
         [TestMethod]
-        public void GetSyntaxTree_ComplicatedSimpleSelectorWeirdOrder_ParsesCorrectly()
+        public void GetSyntaxTree_StylesheetModeComplicatedSimpleSelectorWeirdOrder_ParsesCorrectly()
         {
             TestGetSyntaxTree(
-                "div:hover.class1#id[color=red].class2 {}",
+                StyleParserMode.Stylesheet,
+                "div:hover.class1#id[color=red].class2{}",
                 @"
                 stylesheet
                     ruleset
@@ -132,15 +134,15 @@ namespace HtmlConsole.Tests.Css
                                         ident=color
                                         ident=red
                                     class
-                                        ident=class2
-                        S=");
+                                        ident=class2");
         }
 
         [TestMethod]
-        public void GetSyntaxTree_SelectorWithCombinators_ParsesCorrectly()
+        public void GetSyntaxTree_StylesheetModeSelectorWithCombinators_ParsesCorrectly()
         {
             TestGetSyntaxTree(
-                "a,b1+b2>b3,c,d1+d2+d3,e1>e2>e3 {}",
+                StyleParserMode.Stylesheet,
+                "a,b1+b2>b3,c,d1+d2+d3,e1>e2>e3,f1 f2 f3{}",
                 @"
                 stylesheet
                     ruleset
@@ -189,14 +191,26 @@ namespace HtmlConsole.Tests.Css
                                 simple_selector
                                     element_name
                                         ident=e3
-                        S=");
+                            selector
+                                simple_selector
+                                    element_name
+                                        ident=f1
+                                S=
+                                simple_selector
+                                    element_name
+                                        ident=f2
+                                S=
+                                simple_selector
+                                    element_name
+                                        ident=f3");
         }
 
         [TestMethod]
-        public void GetSyntaxTree_BasicDeclarations_ParsesCorrectly()
+        public void GetSyntaxTree_StylesheetModeBasicDeclarations_ParsesCorrectly()
         {
             TestGetSyntaxTree(
-                "* {background:red;padding:1px 1px;margin-left:-1em;width:50%;color:#ffffff;z-index:5}",
+                StyleParserMode.Stylesheet,
+                "*{background:red;padding:1px 1px;margin-left:-1em;width:50%;color:#ffffff;z-index:5}",
                 @"
                 stylesheet
                     ruleset
@@ -204,7 +218,6 @@ namespace HtmlConsole.Tests.Css
                             selector
                                 simple_selector
                                     element_name=*
-                            S=
                         declarations
                             declaration
                                 ident=background
@@ -244,10 +257,11 @@ namespace HtmlConsole.Tests.Css
         }
 
         [TestMethod]
-        public void GetSyntaxTree_CodeWithUpperCase_ParsesCorrectly()
+        public void GetSyntaxTree_StylesheetModeCodeWithUpperCase_ParsesCorrectly()
         {
             TestGetSyntaxTree(
-                "SpaN {backGround:reD;COLOR:#ffFF09}",
+                StyleParserMode.Stylesheet,
+                "SpaN{backGround:reD;COLOR:#ffFF09}",
                 @"
                 stylesheet
                     ruleset
@@ -256,7 +270,6 @@ namespace HtmlConsole.Tests.Css
                                 simple_selector
                                     element_name
                                         ident=SpaN
-                            S=
                         declarations
                             declaration
                                 ident=backGround
@@ -269,12 +282,13 @@ namespace HtmlConsole.Tests.Css
                                     term
                                         hexcolor=#ffFF09");
         }
-
+        
         [TestMethod]
-        public void GetSyntaxTree_ImportantDeclaration_ParsesCorrectly()
+        public void GetSyntaxTree_StylesheetModeImportantDeclaration_ParsesCorrectly()
         {
             TestGetSyntaxTree(
-                "* {backGround:red!important;}",
+                StyleParserMode.Stylesheet,
+                "*{backGround:red!important;}",
                 @"
                 stylesheet
                     ruleset
@@ -282,7 +296,6 @@ namespace HtmlConsole.Tests.Css
                             selector
                                 simple_selector
                                     element_name=*
-                            S=
                         declarations
                             declaration
                                 ident=backGround
@@ -290,6 +303,30 @@ namespace HtmlConsole.Tests.Css
                                     term
                                         ident=red
                                 prio=!important");
+        }
+
+        [TestMethod]
+        public void GetSyntaxTree_SelectorModeImportantDeclaration_ParsesCorrectly()
+        {
+            TestGetSyntaxTree(
+                StyleParserMode.Selector,
+                "div a.class,b",
+                @"
+                    selectors
+                        selector
+                            simple_selector
+                                element_name
+                                    ident=div
+                            S=
+                            simple_selector
+                                element_name
+                                    ident=a
+                                class
+                                    ident=class
+                        selector
+                            simple_selector
+                                element_name
+                                    ident=b");
         }
     }
 }

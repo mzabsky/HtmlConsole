@@ -8,9 +8,16 @@ using Eto.Parse.Grammars;
 
 namespace HtmlConsole.Css
 {
+    public enum StyleParserMode
+    {
+        Stylesheet,
+        Selector
+    }
+
     public class StyleParser
     {
-        private readonly Grammar _grammar;
+        private readonly Grammar _stylesheetGrammar;
+        private readonly Grammar _selectorGrammar;
 
         public StyleParser()
         {
@@ -24,20 +31,42 @@ namespace HtmlConsole.Css
                 grammarText = reader.ReadToEnd();
             }
 
-            _grammar = new EbnfGrammar(EbnfStyle.W3c).Build(grammarText, "stylesheet");
+            _stylesheetGrammar = new EbnfGrammar(EbnfStyle.W3c).Build(grammarText, "stylesheet");
+            _selectorGrammar = new EbnfGrammar(EbnfStyle.W3c).Build(grammarText, "selectors");
         }
 
-        public void Parse(string str)
+        public void ParseStylesheet(string str)
         {
             // Lack of trailing newline can mess up the parser
             //if (str.Last() != '\n') str += Environment.NewLine;
 
-            var syntaxTree = GetSyntaxTree(str);
+            var syntaxTree = GetSyntaxTree(str, StyleParserMode.Stylesheet);
         }
 
-        protected Match GetSyntaxTree(string str)
+        public void ParseSelector(string str)
         {
-            var match = _grammar.Match(str);
+            // Lack of trailing newline can mess up the parser
+            //if (str.Last() != '\n') str += Environment.NewLine;
+
+            var syntaxTree = GetSyntaxTree(str, StyleParserMode.Selector);
+        }
+
+        protected Match GetSyntaxTree(string str, StyleParserMode mode = StyleParserMode.Stylesheet)
+        {
+            Grammar grammar;
+            switch (mode)
+            {
+                case StyleParserMode.Stylesheet:
+                    grammar = _stylesheetGrammar;
+                    break;
+                case StyleParserMode.Selector:
+                    grammar = _selectorGrammar;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(mode), mode, null);
+            }
+
+            var match = grammar.Match(str);
 
             if (!match.Success/* || !string.IsNullOrEmpty(match.ErrorMessage)*/)
             {
