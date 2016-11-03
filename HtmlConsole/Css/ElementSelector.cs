@@ -10,5 +10,7 @@ namespace HtmlConsole.Css
         {
             return node.Element == ElementName;
         }
+
+        public override string ToString() => $"[{ElementName}]";
     }
 }

@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Css\CombinatorSelectorBase.cs" />
     <Compile Include="Css\IsChildOfSelector.cs" />
     <Compile Include="Css\StarSelector.cs" />
     <Compile Include="Css\AndSelector.cs" />

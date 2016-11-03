@@ -2,10 +2,8 @@
 
 namespace HtmlConsole.Css
 {
-    public class IsDescendantOfSelector : Selector
+    public class IsDescendantOfSelector : CombinatorSelectorBase
     {
-        public Selector SubSelector { get; set; }
-
         public override bool Match(ElementNode node)
         {
             // TODO: recusion very unnecessary here
@@ -15,5 +13,7 @@ namespace HtmlConsole.Css
 
             return Match(node.Parent);
         }
+
+        public override string ToString() => $"[ {SubSelector}]";
     }
 }

@@ -11,5 +11,7 @@ namespace HtmlConsole.Css
         {
             return Class.IsIn(node.Classes);
         }
+
+        public override string ToString() => $"[.{Class}]";
     }
 }

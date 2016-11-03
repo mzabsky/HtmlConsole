@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Css\IsDescendantOfSelectorTests.cs" />
     <Compile Include="Css\IsChildOfSelectorTests.cs" />
+    <Compile Include="Css\SelectorTests.cs" />
     <Compile Include="Css\StarSelectorTests.cs" />
     <Compile Include="Css\ClassSelectorTests.cs" />
     <Compile Include="Css\IdSelectorTests.cs" />

@@ -10,5 +10,7 @@ namespace HtmlConsole.Css
         {
             return node.Id == Id;
         }
+
+        public override string ToString() => $"[#{Id}]";
     }
 }

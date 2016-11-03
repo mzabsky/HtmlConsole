@@ -8,5 +8,7 @@ namespace HtmlConsole.Css
         {
             return true;
         }
+
+        public override string ToString() => $"[*]";
     }
 }
