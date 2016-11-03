@@ -52,27 +52,6 @@ namespace HtmlConsole.Dom
             }
         }
 
-        public void EvaluateStylesheet(Stylesheet stylesheet)
-        {
-            EvaluateStylesheet(stylesheet, new List<ElementNode>());
-        }
-
-        private void EvaluateStylesheet(Stylesheet stylesheet, List<ElementNode> path)
-        {
-            // TODO parse HTML attribute "style"
-            var currentPath = path.Concat(new[] {this});
-
-            /*foreach (var ruleSet in stylesheet.RuleSets)
-            {
-                var selector = 
-            }*/
-        }
-
-        public IEnumerable<ElementNode> Find(Selector selector)
-        {
-            return this.GetAllNodes().OfType<ElementNode>().Where(selector.Match);
-        }
-
         public bool Equals(INode other)
         {
             if (other == null) return false;

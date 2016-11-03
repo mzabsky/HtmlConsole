@@ -60,6 +60,7 @@
     <Compile Include="Css\ElementSelectorTests.cs" />
     <Compile Include="Css\StyleParserTests.cs" />
     <Compile Include="Css\Testing\TestingStyleParser.cs" />
+    <Compile Include="Dom\DocumentTests.cs" />
     <Compile Include="Dom\ElementNodeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Testing\Extensions\ElementNodeExtensions.cs" />
