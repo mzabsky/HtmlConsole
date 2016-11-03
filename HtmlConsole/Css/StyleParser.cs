@@ -43,12 +43,10 @@ namespace HtmlConsole.Css
             var syntaxTree = GetSyntaxTree(str, StyleParserMode.Stylesheet);
         }
 
-        public void ParseSelector(string str)
+        public Selector ParseSelector(string str)
         {
-            // Lack of trailing newline can mess up the parser
-            //if (str.Last() != '\n') str += Environment.NewLine;
-
             var syntaxTree = GetSyntaxTree(str, StyleParserMode.Selector);
+            return Selector.Create(syntaxTree);
         }
 
         protected Match GetSyntaxTree(string str, StyleParserMode mode = StyleParserMode.Stylesheet)

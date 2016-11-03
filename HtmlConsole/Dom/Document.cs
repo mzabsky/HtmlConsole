@@ -18,7 +18,7 @@ namespace HtmlConsole.Dom
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
 
-            var rootNode = ElementNode.ParseNode(htmlDocument.DocumentNode);
+            var rootNode = ElementNode.ParseNode(htmlDocument.DocumentNode.FirstChild);
 
             return new Document
             {
@@ -46,6 +46,12 @@ namespace HtmlConsole.Dom
         public IEnumerable<ElementNode> Find(Selector selector)
         {
             return RootNode.GetAllNodes().OfType<ElementNode>().Where(selector.Match);
+        }
+
+        public IEnumerable<ElementNode> Find(string selectorString)
+        {
+            var selector = StyleParser.ParseSelector(selectorString);
+            return Find(selector);
         }
     }
 }

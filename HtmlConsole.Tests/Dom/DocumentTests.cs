@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HtmlConsole.Tests.Dom
 {
+    [TestClass]
     public class DocumentTests
     {
         private void TestParseNode(INode expectedRoot, string html)
@@ -112,6 +113,33 @@ namespace HtmlConsole.Tests.Dom
             };
 
             var foundNodes = document.Find(selector).ToList();
+
+            Assert.AreEqual(1, foundNodes.Count);
+            Assert.AreEqual("a", foundNodes.Single().Element);
+            CollectionAssert.AreEquivalent(new[] { "span", "div", "div", "strong" }, foundNodes.Single().GetAncestors().OfType<ElementNode>().Select(p => p.Element).ToList());
+        }
+
+        [TestMethod]
+        public void FindString_SimpleChain_ReturnsCorrectNodes()
+        {
+            var html = @"<strong>
+                    <span>
+                        <a></a>
+                    </span>
+                    <div>
+                        <div>
+                            <span>
+                                <strong></strong>
+                            </span>
+                            <span>
+                                <a></a>
+                            </span>
+                        </div>
+                    </div>
+                </strong>";
+            var document = Document.ParseHtml(html);
+
+            var foundNodes = document.Find("div a").ToList();
 
             Assert.AreEqual(1, foundNodes.Count);
             Assert.AreEqual("a", foundNodes.Single().Element);
