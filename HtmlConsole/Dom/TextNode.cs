@@ -9,6 +9,7 @@ namespace HtmlConsole.Dom
         public string Text { get; set; }
         public ElementNode Parent { get; set; }
         public IEnumerable<INode> Children { get; } = new INode[0];
+        public Document Document { get; set; }
 
         public TextNode(string text)
         {

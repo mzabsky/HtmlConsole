@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using HtmlAgilityPack;
 using HtmlConsole.Css;
 
@@ -20,11 +18,18 @@ namespace HtmlConsole.Dom
 
             var rootNode = ElementNode.ParseNode(htmlDocument.DocumentNode.FirstChild);
 
-            return new Document
+            var document = new Document
             {
                 RootNode = rootNode,
                 StyleParser = new StyleParser()
             };
+
+            foreach (var node in rootNode.GetAllNodes())
+            {
+                node.Document = document;
+            }
+
+            return document;
         }
 
         public void EvaluateStylesheet(Stylesheet stylesheet)
