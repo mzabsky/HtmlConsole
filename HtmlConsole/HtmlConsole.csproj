@@ -81,6 +81,7 @@
     <Compile Include="SystemConsoleWriter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="standard-conformance.md" />
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
