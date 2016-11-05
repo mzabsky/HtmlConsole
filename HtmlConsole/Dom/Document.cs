@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using HtmlAgilityPack;
 using HtmlConsole.Css;
 
@@ -57,6 +56,11 @@ namespace HtmlConsole.Dom
         {
             var selector = StyleParser.ParseSelector(selectorString);
             return Find(selector);
+        }
+
+        public IEnumerable<INode> GetAllNodes()
+        {
+            return RootNode.GetAllNodes();
         }
     }
 }
