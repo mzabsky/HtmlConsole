@@ -19,6 +19,7 @@ namespace HtmlConsole.Css
         private readonly Grammar _stylesheetGrammar;
         private readonly Grammar _selectorGrammar;
 
+        [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         public StyleParser()
         {
             var assembly = Assembly.GetExecutingAssembly();
