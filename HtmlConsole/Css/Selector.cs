@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Eto.Parse;
 using HtmlConsole.Dom;
+using HtmlConsole.Extensions;
 
 namespace HtmlConsole.Css
 {
@@ -19,13 +20,13 @@ namespace HtmlConsole.Css
             Debug.Assert(selectorsMatch.Name == "selectors");
 
             var orSelector = new OrSelector();
-            foreach (var selectorMatch in selectorsMatch.Matches.Where(p => p.Name != "S"))
+            foreach (var selectorMatch in selectorsMatch.Matches.ExceptWhitespace())
             {
                 Debug.Assert(selectorMatch.Name == "selector");
 
                 Selector currentSelector = null;
                 char currentCombinator = ' ';
-                foreach (var simpleSelectorMatch in selectorMatch.Matches.Where(p => p.Name != "S"))
+                foreach (var simpleSelectorMatch in selectorMatch.Matches.ExceptWhitespace())
                 {
                     if (simpleSelectorMatch.Name == "combinator")
                     {
@@ -88,7 +89,7 @@ namespace HtmlConsole.Css
             Debug.Assert(simpleSelectorMatch.Name == "simple_selector");
 
             var andSelector = new AndSelector();
-            foreach (var fragmentMatch in simpleSelectorMatch.Matches.Where(p => p.Name != "S"))
+            foreach (var fragmentMatch in simpleSelectorMatch.Matches.ExceptWhitespace())
             {
                 andSelector.Children.Add(CreateSimpleSelectorFragment(fragmentMatch));
             }

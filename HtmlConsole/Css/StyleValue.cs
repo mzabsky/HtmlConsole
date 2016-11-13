@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using HtmlConsole.Extensions;
 using Match = Eto.Parse.Match;
 
 namespace HtmlConsole.Css
@@ -18,7 +19,7 @@ namespace HtmlConsole.Css
         {
             Debug.Assert(expressionMatch.Name == "expression");
             
-            foreach (var termMatch in expressionMatch.Matches.Where(p => p.Name != "S"))
+            foreach (var termMatch in expressionMatch.Matches.ExceptWhitespace())
             {
                 if (termMatch.Name == "operator")
                 {
