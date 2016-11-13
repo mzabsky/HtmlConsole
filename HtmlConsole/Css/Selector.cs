@@ -54,10 +54,8 @@ namespace HtmlConsole.Css
                                     break;
                                 case '+':
                                     throw new NotImplementedException("+ selector is not implemented");
-                                    break;
                                 case '~':
                                     throw new NotImplementedException("~ selector is not implemented");
-                                    break;
                                 default:
                                     throw new InvalidOperationException($"Invalid combinator '{currentCombinator}'.");
                             }
@@ -102,7 +100,7 @@ namespace HtmlConsole.Css
             switch (fragmentMatch.Name)
             {
                 case "element_name":
-                    if (fragmentMatch.Text == "")
+                    if (fragmentMatch.Text == "*")
                     {
                         return new StarSelector();
                     }

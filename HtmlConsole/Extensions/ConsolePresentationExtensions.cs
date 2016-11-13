@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HtmlConsole
+namespace HtmlConsole.Extensions
 {
     public static class ConsolePresentationExtensions
     {

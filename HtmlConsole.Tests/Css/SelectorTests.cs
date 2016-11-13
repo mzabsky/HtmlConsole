@@ -17,6 +17,15 @@ namespace HtmlConsole.Tests.Css
         }
 
         [TestMethod]
+        public void Create_StarSelector_BuildsCorrectSelector()
+        {
+            TestCreateSelector(
+                "*",
+                "[OR [AND [**]]]"
+            );
+        }
+
+        [TestMethod]
         public void Create_SimpleElementSelector_BuildsCorrectSelector()
         {
             TestCreateSelector(

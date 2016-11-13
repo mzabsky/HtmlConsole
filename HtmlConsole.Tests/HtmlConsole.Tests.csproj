@@ -49,9 +49,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Css\BoxStylePropertyTests.cs" />
+    <Compile Include="Css\EnumStyleValueTests.cs" />
     <Compile Include="Css\IsDescendantOfSelectorTests.cs" />
     <Compile Include="Css\IsChildOfSelectorTests.cs" />
+    <Compile Include="Css\LengthStyleValueTests.cs" />
+    <Compile Include="Css\RuleSetTests.cs" />
     <Compile Include="Css\SelectorTests.cs" />
+    <Compile Include="Css\SequenceStylePropertyTests.cs" />
+    <Compile Include="Css\SimpleStylePropertyTests.cs" />
     <Compile Include="Css\StarSelectorTests.cs" />
     <Compile Include="Css\ClassSelectorTests.cs" />
     <Compile Include="Css\IdSelectorTests.cs" />
@@ -59,6 +65,7 @@
     <Compile Include="Css\AndSelectorTests.cs" />
     <Compile Include="Css\ElementSelectorTests.cs" />
     <Compile Include="Css\StyleParserTests.cs" />
+    <Compile Include="Css\StyleValueTests.cs" />
     <Compile Include="Css\Testing\TestingStyleParser.cs" />
     <Compile Include="Dom\DocumentTests.cs" />
     <Compile Include="Dom\ElementNodeTests.cs" />

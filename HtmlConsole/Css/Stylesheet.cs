@@ -11,11 +11,13 @@ namespace HtmlConsole.Css
     public class Stylesheet
     {
         public List<RuleSet> RuleSets { get; set; } = new List<RuleSet>();
-
-        internal Stylesheet(Match match)
+        
+        public static Stylesheet Create(Match syntaxTree)
         {
-            this.RuleSets = match.Matches.Select(p => new RuleSet(p)).ToList();
-            //var sequenceMatch = 
+            return new Stylesheet
+            {
+                RuleSets = syntaxTree.Matches.Select(RuleSet.Create).ToList()
+            }; 
         }
     }
 }

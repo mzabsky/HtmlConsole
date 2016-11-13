@@ -9,6 +9,6 @@ namespace HtmlConsole.Css
             return true;
         }
 
-        public override string ToString() => $"[*]";
+        public override string ToString() => $"[**]";
     }
 }

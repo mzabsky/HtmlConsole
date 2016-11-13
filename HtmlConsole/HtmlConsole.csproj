@@ -51,8 +51,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Css\AutoStyleValue.cs" />
+    <Compile Include="Css\ColorStyleValue.cs" />
     <Compile Include="Css\CombinatorSelectorBase.cs" />
+    <Compile Include="Css\EnumStyleValue.cs" />
+    <Compile Include="Css\InheritStyleValue.cs" />
+    <Compile Include="Css\InitialStyleValue.cs" />
     <Compile Include="Css\IsChildOfSelector.cs" />
+    <Compile Include="Css\IStylePropertyMapper.cs" />
+    <Compile Include="Css\LengthStyleValue.cs" />
+    <Compile Include="Css\Rule.cs" />
+    <Compile Include="Css\SequenceStyleProperty.cs" />
+    <Compile Include="Css\BoxStyleProperty.cs" />
+    <Compile Include="Css\SimpleStyleProperty.cs" />
     <Compile Include="Css\StarSelector.cs" />
     <Compile Include="Css\AndSelector.cs" />
     <Compile Include="Css\ElementSelector.cs" />
@@ -63,8 +74,10 @@
     <Compile Include="Css\RuleSet.cs" />
     <Compile Include="Css\Selector.cs" />
     <Compile Include="Css\StyleParser.cs" />
+    <Compile Include="Css\StyleProperty.cs" />
     <Compile Include="Css\Stylesheet.cs" />
     <Compile Include="Css\StyleValue.cs" />
+    <Compile Include="Css\StyleValueEnums.cs" />
     <Compile Include="Dom\Document.cs" />
     <Compile Include="Dom\INode.cs" />
     <Compile Include="Dom\NodeExtensions.cs" />
@@ -72,6 +85,7 @@
     <Compile Include="Dom\TextNode.cs" />
     <Compile Include="Extensions\ConsolePresentationExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\MatchExtensions.cs" />
     <Compile Include="HtmlConsolePresentation.cs" />
     <Compile Include="IConsolePresentation.cs" />
     <Compile Include="IConsoleWriter.cs" />

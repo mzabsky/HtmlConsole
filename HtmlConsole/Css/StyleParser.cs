@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using Eto.Parse;
@@ -11,13 +12,17 @@ namespace HtmlConsole.Css
     public enum StyleParserMode
     {
         Stylesheet,
-        Selector
+        Selector,
+        StyleValue,
+        Declarations
     }
 
     public class StyleParser
     {
         private readonly Grammar _stylesheetGrammar;
         private readonly Grammar _selectorGrammar;
+        private readonly Grammar _styleValueGrammar;
+        private readonly Grammar _declarationsGrammar;
 
         [SuppressMessage("Microsoft.Usage", "CA2202:Do not dispose objects multiple times")]
         public StyleParser()
@@ -34,20 +39,42 @@ namespace HtmlConsole.Css
 
             _stylesheetGrammar = new EbnfGrammar(EbnfStyle.W3c).Build(grammarText, "stylesheet");
             _selectorGrammar = new EbnfGrammar(EbnfStyle.W3c).Build(grammarText, "selectors");
+            _styleValueGrammar = new EbnfGrammar(EbnfStyle.W3c).Build(grammarText, "expression");
+            _declarationsGrammar = new EbnfGrammar(EbnfStyle.W3c).Build(grammarText, "declarations");
         }
 
-        public void ParseStylesheet(string str)
+        public Stylesheet ParseStylesheet(string str)
         {
             // Lack of trailing newline can mess up the parser
             //if (str.Last() != '\n') str += Environment.NewLine;
 
             var syntaxTree = GetSyntaxTree(str, StyleParserMode.Stylesheet);
+            return Stylesheet.Create(syntaxTree);
         }
 
         public Selector ParseSelector(string str)
         {
             var syntaxTree = GetSyntaxTree(str, StyleParserMode.Selector);
             return Selector.Create(syntaxTree);
+        }
+
+        public Selector ParseStyleValue(string str)
+        {
+            var syntaxTree = GetSyntaxTree(str, StyleParserMode.StyleValue);
+            return Selector.Create(syntaxTree);
+        }
+
+        public Dictionary<string, Rule> ParseDeclarations(string str)
+        {
+            // The grammar can't handle empty string, but those can come from the style attribute -> they need to be handled extra
+            // TODO: Make a special entry point in the grammar instead that does declarations | S*
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return new Dictionary<string, Rule>();
+            }
+
+            var syntaxTree = GetSyntaxTree(str, StyleParserMode.Declarations);
+            return RuleSet.CreateDeclarations(syntaxTree);
         }
 
         protected Match GetSyntaxTree(string str, StyleParserMode mode = StyleParserMode.Stylesheet)
@@ -60,6 +87,12 @@ namespace HtmlConsole.Css
                     break;
                 case StyleParserMode.Selector:
                     grammar = _selectorGrammar;
+                    break;
+                case StyleParserMode.StyleValue:
+                    grammar = _styleValueGrammar;
+                    break;
+                case StyleParserMode.Declarations:
+                    grammar = _declarationsGrammar;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(mode), mode, null);

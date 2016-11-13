@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlConsole.Css;
+using HtmlConsole.Dom;
 using HtmlConsole.Extensions;
 using HtmlConsole.Tests.Css.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -327,6 +328,92 @@ namespace HtmlConsole.Tests.Css
                             simple_selector
                                 element_name
                                     ident=b");
+        }
+
+        [TestMethod]
+        public void ParseDeclarations_EmptyString_ReturnsZeroDeclarations()
+        {
+            var declarations = _parser.ParseDeclarations("");
+            Assert.AreEqual(0, declarations.Count);
+        }
+
+        [TestMethod]
+        public void ParseDeclarations_OneSimpleProperty_ReturnsItsValue()
+        {
+            var declarations = _parser.ParseDeclarations("display: inline");
+            Assert.AreEqual(1, declarations.Count);
+            Assert.AreEqual(Display.Inline, ((EnumStyleValue<Display>)declarations["display"].Value).EnumValue);
+        }
+
+        [TestMethod]
+        public void ParseDeclarations_OneSimplePropertyWithSemicolon_ReturnsItsValue()
+        {
+            var declarations = _parser.ParseDeclarations("display: inline;");
+            Assert.AreEqual(1, declarations.Count);
+            Assert.AreEqual(Display.Inline, ((EnumStyleValue<Display>)declarations["display"].Value).EnumValue);
+        }
+
+        [TestMethod]
+        public void ParseDeclarations_OneSequenceProperty_ReturnsItsValue()
+        {
+            var declarations = _parser.ParseDeclarations("margin: 1pt 2pt;");
+            Assert.AreEqual(4, declarations.Count);
+            Assert.AreEqual(1, ((LengthStyleValue)declarations["margin-top"].Value).Length);
+            Assert.AreEqual(LengthUnit.Pt, ((LengthStyleValue)declarations["margin-top"].Value).Unit);
+            Assert.AreEqual(2, ((LengthStyleValue)declarations["margin-right"].Value).Length);
+            Assert.AreEqual(LengthUnit.Pt, ((LengthStyleValue)declarations["margin-right"].Value).Unit);
+            Assert.AreEqual(1, ((LengthStyleValue)declarations["margin-bottom"].Value).Length);
+            Assert.AreEqual(LengthUnit.Pt, ((LengthStyleValue)declarations["margin-bottom"].Value).Unit);
+            Assert.AreEqual(2, ((LengthStyleValue)declarations["margin-left"].Value).Length);
+            Assert.AreEqual(LengthUnit.Pt, ((LengthStyleValue)declarations["margin-left"].Value).Unit);
+        }
+
+        [TestMethod]
+        public void ParseDeclarations_MoreSpecificProperty_PartiallyOverwritesPreviousProperty()
+        {
+            var declarations = _parser.ParseDeclarations("margin: 1pt 2pt;margin-top: 3pt;");
+            Assert.AreEqual(4, declarations.Count);
+            Assert.AreEqual(3, ((LengthStyleValue)declarations["margin-top"].Value).Length);
+            Assert.AreEqual(LengthUnit.Pt, ((LengthStyleValue)declarations["margin-top"].Value).Unit);
+            Assert.AreEqual(2, ((LengthStyleValue)declarations["margin-right"].Value).Length);
+            Assert.AreEqual(LengthUnit.Pt, ((LengthStyleValue)declarations["margin-right"].Value).Unit);
+            Assert.AreEqual(1, ((LengthStyleValue)declarations["margin-bottom"].Value).Length);
+            Assert.AreEqual(LengthUnit.Pt, ((LengthStyleValue)declarations["margin-bottom"].Value).Unit);
+            Assert.AreEqual(2, ((LengthStyleValue)declarations["margin-left"].Value).Length);
+            Assert.AreEqual(LengthUnit.Pt, ((LengthStyleValue)declarations["margin-left"].Value).Unit);
+        }
+
+        [TestMethod]
+        public void ParseStylesheet_EmptyString_ReturnsNoRulesets()
+        {
+            var stylesheet = _parser.ParseStylesheet("");
+            Assert.AreEqual(0, stylesheet.RuleSets.Count);
+        }
+
+        [TestMethod]
+        public void ParseStylesheet_SingleRuleset_ReturnsSingleRuleset()
+        {
+            var stylesheet = _parser.ParseStylesheet("* {display: block;}");
+            Assert.AreEqual(1, stylesheet.RuleSets.Count);
+
+            var ruleset = stylesheet.RuleSets.Single();
+            Assert.AreEqual(true, ruleset.Selector.Match(new ElementNode()));
+            Assert.AreEqual("display", ruleset.Declarations.Single().Key);
+        }
+
+        [TestMethod]
+        public void ParseStylesheet_TwoRulesets_ReturnsBoth()
+        {
+            var stylesheet = _parser.ParseStylesheet("* {display: block;} #id {display:inline;}");
+            Assert.AreEqual(2, stylesheet.RuleSets.Count);
+
+            var ruleset1 = stylesheet.RuleSets.First();
+            Assert.AreEqual("[OR [AND [**]]]", ruleset1.Selector.ToString());
+            Assert.AreEqual("display", ruleset1.Declarations.Single().Key);
+
+            var ruleset2 = stylesheet.RuleSets.Last();
+            Assert.AreEqual("[OR [AND [#id]]]", ruleset2.Selector.ToString());
+            Assert.AreEqual("display", ruleset2.Declarations.Single().Key);
         }
     }
 }
