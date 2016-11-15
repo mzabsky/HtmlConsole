@@ -6,9 +6,17 @@ namespace HtmlConsole.Css
     {
         public string ElementName { get; set; }
 
-        public override bool Match(ElementNode node)
+        public override SelectorMatch Match(ElementNode node)
         {
-            return node.Element == ElementName;
+            var isSuccess = node.Element == ElementName;
+            return new SelectorMatch(
+                isSuccess, 
+                new Specificity
+                {
+                    ElementSpecificity = isSuccess ? 1 : 0,
+                    IdSpecificity = 0,
+                    ClassSpecificity = 0
+                });
         }
 
         public override string ToString() => $"[{ElementName}]";

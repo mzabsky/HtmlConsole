@@ -397,7 +397,7 @@ namespace HtmlConsole.Tests.Css
             Assert.AreEqual(1, stylesheet.RuleSets.Count);
 
             var ruleset = stylesheet.RuleSets.Single();
-            Assert.AreEqual(true, ruleset.Selector.Match(new ElementNode()));
+            Assert.AreEqual(true, ruleset.Selector.Match(new ElementNode()).IsSuccess);
             Assert.AreEqual("display", ruleset.Declarations.Single().Key);
         }
 

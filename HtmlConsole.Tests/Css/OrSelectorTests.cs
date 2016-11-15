@@ -17,12 +17,17 @@ namespace HtmlConsole.Tests.Css
             {
                 Children = new List<Selector>
                 {
-                    new ConstantSelector { Value = true },
-                    new ConstantSelector { Value = true },
-                    new ConstantSelector { Value = true }
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 3, ElementSpecificity = 0, IdSpecificity = 0 } },
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 0, ElementSpecificity = 3, IdSpecificity = 0 } },
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 0, ElementSpecificity = 0, IdSpecificity = 3 } }
                 }
             };
-            Assert.AreEqual(true, selector.Match(node));
+
+            var selectorMatch = selector.Match(node);
+            Assert.AreEqual(true, selectorMatch.IsSuccess);
+            Assert.AreEqual(3, selectorMatch.Specificity.IdSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ClassSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ElementSpecificity);
         }
         
         [TestMethod]
@@ -33,12 +38,17 @@ namespace HtmlConsole.Tests.Css
             {
                 Children = new List<Selector>
                 {
-                    new ConstantSelector { Value = true },
-                    new ConstantSelector { Value = false },
-                    new ConstantSelector { Value = true }
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 0, ElementSpecificity = 3, IdSpecificity = 0 } },
+                    new ConstantSelector { IsSuccess = false },
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 3, ElementSpecificity = 0, IdSpecificity = 0 } }
                 }
             };
-            Assert.AreEqual(true, selector.Match(node));
+
+            var selectorMatch = selector.Match(node);
+            Assert.AreEqual(true, selectorMatch.IsSuccess);
+            Assert.AreEqual(0, selectorMatch.Specificity.IdSpecificity);
+            Assert.AreEqual(3, selectorMatch.Specificity.ClassSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ElementSpecificity);
         }
 
         [TestMethod]
@@ -49,12 +59,17 @@ namespace HtmlConsole.Tests.Css
             {
                 Children = new List<Selector>
                 {
-                    new ConstantSelector { Value = false },
-                    new ConstantSelector { Value = false },
-                    new ConstantSelector { Value = false }
+                    new ConstantSelector { IsSuccess = false },
+                    new ConstantSelector { IsSuccess = false },
+                    new ConstantSelector { IsSuccess = false }
                 }
             };
-            Assert.AreEqual(false, selector.Match(node));
+
+            var selectorMatch = selector.Match(node);
+            Assert.AreEqual(false, selectorMatch.IsSuccess);
+            Assert.AreEqual(0, selectorMatch.Specificity.IdSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ClassSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ElementSpecificity);
         }
     }
 }

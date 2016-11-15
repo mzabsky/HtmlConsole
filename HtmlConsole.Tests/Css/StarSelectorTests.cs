@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using HtmlConsole.Css;
+﻿using HtmlConsole.Css;
 using HtmlConsole.Dom;
-using HtmlConsole.Tests.Css.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HtmlConsole.Tests.Css
@@ -14,7 +12,12 @@ namespace HtmlConsole.Tests.Css
         {
             var node = new ElementNode();
             var selector = new StarSelector();
-            Assert.AreEqual(true, selector.Match(node));
+
+            var selectorMatch = selector.Match(node);
+            Assert.AreEqual(true, selectorMatch.IsSuccess);
+            Assert.AreEqual(0, selectorMatch.Specificity.IdSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ClassSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ElementSpecificity);
         }
     }
 }

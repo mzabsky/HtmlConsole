@@ -58,6 +58,7 @@
     <Compile Include="Css\SelectorTests.cs" />
     <Compile Include="Css\SequenceStylePropertyTests.cs" />
     <Compile Include="Css\SimpleStylePropertyTests.cs" />
+    <Compile Include="Css\SpecificityTests.cs" />
     <Compile Include="Css\StarSelectorTests.cs" />
     <Compile Include="Css\ClassSelectorTests.cs" />
     <Compile Include="Css\IdSelectorTests.cs" />

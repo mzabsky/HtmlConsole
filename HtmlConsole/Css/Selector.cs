@@ -8,6 +8,7 @@ using HtmlConsole.Extensions;
 
 namespace HtmlConsole.Css
 {
+    // TODO: Make this a struct?
     public abstract class Selector
     {
         /// <summary>
@@ -122,7 +123,7 @@ namespace HtmlConsole.Css
             }
         }
 
-        public abstract bool Match(ElementNode node);
+        public abstract SelectorMatch Match(ElementNode node);
 
         // There will be some "match" memthod
     }

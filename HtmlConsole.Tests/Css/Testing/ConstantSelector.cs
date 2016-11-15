@@ -5,11 +5,12 @@ namespace HtmlConsole.Tests.Css.Testing
 {
     public class ConstantSelector : Selector
     {
-        public bool Value { get; set; }
+        public bool IsSuccess { get; set; }
+        public Specificity Specificity { get; set; } = new Specificity();
 
-        public override bool Match(ElementNode node)
+        public override SelectorMatch Match(ElementNode node)
         {
-            return Value;
+            return new SelectorMatch(IsSuccess, Specificity);
         }
     }
 }

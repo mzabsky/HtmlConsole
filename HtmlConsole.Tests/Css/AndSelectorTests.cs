@@ -17,12 +17,17 @@ namespace HtmlConsole.Tests.Css
             {
                 Children = new List<Selector>
                 {
-                    new ConstantSelector { Value = true },
-                    new ConstantSelector { Value = true },
-                    new ConstantSelector { Value = true }
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 1, ElementSpecificity = 2, IdSpecificity = 3 } },
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 1, ElementSpecificity = 0, IdSpecificity = 0 } },
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 0, ElementSpecificity = 1, IdSpecificity = 1 } },
                 }
             };
-            Assert.AreEqual(true, selector.Match(node));
+
+            var selectorMatch = selector.Match(node);
+            Assert.AreEqual(true, selectorMatch.IsSuccess);
+            Assert.AreEqual(2, selectorMatch.Specificity.ClassSpecificity);
+            Assert.AreEqual(3, selectorMatch.Specificity.ElementSpecificity);
+            Assert.AreEqual(4, selectorMatch.Specificity.IdSpecificity);
         }
 
         [TestMethod]
@@ -33,12 +38,16 @@ namespace HtmlConsole.Tests.Css
             {
                 Children = new List<Selector>
                 {
-                    new ConstantSelector { Value = true },
-                    new ConstantSelector { Value = false },
-                    new ConstantSelector { Value = true }
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 1, ElementSpecificity = 2, IdSpecificity = 3 } },
+                    new ConstantSelector { IsSuccess = false },
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 1, ElementSpecificity = 2, IdSpecificity = 3 } }
                 }
             };
-            Assert.AreEqual(false, selector.Match(node));
+            var selectorMatch = selector.Match(node);
+            Assert.AreEqual(false, selectorMatch.IsSuccess);
+            Assert.AreEqual(0, selectorMatch.Specificity.IdSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ClassSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ElementSpecificity);
         }
     }
 }

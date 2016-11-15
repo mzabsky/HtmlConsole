@@ -4,13 +4,15 @@ namespace HtmlConsole.Css
 {
     public class IsDescendantOfSelector : CombinatorSelectorBase
     {
-        public override bool Match(ElementNode node)
+        public override SelectorMatch Match(ElementNode node)
         {
             // TODO: recusion very unnecessary here
-            if (node.Parent == null) return false;
+            if (node.Parent == null) return new SelectorMatch(false, new Specificity());
 
-            if (SubSelector.Match(node.Parent)) return true;
+            var subselectorMatch = SubSelector.Match(node.Parent);
+            if (subselectorMatch.IsSuccess) return subselectorMatch;
 
+            // Try to go up the DOM in order to find a match
             return Match(node.Parent);
         }
 

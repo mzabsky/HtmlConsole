@@ -12,7 +12,12 @@ namespace HtmlConsole.Tests.Css
         {
             var node = new ElementNode {Element = "a", Classes = new []{"ca", "cb"}};
             var selector = new ClassSelector {Class = "ca"};
-            Assert.AreEqual(true, selector.Match(node));
+
+            var selectorMatch = selector.Match(node);
+            Assert.AreEqual(true, selectorMatch.IsSuccess);
+            Assert.AreEqual(0, selectorMatch.Specificity.IdSpecificity);
+            Assert.AreEqual(1, selectorMatch.Specificity.ClassSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ElementSpecificity);
         }
 
         [TestMethod]
@@ -20,7 +25,12 @@ namespace HtmlConsole.Tests.Css
         {
             var node = new ElementNode {Element = "a", Classes = new[] { "ca", "cb" }};
             var selector = new ClassSelector {Class = "cc"};
-            Assert.AreEqual(false, selector.Match(node));
+
+            var selectorMatch = selector.Match(node);
+            Assert.AreEqual(false, selectorMatch.IsSuccess);
+            Assert.AreEqual(0, selectorMatch.Specificity.IdSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ClassSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ElementSpecificity);
         }
     }
 }

@@ -8,9 +8,16 @@ namespace HtmlConsole.Css
     {
         public List<Selector> Children { get; set; } = new List<Selector>();
 
-        public override bool Match(ElementNode path)
+        public override SelectorMatch Match(ElementNode node)
         {
-            return Children.All(p => p.Match(path));
+            return Children.Aggregate(
+                new SelectorMatch(true, new Specificity()),
+                (agg, selector) =>
+                {
+                    var match = selector.Match(node);
+                    var isSuccess = match.IsSuccess && agg.IsSuccess;
+                    return new SelectorMatch(isSuccess, isSuccess ? match.Specificity + agg.Specificity : new Specificity());
+                });
         }
 
         public override string ToString() => $"[AND {string.Join(" AND ", Children.Select(p => p.ToString()))}]";

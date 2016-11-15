@@ -17,7 +17,12 @@ namespace HtmlConsole.Tests.Css
             node.FixParents();
 
             var selector = new IsDescendantOfSelector { SubSelector = new ElementSelector {ElementName = "div"}};
-            Assert.AreEqual(true, selector.Match(descendant));
+
+            var selectorMatch = selector.Match(descendant);
+            Assert.AreEqual(true, selectorMatch.IsSuccess);
+            Assert.AreEqual(0, selectorMatch.Specificity.IdSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ClassSpecificity);
+            Assert.AreEqual(1, selectorMatch.Specificity.ElementSpecificity);
         }
 
         [TestMethod]
@@ -28,7 +33,12 @@ namespace HtmlConsole.Tests.Css
             node.FixParents();
 
             var selector = new IsDescendantOfSelector { SubSelector = new ElementSelector { ElementName = "table" } };
-            Assert.AreEqual(false, selector.Match(descendant));
+
+            var selectorMatch = selector.Match(descendant);
+            Assert.AreEqual(false, selectorMatch.IsSuccess);
+            Assert.AreEqual(0, selectorMatch.Specificity.IdSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ClassSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ElementSpecificity);
         }
 
         [TestMethod]
@@ -39,7 +49,12 @@ namespace HtmlConsole.Tests.Css
             node.FixParents();
 
             var selector = new IsDescendantOfSelector { SubSelector = new ElementSelector { ElementName = "a" } };
-            Assert.AreEqual(false, selector.Match(child));
+
+            var selectorMatch = selector.Match(child);
+            Assert.AreEqual(false, selectorMatch.IsSuccess);
+            Assert.AreEqual(0, selectorMatch.Specificity.IdSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ClassSpecificity);
+            Assert.AreEqual(0, selectorMatch.Specificity.ElementSpecificity);
         }
     }
 }

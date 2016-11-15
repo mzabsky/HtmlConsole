@@ -4,9 +4,9 @@ namespace HtmlConsole.Css
 {
     public class IsChildOfSelector : CombinatorSelectorBase
     {
-        public override bool Match(ElementNode node)
+        public override SelectorMatch Match(ElementNode node)
         {
-            if (node.Parent == null) return false;
+            if (node.Parent == null) return new SelectorMatch(false, new Specificity());
 
             return SubSelector.Match(node.Parent);
         }

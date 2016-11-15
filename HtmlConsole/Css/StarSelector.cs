@@ -4,9 +4,9 @@ namespace HtmlConsole.Css
 {
     public class StarSelector : Selector
     {
-        public override bool Match(ElementNode path)
+        public override SelectorMatch Match(ElementNode path)
         {
-            return true;
+            return new SelectorMatch(true, new Specificity());
         }
 
         public override string ToString() => $"[**]";

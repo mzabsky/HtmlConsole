@@ -61,9 +61,11 @@
     <Compile Include="Css\IStylePropertyMapper.cs" />
     <Compile Include="Css\LengthStyleValue.cs" />
     <Compile Include="Css\Rule.cs" />
+    <Compile Include="Css\SelectorMatch.cs" />
     <Compile Include="Css\SequenceStyleProperty.cs" />
     <Compile Include="Css\BoxStyleProperty.cs" />
     <Compile Include="Css\SimpleStyleProperty.cs" />
+    <Compile Include="Css\Specificity.cs" />
     <Compile Include="Css\StarSelector.cs" />
     <Compile Include="Css\AndSelector.cs" />
     <Compile Include="Css\ElementSelector.cs" />
