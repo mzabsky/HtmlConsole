@@ -6,7 +6,7 @@ namespace HtmlConsole.Css
 {
     public class EnumStyleValue<T> : EnumStyleValue
     {
-        public T EnumValue { get; set; }
+        public T EnumValue { get; }
         
         public EnumStyleValue(int enumValue)
         {

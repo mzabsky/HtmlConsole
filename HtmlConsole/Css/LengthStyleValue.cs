@@ -19,11 +19,17 @@ namespace HtmlConsole.Css
 
     public class LengthStyleValue: StyleValue
     {
-        public decimal Length { get; set; }
+        public decimal Length { get; }
 
-        public LengthUnit Unit { get; set; }
+        public LengthUnit Unit { get; }
 
         public override Type GetStyleValueType() => GetType();
+
+        public LengthStyleValue(decimal length, LengthUnit unit)
+        {
+            Length = length;
+            Unit = unit;
+        }
 
         public static LengthStyleValue TryCreate(Match match)
         {
@@ -59,17 +65,13 @@ namespace HtmlConsole.Css
             else
             {
                 string unitString = regexMatch.Groups["unit"].ToString();
-                if (!Enum.TryParse<LengthUnit>(unitString, true, out unit))
+                if (!Enum.TryParse(unitString, true, out unit))
                 {
                     return null;
                 }
             }
             
-            return new LengthStyleValue
-            {
-                Length = number,
-                Unit = unit
-            };
+            return new LengthStyleValue(number, unit);
         }
     }
 }
