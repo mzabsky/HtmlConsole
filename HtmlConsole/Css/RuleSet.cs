@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Dynamic;
 using System.Linq;
 using Eto.Parse;
 using HtmlConsole.Extensions;
@@ -47,12 +45,8 @@ namespace HtmlConsole.Css
                 var styleValueSequence = StyleValue.Create(property, declarationMatch["expression"]);
                 foreach (var mappedPropertyValue in property.MapStyleValues(styleValueSequence.ToArray()))
                 {
-                    declarations[mappedPropertyValue.Key] = new Declaration
-                    {
-                        PropertyName = propertyName,
-                        Value = mappedPropertyValue.Value,
-                        IsImportant = isImportant
-                    };
+                    declarations[mappedPropertyValue.Key] = new Declaration(propertyName, mappedPropertyValue.Value,
+                        isImportant);
                 }
             }
 

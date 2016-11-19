@@ -159,8 +159,8 @@ namespace HtmlConsole.Tests.Dom
                         Selector = new StarSelector(),
                         Declarations = new []
                         {
-                            new Declaration { PropertyName = "a", Value = value1 = new AutoStyleValue() },
-                            new Declaration { PropertyName = "b", Value = value2 = new AutoStyleValue() },
+                            new Declaration("a", value1 = new AutoStyleValue()),
+                            new Declaration("b", value2 = new AutoStyleValue()),
                         }
                     }
                 }
@@ -175,8 +175,8 @@ namespace HtmlConsole.Tests.Dom
                         Selector = new StarSelector(),
                         Declarations = new []
                         {
-                            new Declaration { PropertyName = "b", Value = value3 = new AutoStyleValue() },
-                            new Declaration { PropertyName = "c", Value = value4 = new AutoStyleValue() },
+                            new Declaration("b", value3 = new AutoStyleValue()),
+                            new Declaration("c", value4 = new AutoStyleValue())
                         }
                     },
                     new RuleSet
@@ -184,8 +184,8 @@ namespace HtmlConsole.Tests.Dom
                         Selector = new StarSelector(),
                         Declarations = new []
                         {
-                            new Declaration { PropertyName = "b", Value = value5 = new AutoStyleValue() },
-                            new Declaration { PropertyName = "d", Value = value6 = new AutoStyleValue() },
+                            new Declaration("b", value5 = new AutoStyleValue()),
+                            new Declaration("d", value6 = new AutoStyleValue())
                         }
                     }
                 }
@@ -217,8 +217,8 @@ namespace HtmlConsole.Tests.Dom
                         Selector = new StarSelector(),
                         Declarations = new []
                         {
-                            new Declaration { PropertyName = "a", Value = value1 = new AutoStyleValue() },
-                            new Declaration { PropertyName = "b", Value = value2 = new AutoStyleValue() },
+                            new Declaration("a", value1 = new AutoStyleValue()),
+                            new Declaration("b", value2 = new AutoStyleValue())
                         }
                     }
                 }
@@ -233,8 +233,8 @@ namespace HtmlConsole.Tests.Dom
                         Selector = new StarSelector(),
                         Declarations = new []
                         {
-                            new Declaration { PropertyName = "b", Value = value3 = new AutoStyleValue() },
-                            new Declaration { PropertyName = "c", Value = value4 = new AutoStyleValue() },
+                            new Declaration("b", value3 = new AutoStyleValue()),
+                            new Declaration("c", value4 = new AutoStyleValue())
                         }
                     },
                     new RuleSet
@@ -242,8 +242,8 @@ namespace HtmlConsole.Tests.Dom
                         Selector = new ElementSelector { ElementName = "span" },
                         Declarations = new []
                         {
-                            new Declaration { PropertyName = "b", Value = value5 = new AutoStyleValue() },
-                            new Declaration { PropertyName = "d", Value = value6 = new AutoStyleValue() },
+                            new Declaration("b", value5 = new AutoStyleValue()),
+                            new Declaration("d", value6 = new AutoStyleValue())
                         }
                     }
                 }

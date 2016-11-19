@@ -13,9 +13,9 @@ namespace HtmlConsole.Tests.Css
             StyleValue a, b, c;
             var input = new[]
             {
-                new Declaration {PropertyName = "a", Value = a = new AutoStyleValue(), IsImportant = false},
-                new Declaration {PropertyName = "a", Value = b = new AutoStyleValue(), IsImportant = false},
-                new Declaration {PropertyName = "b", Value = c = new AutoStyleValue(), IsImportant = false},
+                new Declaration("a", a = new AutoStyleValue()),
+                new Declaration("a", b = new AutoStyleValue()),
+                new Declaration("b", c = new AutoStyleValue())
             };
 
             var actual = new DeclarationSet(input);
@@ -31,9 +31,9 @@ namespace HtmlConsole.Tests.Css
             StyleValue a, b, c;
             var input = new[]
             {
-                new Declaration {PropertyName = "a", Value = a = new AutoStyleValue(), IsImportant = true},
-                new Declaration {PropertyName = "a", Value = b = new AutoStyleValue(), IsImportant = false},
-                new Declaration {PropertyName = "b", Value = c = new AutoStyleValue(), IsImportant = false},
+                new Declaration("a", a = new AutoStyleValue(), true),
+                new Declaration("a", b = new AutoStyleValue()),
+                new Declaration("b", c = new AutoStyleValue())
             };
 
             var actual = new DeclarationSet(input);
@@ -49,14 +49,14 @@ namespace HtmlConsole.Tests.Css
             StyleValue a, b, c, d;
             var input1 = new[]
             {
-                new Declaration {PropertyName = "a", Value = a = new AutoStyleValue(), IsImportant = false},
-                new Declaration {PropertyName = "b", Value = b = new AutoStyleValue(), IsImportant = false},
+                new Declaration("a", a = new AutoStyleValue()),
+                new Declaration("b", b = new AutoStyleValue())
             };
-
+            
             var input2 = new[]
             {
-                new Declaration {PropertyName = "b", Value = c = new AutoStyleValue(), IsImportant = false},
-                new Declaration {PropertyName = "c", Value = d = new AutoStyleValue(), IsImportant = false},
+                new Declaration("b", c = new AutoStyleValue()),
+                new Declaration("c", d = new AutoStyleValue())
             };
 
             var actual = new DeclarationSet(input1);
@@ -74,14 +74,14 @@ namespace HtmlConsole.Tests.Css
             StyleValue a, b, c, d;
             var input1 = new[]
             {
-                new Declaration {PropertyName = "a", Value = a = new AutoStyleValue(), IsImportant = false},
-                new Declaration {PropertyName = "b", Value = b = new AutoStyleValue(), IsImportant = true},
+                new Declaration("a", a = new AutoStyleValue()),
+                new Declaration("b", b = new AutoStyleValue(), true)
             };
 
             var input2 = new[]
             {
-                new Declaration {PropertyName = "b", Value = c = new AutoStyleValue(), IsImportant = false},
-                new Declaration {PropertyName = "c", Value = d = new AutoStyleValue(), IsImportant = false},
+                new Declaration("b", c = new AutoStyleValue()),
+                new Declaration("c", d = new AutoStyleValue())
             };
 
             var actual = new DeclarationSet(input1);

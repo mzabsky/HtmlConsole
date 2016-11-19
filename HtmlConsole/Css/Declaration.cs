@@ -2,11 +2,18 @@
 {
     public class Declaration
     {
-        public string PropertyName { get; set; } 
+        public string PropertyName { get; } 
 
-        public StyleValue Value { get; set; }
+        public StyleValue Value { get; }
 
-        public bool IsImportant { get; set; }
+        public bool IsImportant { get; }
+
+        public Declaration(string propertyName, StyleValue value, bool isImportant = false)
+        {
+            PropertyName = propertyName;
+            Value = value;
+            IsImportant = isImportant;
+        }
 
         public static Declaration GetMoreImportantDeclaration(Declaration older, Declaration newer)
         {
