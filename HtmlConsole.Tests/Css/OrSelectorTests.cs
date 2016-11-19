@@ -17,9 +17,9 @@ namespace HtmlConsole.Tests.Css
             {
                 Children = new List<Selector>
                 {
-                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 3, ElementSpecificity = 0, IdSpecificity = 0 } },
-                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 0, ElementSpecificity = 3, IdSpecificity = 0 } },
-                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 0, ElementSpecificity = 0, IdSpecificity = 3 } }
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity(3, 0 , 0) },
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity(0, 3 , 0) },
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity(0, 0 , 3) }
                 }
             };
 
@@ -38,9 +38,9 @@ namespace HtmlConsole.Tests.Css
             {
                 Children = new List<Selector>
                 {
-                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 0, ElementSpecificity = 3, IdSpecificity = 0 } },
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity(0, 0 , 3) },
                     new ConstantSelector { IsSuccess = false },
-                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 3, ElementSpecificity = 0, IdSpecificity = 0 } }
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity(0, 3 , 0) }
                 }
             };
 

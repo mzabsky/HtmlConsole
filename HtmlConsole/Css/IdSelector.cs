@@ -11,12 +11,8 @@ namespace HtmlConsole.Css
             var isSuccess = node.Id == Id;
             return new SelectorMatch(
                 isSuccess,
-                new Specificity
-                {
-                    ElementSpecificity = 0,
-                    IdSpecificity = isSuccess ? 1 : 0,
-                    ClassSpecificity = 0
-                });
+                new Specificity(isSuccess ? 1 : 0, 0, 0)
+            );
         }
 
         public override string ToString() => $"[#{Id}]";

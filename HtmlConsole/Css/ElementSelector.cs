@@ -11,12 +11,8 @@ namespace HtmlConsole.Css
             var isSuccess = node.Element == ElementName;
             return new SelectorMatch(
                 isSuccess, 
-                new Specificity
-                {
-                    ElementSpecificity = isSuccess ? 1 : 0,
-                    IdSpecificity = 0,
-                    ClassSpecificity = 0
-                });
+                new Specificity(0, 0, isSuccess ? 1 : 0)
+            );
         }
 
         public override string ToString() => $"[{ElementName}]";

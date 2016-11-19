@@ -17,17 +17,17 @@ namespace HtmlConsole.Tests.Css
             {
                 Children = new List<Selector>
                 {
-                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 1, ElementSpecificity = 2, IdSpecificity = 3 } },
-                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 1, ElementSpecificity = 0, IdSpecificity = 0 } },
-                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 0, ElementSpecificity = 1, IdSpecificity = 1 } },
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity(1, 2, 3) },
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity(1, 0, 0) },
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity(0, 1, 1) }
                 }
             };
 
             var selectorMatch = selector.Match(node);
             Assert.AreEqual(true, selectorMatch.IsSuccess);
-            Assert.AreEqual(2, selectorMatch.Specificity.ClassSpecificity);
-            Assert.AreEqual(3, selectorMatch.Specificity.ElementSpecificity);
-            Assert.AreEqual(4, selectorMatch.Specificity.IdSpecificity);
+            Assert.AreEqual(2, selectorMatch.Specificity.IdSpecificity);
+            Assert.AreEqual(3, selectorMatch.Specificity.ClassSpecificity);
+            Assert.AreEqual(4, selectorMatch.Specificity.ElementSpecificity);
         }
 
         [TestMethod]
@@ -38,9 +38,9 @@ namespace HtmlConsole.Tests.Css
             {
                 Children = new List<Selector>
                 {
-                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 1, ElementSpecificity = 2, IdSpecificity = 3 } },
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity(1, 2, 3) },
                     new ConstantSelector { IsSuccess = false },
-                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity { ClassSpecificity = 1, ElementSpecificity = 2, IdSpecificity = 3 } }
+                    new ConstantSelector { IsSuccess = true, Specificity = new Specificity(1, 2, 3) }
                 }
             };
             var selectorMatch = selector.Match(node);
