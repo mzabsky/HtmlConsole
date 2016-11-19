@@ -2,7 +2,7 @@
 {
     public abstract class CombinatorSelectorBase : Selector
     {
-        public Selector SubSelector { get; set; }
+        public Selector SubSelector { get; }
 
         protected CombinatorSelectorBase(Selector selector)
         {
