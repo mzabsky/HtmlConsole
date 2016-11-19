@@ -16,7 +16,7 @@ namespace HtmlConsole.Css
         /// </summary>
         /// <param name="selectorsMatch">Syntax (sub)tree, pointing at the "selectors" node.</param>
         /// <returns>A selector representing the same selector as the sytnax tree.</returns>
-        public static Selector Create(Match selectorsMatch)
+        internal static Selector Create(Match selectorsMatch)
         {
             Debug.Assert(selectorsMatch.Name == "selectors");
 

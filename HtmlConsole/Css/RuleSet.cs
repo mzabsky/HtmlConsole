@@ -11,7 +11,7 @@ namespace HtmlConsole.Css
         public Selector Selector { get; set; }
         public Declaration[] Declarations { get; set; } = new Declaration[0];
 
-        public static RuleSet Create(Match rulesetMatch)
+        internal static RuleSet Create(Match rulesetMatch)
         {
             Debug.Assert(rulesetMatch.Name == "ruleset");
 
@@ -22,7 +22,7 @@ namespace HtmlConsole.Css
             };
         }
 
-        public static Dictionary<string, Declaration> CreateDeclarations(Match declarationsMatch)
+        internal static Dictionary<string, Declaration> CreateDeclarations(Match declarationsMatch)
         {
             var allProperties = StyleProperty.GetAllProperties();
 

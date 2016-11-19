@@ -14,7 +14,7 @@ namespace HtmlConsole.Css
         /// <returns>A type that represents this style value in <see cref="StyleProperty"/> definitions.</returns>
         public abstract Type GetStyleValueType();
 
-        public static IEnumerable<StyleValue> Create(StyleProperty property, Match expressionMatch)
+        internal static IEnumerable<StyleValue> Create(StyleProperty property, Match expressionMatch)
         {
             Debug.Assert(expressionMatch.Name == "expression");
             

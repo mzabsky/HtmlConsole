@@ -9,7 +9,7 @@ namespace HtmlConsole.Css
     {
         public List<RuleSet> RuleSets { get; set; } = new List<RuleSet>();
         
-        public static Stylesheet Create(Match syntaxTree)
+        internal static Stylesheet Create(Match syntaxTree)
         {
             return new Stylesheet
             {
