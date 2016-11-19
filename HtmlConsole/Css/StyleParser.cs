@@ -64,13 +64,13 @@ namespace HtmlConsole.Css
             return Selector.Create(syntaxTree);
         }
 
-        public Dictionary<string, Rule> ParseDeclarations(string str)
+        public Dictionary<string, Declaration> ParseDeclarations(string str)
         {
             // The grammar can't handle empty string, but those can come from the style attribute -> they need to be handled extra
             // TODO: Make a special entry point in the grammar instead that does declarations | S*
             if (string.IsNullOrWhiteSpace(str))
             {
-                return new Dictionary<string, Rule>();
+                return new Dictionary<string, Declaration>();
             }
 
             var syntaxTree = GetSyntaxTree(str, StyleParserMode.Declarations);

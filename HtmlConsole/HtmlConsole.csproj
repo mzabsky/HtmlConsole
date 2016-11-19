@@ -54,13 +54,14 @@
     <Compile Include="Css\AutoStyleValue.cs" />
     <Compile Include="Css\ColorStyleValue.cs" />
     <Compile Include="Css\CombinatorSelectorBase.cs" />
+    <Compile Include="Css\DeclarationSet.cs" />
     <Compile Include="Css\EnumStyleValue.cs" />
     <Compile Include="Css\InheritStyleValue.cs" />
     <Compile Include="Css\InitialStyleValue.cs" />
     <Compile Include="Css\IsChildOfSelector.cs" />
     <Compile Include="Css\IStylePropertyMapper.cs" />
     <Compile Include="Css\LengthStyleValue.cs" />
-    <Compile Include="Css\Rule.cs" />
+    <Compile Include="Css\Declaration.cs" />
     <Compile Include="Css\SelectorMatch.cs" />
     <Compile Include="Css\SequenceStyleProperty.cs" />
     <Compile Include="Css\BoxStyleProperty.cs" />

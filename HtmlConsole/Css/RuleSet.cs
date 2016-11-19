@@ -11,7 +11,7 @@ namespace HtmlConsole.Css
     public class RuleSet
     {
         public Selector Selector { get; set; }
-        public Dictionary<string, Rule> Declarations { get; set; } = new Dictionary<string, Rule>();
+        public Declaration[] Declarations { get; set; } = new Declaration[0];
 
         public static RuleSet Create(Match rulesetMatch)
         {
@@ -20,17 +20,17 @@ namespace HtmlConsole.Css
             return new RuleSet
             {
                 Selector = Selector.Create(rulesetMatch["selectors"]),
-                Declarations = CreateDeclarations(rulesetMatch["declarations"])
+                Declarations = CreateDeclarations(rulesetMatch["declarations"]).Values.ToArray()
             };
         }
 
-        public static Dictionary<string, Rule> CreateDeclarations(Match declarationsMatch)
+        public static Dictionary<string, Declaration> CreateDeclarations(Match declarationsMatch)
         {
             var allProperties = StyleProperty.GetAllProperties();
 
             Debug.Assert(declarationsMatch.Name == "declarations");
 
-            var declarations = new Dictionary<string, Rule>();
+            var declarations = new Dictionary<string, Declaration>();
             foreach (var declarationMatch in declarationsMatch.Matches.ExceptWhitespace())
             {
                 Debug.Assert(declarationMatch.Name == "declaration");
@@ -47,7 +47,7 @@ namespace HtmlConsole.Css
                 var styleValueSequence = StyleValue.Create(property, declarationMatch["expression"]);
                 foreach (var mappedPropertyValue in property.MapStyleValues(styleValueSequence.ToArray()))
                 {
-                    declarations[mappedPropertyValue.Key] = new Rule
+                    declarations[mappedPropertyValue.Key] = new Declaration
                     {
                         PropertyName = propertyName,
                         Value = mappedPropertyValue.Value,

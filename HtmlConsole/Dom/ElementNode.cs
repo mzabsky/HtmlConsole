@@ -19,7 +19,7 @@ namespace HtmlConsole.Dom
         public IEnumerable<INode> Children { get; set; } = new INode[0];
         public Document Document { get; set; }
 
-        public Dictionary<string, StyleValue> Styles { get; set; } = new Dictionary<string, StyleValue>();
+        public DeclarationSet Styles { get; set; }
 
         public ElementNode()
         {

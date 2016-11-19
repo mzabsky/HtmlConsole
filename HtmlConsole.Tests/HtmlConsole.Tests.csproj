@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Css\BoxStylePropertyTests.cs" />
+    <Compile Include="Css\DeclarationSetTests.cs" />
     <Compile Include="Css\EnumStyleValueTests.cs" />
     <Compile Include="Css\IsDescendantOfSelectorTests.cs" />
     <Compile Include="Css\IsChildOfSelectorTests.cs" />

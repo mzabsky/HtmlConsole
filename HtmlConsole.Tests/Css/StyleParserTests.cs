@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HtmlConsole.Css;
 using HtmlConsole.Dom;
 using HtmlConsole.Extensions;
@@ -398,7 +395,7 @@ namespace HtmlConsole.Tests.Css
 
             var ruleset = stylesheet.RuleSets.Single();
             Assert.AreEqual(true, ruleset.Selector.Match(new ElementNode()).IsSuccess);
-            Assert.AreEqual("display", ruleset.Declarations.Single().Key);
+            Assert.AreEqual("display", ruleset.Declarations.Single().PropertyName);
         }
 
         [TestMethod]
@@ -409,11 +406,11 @@ namespace HtmlConsole.Tests.Css
 
             var ruleset1 = stylesheet.RuleSets.First();
             Assert.AreEqual("[OR [AND [**]]]", ruleset1.Selector.ToString());
-            Assert.AreEqual("display", ruleset1.Declarations.Single().Key);
+            Assert.AreEqual("display", ruleset1.Declarations.Single().PropertyName);
 
             var ruleset2 = stylesheet.RuleSets.Last();
             Assert.AreEqual("[OR [AND [#id]]]", ruleset2.Selector.ToString());
-            Assert.AreEqual("display", ruleset2.Declarations.Single().Key);
+            Assert.AreEqual("display", ruleset2.Declarations.Single().PropertyName);
         }
     }
 }

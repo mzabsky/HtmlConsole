@@ -10,6 +10,8 @@ namespace HtmlConsole.Dom
         public StyleParser StyleParser { get; set; }
         public INode RootNode { get; set; }
 
+        public List<Stylesheet> Stylesheets { get; set; } = new List<Stylesheet>();
+
         public static Document ParseHtml(string html)
         {
             var htmlDocument = new HtmlDocument();
@@ -31,25 +33,21 @@ namespace HtmlConsole.Dom
             return document;
         }
 
-        public void EvaluateStylesheet(Stylesheet stylesheet)
+        public void ComputeStyles()
         {
-            EvaluateStylesheet(stylesheet, new List<ElementNode>());
-        }
-
-        private void EvaluateStylesheet(Stylesheet stylesheet, List<ElementNode> path)
-        {
-            // TODO parse HTML attribute "style"
-            var currentPath = path.Concat(new[] { RootNode });
-
-            /*foreach (var ruleSet in stylesheet.RuleSets)
+            foreach (var node in GetAllNodes().OfType<ElementNode>())
             {
-                var selector = 
-            }*/
+                node.Styles = new DeclarationSet();
+                foreach (var stylesheet in Stylesheets)
+                {
+                    node.Styles.MergeFrom(stylesheet.GetDeclarationSetForNode(node));
+                }
+            }
         }
 
         public IEnumerable<ElementNode> Find(Selector selector)
         {
-            return RootNode.GetAllNodes().OfType<ElementNode>().Where(selector.Match);
+            return RootNode.GetAllNodes().OfType<ElementNode>().Where(p => selector.Match(p).IsSuccess);
         }
 
         public IEnumerable<ElementNode> Find(string selectorString)

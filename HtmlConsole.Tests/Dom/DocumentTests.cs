@@ -145,5 +145,120 @@ namespace HtmlConsole.Tests.Dom
             Assert.AreEqual("a", foundNodes.Single().Element);
             CollectionAssert.AreEquivalent(new[] { "span", "div", "div", "strong" }, foundNodes.Single().GetAncestors().OfType<ElementNode>().Select(p => p.Element).ToList());
         }
+
+        [TestMethod]
+        public void ComputeStyles_TwoStylesheetsAllRuleSetsMatching_PreservesNewer()
+        {
+            StyleValue value1, value2, value3, value4, value5, value6;
+            var stylesheet1 = new Stylesheet
+            {
+                RuleSets = new List<RuleSet>
+                {
+                    new RuleSet
+                    {
+                        Selector = new StarSelector(),
+                        Declarations = new []
+                        {
+                            new Declaration { PropertyName = "a", Value = value1 = new AutoStyleValue() },
+                            new Declaration { PropertyName = "b", Value = value2 = new AutoStyleValue() },
+                        }
+                    }
+                }
+            };
+
+            var stylesheet2 = new Stylesheet
+            {
+                RuleSets = new List<RuleSet>
+                {
+                    new RuleSet
+                    {
+                        Selector = new StarSelector(),
+                        Declarations = new []
+                        {
+                            new Declaration { PropertyName = "b", Value = value3 = new AutoStyleValue() },
+                            new Declaration { PropertyName = "c", Value = value4 = new AutoStyleValue() },
+                        }
+                    },
+                    new RuleSet
+                    {
+                        Selector = new StarSelector(),
+                        Declarations = new []
+                        {
+                            new Declaration { PropertyName = "b", Value = value5 = new AutoStyleValue() },
+                            new Declaration { PropertyName = "d", Value = value6 = new AutoStyleValue() },
+                        }
+                    }
+                }
+            };
+
+            var document = Document.ParseHtml("<div></div>");
+            document.Stylesheets.Add(stylesheet1);
+            document.Stylesheets.Add(stylesheet2);
+            document.ComputeStyles();
+
+            var divNode = document.Find("div").Single();
+            Assert.AreEqual(4, divNode.Styles.Count());
+            Assert.AreEqual(value1, divNode.Styles["a"].Value);
+            Assert.AreEqual(value5, divNode.Styles["b"].Value);
+            Assert.AreEqual(value4, divNode.Styles["c"].Value);
+            Assert.AreEqual(value6, divNode.Styles["d"].Value);
+        }
+
+        [TestMethod]
+        public void ComputeStyles_TwoStylesheetsSomeRuleSetsMatching_IncludesMatchingOnly()
+        {
+            StyleValue value1, value2, value3, value4, value5, value6;
+            var stylesheet1 = new Stylesheet
+            {
+                RuleSets = new List<RuleSet>
+                {
+                    new RuleSet
+                    {
+                        Selector = new StarSelector(),
+                        Declarations = new []
+                        {
+                            new Declaration { PropertyName = "a", Value = value1 = new AutoStyleValue() },
+                            new Declaration { PropertyName = "b", Value = value2 = new AutoStyleValue() },
+                        }
+                    }
+                }
+            };
+
+            var stylesheet2 = new Stylesheet
+            {
+                RuleSets = new List<RuleSet>
+                {
+                    new RuleSet
+                    {
+                        Selector = new StarSelector(),
+                        Declarations = new []
+                        {
+                            new Declaration { PropertyName = "b", Value = value3 = new AutoStyleValue() },
+                            new Declaration { PropertyName = "c", Value = value4 = new AutoStyleValue() },
+                        }
+                    },
+                    new RuleSet
+                    {
+                        Selector = new ElementSelector { ElementName = "span" },
+                        Declarations = new []
+                        {
+                            new Declaration { PropertyName = "b", Value = value5 = new AutoStyleValue() },
+                            new Declaration { PropertyName = "d", Value = value6 = new AutoStyleValue() },
+                        }
+                    }
+                }
+            };
+
+            var document = Document.ParseHtml("<div></div>");
+            document.Stylesheets.Add(stylesheet1);
+            document.Stylesheets.Add(stylesheet2);
+            document.ComputeStyles();
+
+            var divNode = document.Find("div").Single();
+            Assert.AreEqual(3, divNode.Styles.Count());
+            Assert.AreEqual(value1, divNode.Styles["a"].Value);
+            Assert.AreEqual(value3, divNode.Styles["b"].Value);
+            Assert.AreEqual(value4, divNode.Styles["c"].Value);
+        }
     }
 }
