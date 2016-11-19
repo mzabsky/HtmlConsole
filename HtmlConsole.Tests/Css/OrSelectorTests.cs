@@ -14,14 +14,14 @@ namespace HtmlConsole.Tests.Css
         {
             var node = new ElementNode();
             var selector = new OrSelector
-            {
-                Children = new List<Selector>
+            (
+                new List<Selector>
                 {
                     new ConstantSelector { IsSuccess = true, Specificity = new Specificity(3, 0 , 0) },
                     new ConstantSelector { IsSuccess = true, Specificity = new Specificity(0, 3 , 0) },
                     new ConstantSelector { IsSuccess = true, Specificity = new Specificity(0, 0 , 3) }
                 }
-            };
+            );
 
             var selectorMatch = selector.Match(node);
             Assert.AreEqual(true, selectorMatch.IsSuccess);
@@ -35,14 +35,14 @@ namespace HtmlConsole.Tests.Css
         {
             var node = new ElementNode();
             var selector = new OrSelector
-            {
-                Children = new List<Selector>
+            (
+                new List<Selector>
                 {
                     new ConstantSelector { IsSuccess = true, Specificity = new Specificity(0, 0 , 3) },
                     new ConstantSelector { IsSuccess = false },
                     new ConstantSelector { IsSuccess = true, Specificity = new Specificity(0, 3 , 0) }
                 }
-            };
+            );
 
             var selectorMatch = selector.Match(node);
             Assert.AreEqual(true, selectorMatch.IsSuccess);
@@ -56,14 +56,14 @@ namespace HtmlConsole.Tests.Css
         {
             var node = new ElementNode();
             var selector = new OrSelector
-            {
-                Children = new List<Selector>
+            (
+                new List<Selector>
                 {
                     new ConstantSelector { IsSuccess = false },
                     new ConstantSelector { IsSuccess = false },
                     new ConstantSelector { IsSuccess = false }
                 }
-            };
+            );
 
             var selectorMatch = selector.Match(node);
             Assert.AreEqual(false, selectorMatch.IsSuccess);

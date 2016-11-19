@@ -9,7 +9,12 @@ namespace HtmlConsole.Css
     /// </summary>
     public class OrSelector : Selector
     {
-        public List<Selector> Children { get; set; } = new List<Selector>();
+        public List<Selector> Children { get; set; }
+
+        public OrSelector(IEnumerable<Selector> children)
+        {
+            Children = children.ToList();
+        }
 
         public override SelectorMatch Match(ElementNode node)
         {

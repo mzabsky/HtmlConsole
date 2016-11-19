@@ -4,6 +4,10 @@ namespace HtmlConsole.Css
 {
     public class IsDescendantOfSelector : CombinatorSelectorBase
     {
+        public IsDescendantOfSelector(Selector subSelector) : base(subSelector)
+        {
+        }
+
         public override SelectorMatch Match(ElementNode node)
         {
             // TODO: recusion very unnecessary here

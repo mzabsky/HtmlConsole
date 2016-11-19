@@ -4,7 +4,12 @@ namespace HtmlConsole.Css
 {
     public class IdSelector : Selector
     {
-        public string Id { get; set; }
+        public string Id { get; }
+
+        public IdSelector(string id)
+        {
+            Id = id;
+        }
 
         public override SelectorMatch Match(ElementNode node)
         {

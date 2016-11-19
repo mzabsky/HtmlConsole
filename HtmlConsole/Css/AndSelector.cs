@@ -6,7 +6,12 @@ namespace HtmlConsole.Css
 {
     public class AndSelector : Selector
     {
-        public List<Selector> Children { get; set; } = new List<Selector>();
+        public List<Selector> Children { get; }
+
+        public AndSelector(IEnumerable<Selector> children)
+        {
+            Children = children.ToList();
+        }
 
         public override SelectorMatch Match(ElementNode node)
         {

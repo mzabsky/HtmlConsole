@@ -20,7 +20,7 @@ namespace HtmlConsole.Css
         {
             Debug.Assert(selectorsMatch.Name == "selectors");
 
-            var orSelector = new OrSelector();
+            var orSelectorChildren = new List<Selector>();
             foreach (var selectorMatch in selectorsMatch.Matches.ExceptWhitespace())
             {
                 Debug.Assert(selectorMatch.Name == "selector");
@@ -49,10 +49,10 @@ namespace HtmlConsole.Css
                             switch (currentCombinator)
                             {
                                 case '>':
-                                    combinatorSelector = new IsChildOfSelector();
+                                    combinatorSelector = new IsChildOfSelector(currentSelector);
                                     break;
                                 case ' ':
-                                    combinatorSelector = new IsDescendantOfSelector();
+                                    combinatorSelector = new IsDescendantOfSelector(currentSelector);
                                     break;
                                 case '+':
                                     throw new NotImplementedException("+ selector is not implemented");
@@ -61,17 +61,15 @@ namespace HtmlConsole.Css
                                 default:
                                     throw new InvalidOperationException($"Invalid combinator '{currentCombinator}'.");
                             }
-
-                            combinatorSelector.SubSelector = currentSelector;
-
+                            
                             currentSelector = new AndSelector
-                            {
-                                Children = new List<Selector>
+                            (
+                                new List<Selector>
                                 {
                                     combinatorSelector,
                                     simpleSelector
                                 }
-                            };
+                            );
                         }
 
                         // Reset the combinator after each simple selector
@@ -79,22 +77,22 @@ namespace HtmlConsole.Css
                     }
                 }
 
-                orSelector.Children.Add(currentSelector);
+                orSelectorChildren.Add(currentSelector);
             }
 
-            return orSelector;
+            return new OrSelector(orSelectorChildren);
         }
 
         private static Selector CreateSimpleSelector(Match simpleSelectorMatch)
         {
             Debug.Assert(simpleSelectorMatch.Name == "simple_selector");
 
-            var andSelector = new AndSelector();
+            var children = new List<Selector>();
             foreach (var fragmentMatch in simpleSelectorMatch.Matches.ExceptWhitespace())
             {
-                andSelector.Children.Add(CreateSimpleSelectorFragment(fragmentMatch));
+                children.Add(CreateSimpleSelectorFragment(fragmentMatch));
             }
-            return andSelector;
+            return new AndSelector(children);
         }
 
         private static Selector CreateSimpleSelectorFragment(Match fragmentMatch)
@@ -108,12 +106,12 @@ namespace HtmlConsole.Css
                     }
                     else
                     {
-                        return new ElementSelector {ElementName = fragmentMatch.Text};
+                        return new ElementSelector(fragmentMatch.Text);
                     }
                 case "hash":
-                    return new IdSelector {Id = fragmentMatch.Matches["ident"].Text};
+                    return new IdSelector(fragmentMatch.Matches["ident"].Text);
                 case "class":
-                    return new ClassSelector {Class = fragmentMatch.Matches["ident"].Text};
+                    return new ClassSelector(fragmentMatch.Matches["ident"].Text);
                 case "attrib":
                     throw new NotImplementedException("Attrib selectors are not supported");
                 case "pseudo":

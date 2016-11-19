@@ -11,7 +11,7 @@ namespace HtmlConsole.Tests.Css
         public void Match_MatchingClass_ReturnsTrue()
         {
             var node = new ElementNode {Element = "a", Classes = new []{"ca", "cb"}};
-            var selector = new ClassSelector {Class = "ca"};
+            var selector = new ClassSelector("ca");
 
             var selectorMatch = selector.Match(node);
             Assert.AreEqual(true, selectorMatch.IsSuccess);
@@ -24,7 +24,7 @@ namespace HtmlConsole.Tests.Css
         public void Match_NotMatchingId_ReturnsFalse()
         {
             var node = new ElementNode {Element = "a", Classes = new[] { "ca", "cb" }};
-            var selector = new ClassSelector {Class = "cc"};
+            var selector = new ClassSelector("cc");
 
             var selectorMatch = selector.Match(node);
             Assert.AreEqual(false, selectorMatch.IsSuccess);

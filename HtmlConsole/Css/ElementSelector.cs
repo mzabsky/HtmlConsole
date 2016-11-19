@@ -4,7 +4,12 @@ namespace HtmlConsole.Css
 {
     public class ElementSelector : Selector
     {
-        public string ElementName { get; set; }
+        public string ElementName { get; }
+
+        public ElementSelector(string elementName)
+        {
+            ElementName = elementName;
+        }
 
         public override SelectorMatch Match(ElementNode node)
         {

@@ -11,7 +11,7 @@ namespace HtmlConsole.Tests.Css
         public void Match_MatchingElement_ReturnsTrue()
         {
             var node = new ElementNode {Element = "a"};
-            var selector = new ElementSelector {ElementName = "a"};
+            var selector = new ElementSelector("a");
 
             var selectorMatch = selector.Match(node);
             Assert.AreEqual(true, selectorMatch.IsSuccess);
@@ -24,7 +24,7 @@ namespace HtmlConsole.Tests.Css
         public void Match_NotMatchingElement_ReturnsFalse()
         {
             var node = new ElementNode {Element = "a"};
-            var selector = new ElementSelector {ElementName = "b"};
+            var selector = new ElementSelector("b");
 
             var selectorMatch = selector.Match(node);
             Assert.AreEqual(false, selectorMatch.IsSuccess);

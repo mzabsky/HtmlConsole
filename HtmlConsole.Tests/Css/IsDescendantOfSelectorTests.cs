@@ -16,7 +16,7 @@ namespace HtmlConsole.Tests.Css
             var node = new ElementNode { Element = "div", Children = new List<INode> { new ElementNode { Element = "span", Children = new List<INode> { descendant } } } };
             node.FixParents();
 
-            var selector = new IsDescendantOfSelector { SubSelector = new ElementSelector {ElementName = "div"}};
+            var selector = new IsDescendantOfSelector(new ElementSelector("div"));
 
             var selectorMatch = selector.Match(descendant);
             Assert.AreEqual(true, selectorMatch.IsSuccess);
@@ -32,7 +32,7 @@ namespace HtmlConsole.Tests.Css
             var node = new ElementNode { Element = "div", Children = new List<INode> { new ElementNode { Element = "span", Children = new List<INode> { descendant } } } };
             node.FixParents();
 
-            var selector = new IsDescendantOfSelector { SubSelector = new ElementSelector { ElementName = "table" } };
+            var selector = new IsDescendantOfSelector(new ElementSelector("table"));
 
             var selectorMatch = selector.Match(descendant);
             Assert.AreEqual(false, selectorMatch.IsSuccess);
@@ -48,7 +48,7 @@ namespace HtmlConsole.Tests.Css
             var node = new ElementNode { Element = "div", Children = new List<INode> { child } };
             node.FixParents();
 
-            var selector = new IsDescendantOfSelector { SubSelector = new ElementSelector { ElementName = "a" } };
+            var selector = new IsDescendantOfSelector(new ElementSelector("a"));
 
             var selectorMatch = selector.Match(child);
             Assert.AreEqual(false, selectorMatch.IsSuccess);

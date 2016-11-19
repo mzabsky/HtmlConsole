@@ -5,7 +5,12 @@ namespace HtmlConsole.Css
 {
     public class ClassSelector : Selector
     {
-        public string Class { get; set; }
+        public string Class { get; }
+
+        public ClassSelector(string @class)
+        {
+            Class = @class;
+        }
 
         public override SelectorMatch Match(ElementNode node)
         {

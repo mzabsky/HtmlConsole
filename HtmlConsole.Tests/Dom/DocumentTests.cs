@@ -98,19 +98,16 @@ namespace HtmlConsole.Tests.Dom
 
             // Equivalent to "div a"
             var selector = new AndSelector
-            {
-                Children = new List<Selector>
+            (
+                new List<Selector>
                 {
-                    new ElementSelector {ElementName = "a"},
+                    new ElementSelector("a"),
                     new IsDescendantOfSelector
-                    {
-                        SubSelector = new ElementSelector
-                        {
-                            ElementName = "div"
-                        }
-                    }
+                    (
+                        new ElementSelector("div")
+                    )
                 }
-            };
+            );
 
             var foundNodes = document.Find(selector).ToList();
 
@@ -239,7 +236,7 @@ namespace HtmlConsole.Tests.Dom
                     },
                     new RuleSet
                     {
-                        Selector = new ElementSelector { ElementName = "span" },
+                        Selector = new ElementSelector("span"),
                         Declarations = new []
                         {
                             new Declaration("b", value5 = new AutoStyleValue()),

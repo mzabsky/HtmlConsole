@@ -11,7 +11,7 @@ namespace HtmlConsole.Tests.Css
         public void Match_MatchingId_ReturnsTrue()
         {
             var node = new ElementNode {Element = "a", Id = "ida"};
-            var selector = new IdSelector {Id = "ida"};
+            var selector = new IdSelector("ida");
 
             var selectorMatch = selector.Match(node);
             Assert.AreEqual(true, selectorMatch.IsSuccess);
@@ -24,7 +24,7 @@ namespace HtmlConsole.Tests.Css
         public void Match_NotMatchingId_ReturnsFalse()
         {
             var node = new ElementNode {Element = "a", Id = "ida"};
-            var selector = new IdSelector {Id = "idb"};
+            var selector = new IdSelector("idb");
 
             var selectorMatch = selector.Match(node);
             Assert.AreEqual(false, selectorMatch.IsSuccess);

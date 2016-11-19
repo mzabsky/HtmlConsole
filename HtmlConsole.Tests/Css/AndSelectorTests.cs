@@ -14,14 +14,14 @@ namespace HtmlConsole.Tests.Css
         {
             var node = new ElementNode();
             var selector = new AndSelector
-            {
-                Children = new List<Selector>
+            (
+                new List<Selector>
                 {
                     new ConstantSelector { IsSuccess = true, Specificity = new Specificity(1, 2, 3) },
                     new ConstantSelector { IsSuccess = true, Specificity = new Specificity(1, 0, 0) },
                     new ConstantSelector { IsSuccess = true, Specificity = new Specificity(0, 1, 1) }
                 }
-            };
+            );
 
             var selectorMatch = selector.Match(node);
             Assert.AreEqual(true, selectorMatch.IsSuccess);
@@ -35,14 +35,14 @@ namespace HtmlConsole.Tests.Css
         {
             var node = new ElementNode();
             var selector = new AndSelector
-            {
-                Children = new List<Selector>
+            (
+                new List<Selector>
                 {
                     new ConstantSelector { IsSuccess = true, Specificity = new Specificity(1, 2, 3) },
                     new ConstantSelector { IsSuccess = false },
                     new ConstantSelector { IsSuccess = true, Specificity = new Specificity(1, 2, 3) }
                 }
-            };
+            );
             var selectorMatch = selector.Match(node);
             Assert.AreEqual(false, selectorMatch.IsSuccess);
             Assert.AreEqual(0, selectorMatch.Specificity.IdSpecificity);
