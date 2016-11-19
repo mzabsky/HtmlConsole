@@ -60,6 +60,15 @@ namespace HtmlConsole.Css
                                 }
                             }
 
+                            if (type == typeof(PercentageStyleValue))
+                            {
+                                var value = PercentageStyleValue.TryCreate(termMatch);
+                                if (value != null)
+                                {
+                                    yield return value;
+                                    continue;
+                                }
+                            }
                             if(type.IsEnum)
                             {
                                 var value = EnumStyleValue.TryCreate(type, termMatch);

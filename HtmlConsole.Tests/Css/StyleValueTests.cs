@@ -27,6 +27,12 @@ namespace HtmlConsole.Tests.Css
         }
 
         [TestMethod]
+        public void Create_SinglePercentageValue_ReturnsCorrectSequence()
+        {
+            var actual = CreateStyleValues("width", "1%");
+            Assert.AreEqual(typeof(PercentageStyleValue), actual.Single().GetType());
+            Assert.AreEqual(1, ((PercentageStyleValue)actual.Single()).Percentage);
+        }
         public void Create_SingleEnumValue_ReturnsCorrectSequence()
         {
             var actual = CreateStyleValues("border-top", "thick");
