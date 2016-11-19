@@ -69,6 +69,17 @@ namespace HtmlConsole.Css
                                     continue;
                                 }
                             }
+
+                            if (type == typeof(ColorStyleValue))
+                            {
+                                var value = ColorStyleValue.TryCreate(termMatch);
+                                if (value != null)
+                                {
+                                    yield return value;
+                                    continue;
+                                }
+                            }
+
                             if(type.IsEnum)
                             {
                                 var value = EnumStyleValue.TryCreate(type, termMatch);

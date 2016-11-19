@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Css\AutoStyleValue.cs" />
+    <Compile Include="Css\Color.cs" />
     <Compile Include="Css\ColorStyleValue.cs" />
     <Compile Include="Css\CombinatorSelectorBase.cs" />
     <Compile Include="Css\DeclarationSet.cs" />

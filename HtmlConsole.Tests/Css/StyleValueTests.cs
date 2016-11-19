@@ -33,6 +33,19 @@ namespace HtmlConsole.Tests.Css
             Assert.AreEqual(typeof(PercentageStyleValue), actual.Single().GetType());
             Assert.AreEqual(1, ((PercentageStyleValue)actual.Single()).Percentage);
         }
+
+        [TestMethod]
+        public void Create_SingleColorValue_ReturnsCorrectSequence()
+        {
+            var actual = CreateStyleValues("background-color", "red");
+            Assert.AreEqual(typeof(ColorStyleValue), actual.Single().GetType());
+            Assert.AreEqual(1, ((ColorStyleValue)actual.Single()).Color.Red);
+            Assert.AreEqual(0, ((ColorStyleValue)actual.Single()).Color.Green);
+            Assert.AreEqual(0, ((ColorStyleValue)actual.Single()).Color.Blue);
+            Assert.AreEqual(1, ((ColorStyleValue)actual.Single()).Color.Alpha);
+        }
+
+        [TestMethod]
         public void Create_SingleEnumValue_ReturnsCorrectSequence()
         {
             var actual = CreateStyleValues("border-top", "thick");

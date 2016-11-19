@@ -41,6 +41,13 @@ namespace HtmlConsole.Css
                 PropertyName = "width",
                 AllowedTypes = new[] { typeof(LengthStyleValue) , typeof(PercentageStyleValue) , typeof(AutoStyleValue) },
             };
+
+            yield return new SimpleStyleProperty
+            {
+                PropertyName = "background-color",
+                AllowedTypes = new[] { typeof(ColorStyleValue) },
+            };
+
             yield return new SequenceStyleProperty
             {
                 PropertyName = "border-top",
