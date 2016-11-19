@@ -1,27 +1,33 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
 using HtmlAgilityPack;
+using HtmlConsole.Css;
 
 namespace HtmlConsole.Dom
 {
-    public class TagNode : INode
+    public class ElementNode : INode
     {
-        public string Tag { get; set; }
+        public string Element { get; set; }
         public string Id { get; set; }
         public string[] Classes { get; set; } = new string[0];
         // TODO: Stylesheet
         public Dictionary<string, string> Attributes { get; set; } = new Dictionary<string, string>();
 
+        public ElementNode Parent { get; set; }
         public IEnumerable<INode> Children { get; set; } = new INode[0];
+        public Document Document { get; set; }
 
-        public TagNode()
+        public DeclarationSet Styles { get; set; }
+
+        public ElementNode()
         {
         }
 
-        public TagNode(HtmlNode htmlNode)
+        public ElementNode(HtmlNode htmlNode, ElementNode parent)
         {
-            Tag = htmlNode.Name.ToLowerInvariant();
+            Element = htmlNode.Name.ToLowerInvariant();
             Id = htmlNode.Attributes?["id"]?.Value.ToLowerInvariant();
 
             var classesString = htmlNode.Attributes?["class"]?.Value.ToLowerInvariant();
@@ -30,19 +36,20 @@ namespace HtmlConsole.Dom
             Attributes = htmlNode.Attributes?.ToDictionary(p => p.Name.ToLower(), p => p.Value) 
                 ?? new Dictionary<string, string>();
 
-            Children = htmlNode.ChildNodes.Select(ParseNode).ToList();
+            Parent = parent;
+            Children = htmlNode.ChildNodes.Select(p => ParseNode(p, this)).ToList();
         }
 
-        public static INode ParseNode(HtmlNode xmlNode)
+        public static INode ParseNode(HtmlNode xmlNode, ElementNode parent = null)
         {
             var text = xmlNode as HtmlTextNode;
             if (text != null)
             {
-                return new TextNode(text);
+                return new TextNode(text, parent);
             }
             else
             {
-                return new TagNode(xmlNode);
+                return new ElementNode(xmlNode, parent);
             }
         }
 
@@ -52,10 +59,10 @@ namespace HtmlConsole.Dom
 
             if (GetType() != other.GetType()) return false;
 
-            var tagNode = (TagNode) other;
+            var tagNode = (ElementNode) other;
 
             return
-                Tag == tagNode.Tag &&
+                Element == tagNode.Element &&
                 Id == tagNode.Id &&
                 Classes.SequenceEqual(tagNode.Classes) &&
                 Attributes.SequenceEqual(tagNode.Attributes) &&

@@ -4,10 +4,31 @@ namespace HtmlConsole.Css
 {
     public class Specificity : IComparable<Specificity>
     {
-        public int ElementSpecificity { get; set; }
-        public int ClassSpecificity { get; set; }
-        public int IdSpecificity { get; set; }
-        
+        public int IdSpecificity { get; } // Specificity "b"
+        public int ClassSpecificity { get; } // Specificity "c"
+        public int ElementSpecificity { get; } // Specificity "d"
+
+        public Specificity()
+        {
+        }
+
+        public Specificity(int idSpecificity, int classSpecificity, int elementSpecificity)
+        {
+            IdSpecificity = idSpecificity;
+            ClassSpecificity = classSpecificity;
+            ElementSpecificity = elementSpecificity;
+        }
+
+        public static Specificity operator+(Specificity a, Specificity b)
+        {
+            return new Specificity
+            (
+                a.IdSpecificity + b.IdSpecificity,
+                a.ClassSpecificity + b.ClassSpecificity,
+                a.ElementSpecificity + b.ElementSpecificity
+            );
+        }
+
         public int CompareTo(Specificity other)
         {
             var idComparison = IdSpecificity.CompareTo(other.IdSpecificity);

@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HtmlConsole
+namespace HtmlConsole.Extensions
 {
     public static class EnumerableExtensions
     {
         public static IEnumerable<Tuple<T1, T2>> Zip<T1, T2>(this IEnumerable<T1> a, IEnumerable<T2> b)
         {
             return a.Zip<T1, T2, Tuple<T1, T2>>(b, Tuple.Create);
+        }
+
+        public static Dictionary<T1, T2> ToDictionary<T1, T2>(this IEnumerable<KeyValuePair<T1, T2>> a)
+        {
+            return a.ToDictionary(p => p.Key, p => p.Value);
         }
 
         public static IEnumerable<T3> ExtendingZip<T1, T2, T3>(this IEnumerable<T1> first, IEnumerable<T2> second, Func<T1, T2, T3> operation, Func<T2, T1> fillInFirst = null, Func<T1, T2> fillInSecond = null)

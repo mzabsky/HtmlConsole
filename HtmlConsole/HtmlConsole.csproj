@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HtmlConsole</RootNamespace>
     <AssemblyName>HtmlConsole</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Eto.Parse, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Eto.Parse.1.4.0.0\lib\net40\Eto.Parse.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
@@ -46,37 +51,64 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Css\AutoStyleValue.cs" />
+    <Compile Include="Css\Color.cs" />
+    <Compile Include="Css\ColorStyleValue.cs" />
+    <Compile Include="Css\CombinatorSelectorBase.cs" />
+    <Compile Include="Css\DeclarationSet.cs" />
+    <Compile Include="Css\EnumStyleValue.cs" />
+    <Compile Include="Css\InheritStyleValue.cs" />
+    <Compile Include="Css\InitialStyleValue.cs" />
+    <Compile Include="Css\IsChildOfSelector.cs" />
+    <Compile Include="Css\IStylePropertyMapper.cs" />
+    <Compile Include="Css\LengthStyleValue.cs" />
+    <Compile Include="Css\Declaration.cs" />
+    <Compile Include="Css\PercentageStyleValue.cs" />
+    <Compile Include="Css\SelectorMatch.cs" />
+    <Compile Include="Css\SequenceStyleProperty.cs" />
+    <Compile Include="Css\BoxStyleProperty.cs" />
+    <Compile Include="Css\SimpleStyleProperty.cs" />
+    <Compile Include="Css\Specificity.cs" />
+    <Compile Include="Css\StarSelector.cs" />
+    <Compile Include="Css\AndSelector.cs" />
+    <Compile Include="Css\ElementSelector.cs" />
+    <Compile Include="Css\ClassSelector.cs" />
+    <Compile Include="Css\IdSelector.cs" />
+    <Compile Include="Css\IsDescendantOfSelector.cs" />
+    <Compile Include="Css\OrSelector.cs" />
+    <Compile Include="Css\RuleSet.cs" />
+    <Compile Include="Css\Selector.cs" />
+    <Compile Include="Css\StyleParser.cs" />
+    <Compile Include="Css\StyleProperty.cs" />
+    <Compile Include="Css\Stylesheet.cs" />
+    <Compile Include="Css\StyleValue.cs" />
+    <Compile Include="Css\StyleValueEnums.cs" />
+    <Compile Include="Dom\Document.cs" />
     <Compile Include="Dom\INode.cs" />
-    <Compile Include="Dom\TagNode.cs" />
+    <Compile Include="Dom\NodeExtensions.cs" />
+    <Compile Include="Dom\ElementNode.cs" />
     <Compile Include="Dom\TextNode.cs" />
     <Compile Include="Extensions\ConsolePresentationExtensions.cs" />
-    <Compile Include="Css\NumericStyleValue.cs" />
-    <Compile Include="Css\ParsedStyle.cs" />
-    <Compile Include="Css\Specificity.cs" />
-    <Compile Include="Css\Style.cs" />
-    <Compile Include="Css\StyleBlockExtensions.cs" />
-    <Compile Include="Css\Stylesheet.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\MatchExtensions.cs" />
     <Compile Include="HtmlConsolePresentation.cs" />
     <Compile Include="IConsolePresentation.cs" />
     <Compile Include="IConsoleWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\Strings.Designer.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="SystemConsoleWriter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="standard-conformance.md" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\DefaultStylesheet.css" />
+    <EmbeddedResource Include="Css\cssgrammar.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\Strings.resx" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
