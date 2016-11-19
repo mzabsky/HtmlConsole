@@ -16,7 +16,7 @@ namespace HtmlConsole.Css
             Percentage = percentage;
         }
 
-        public static PercentageStyleValue TryCreate(Match match)
+        internal static PercentageStyleValue TryCreate(Match match)
         {
             var regex = new Regex(@"(?<number>[0-9]+(\.[0-9]+)?)%", RegexOptions.IgnoreCase);
             var regexMatch = regex.Match(match.Text);

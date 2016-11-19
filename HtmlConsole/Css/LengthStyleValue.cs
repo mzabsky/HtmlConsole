@@ -31,13 +31,8 @@ namespace HtmlConsole.Css
             Unit = unit;
         }
 
-        public static LengthStyleValue TryCreate(Match match)
+        internal static LengthStyleValue TryCreate(Match match)
         {
-            /*if (match.Name != "number")
-            {
-                return null;
-            }*/
-
             var regex = new Regex(@"(?<number>[0-9]+(\.[0-9]+)?)(?<unit>([a-z]{2})?)", RegexOptions.IgnoreCase);
             var regexMatch = regex.Match(match.Text);
             if (!regexMatch.Success)

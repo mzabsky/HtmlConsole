@@ -23,7 +23,7 @@ namespace HtmlConsole.Css
 
     public abstract class EnumStyleValue : StyleValue
     {
-        public static StyleValue TryCreate(Type enumType, Match termMatch)
+        internal static StyleValue TryCreate(Type enumType, Match termMatch)
         {
             var str = termMatch.Text.ToLower();
             var enumValues = enumType.GetEnumValues().OfType<object>().Select(p => new { String = p.ToString().ToLower(), Numeric = (int)p });
