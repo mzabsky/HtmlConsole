@@ -54,6 +54,7 @@
     <Compile Include="Css\EnumStyleValueTests.cs" />
     <Compile Include="Css\IsDescendantOfSelectorTests.cs" />
     <Compile Include="Css\IsChildOfSelectorTests.cs" />
+    <Compile Include="Css\PercentageStyleValueTests.cs" />
     <Compile Include="Css\LengthStyleValueTests.cs" />
     <Compile Include="Css\RuleSetTests.cs" />
     <Compile Include="Css\SelectorTests.cs" />

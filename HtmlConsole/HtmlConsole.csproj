@@ -62,6 +62,7 @@
     <Compile Include="Css\IStylePropertyMapper.cs" />
     <Compile Include="Css\LengthStyleValue.cs" />
     <Compile Include="Css\Declaration.cs" />
+    <Compile Include="Css\PercentageStyleValue.cs" />
     <Compile Include="Css\SelectorMatch.cs" />
     <Compile Include="Css\SequenceStyleProperty.cs" />
     <Compile Include="Css\BoxStyleProperty.cs" />
