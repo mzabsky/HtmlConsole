@@ -16,7 +16,7 @@ namespace HtmlConsole.Dom
             Text = text;
         }
 
-        public TextNode(HtmlTextNode xmlNode, ElementNode parent)
+        internal TextNode(HtmlTextNode xmlNode, ElementNode parent)
         {
             Text = xmlNode.InnerText;
             Parent = parent;

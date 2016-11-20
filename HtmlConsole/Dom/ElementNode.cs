@@ -25,7 +25,7 @@ namespace HtmlConsole.Dom
         {
         }
 
-        public ElementNode(HtmlNode htmlNode, ElementNode parent)
+        internal ElementNode(HtmlNode htmlNode, ElementNode parent)
         {
             Element = htmlNode.Name.ToLowerInvariant();
             Id = htmlNode.Attributes?["id"]?.Value.ToLowerInvariant();
@@ -40,7 +40,7 @@ namespace HtmlConsole.Dom
             Children = htmlNode.ChildNodes.Select(p => ParseNode(p, this)).ToList();
         }
 
-        public static INode ParseNode(HtmlNode xmlNode, ElementNode parent = null)
+        internal static INode ParseNode(HtmlNode xmlNode, ElementNode parent = null)
         {
             var text = xmlNode as HtmlTextNode;
             if (text != null)
