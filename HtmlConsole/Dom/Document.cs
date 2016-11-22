@@ -2,6 +2,7 @@
 using System.Linq;
 using HtmlAgilityPack;
 using HtmlConsole.Css;
+using HtmlConsole.Rendering;
 
 namespace HtmlConsole.Dom
 {
@@ -31,6 +32,12 @@ namespace HtmlConsole.Dom
             }
 
             return document;
+        }
+
+        public void AddStylesheet(string css)
+        {
+            var stylesheet = StyleParser.ParseStylesheet(css);
+            Stylesheets.Add(stylesheet);
         }
 
         public void ComputeStyles()

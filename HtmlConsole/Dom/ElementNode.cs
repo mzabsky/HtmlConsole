@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using HtmlAgilityPack;
 using HtmlConsole.Css;
+using HtmlConsole.Rendering;
 
 namespace HtmlConsole.Dom
 {
@@ -12,7 +12,7 @@ namespace HtmlConsole.Dom
         public string Element { get; set; }
         public string Id { get; set; }
         public string[] Classes { get; set; } = new string[0];
-        // TODO: Stylesheet
+
         public Dictionary<string, string> Attributes { get; set; } = new Dictionary<string, string>();
 
         public ElementNode Parent { get; set; }
@@ -51,6 +51,46 @@ namespace HtmlConsole.Dom
             {
                 return new ElementNode(xmlNode, parent);
             }
+        }
+
+        Renderer INode.CreateRenderer(Renderer parent)
+        {
+            if(Styles == null) throw new InvalidOperationException("Styles are not computed yet (call ComputeStyles on the Document first).");
+
+            Renderer renderer;
+            switch (GetStyleValue<EnumStyleValue<Display>>("display")?.EnumValue)
+            {
+                // TODO: Replaced content renderer
+                case Display.Block:
+                    renderer = new BlockRenderer(this, parent);
+                    break;
+                case Display.None:
+                    renderer = new VoidRenderer(this, parent);
+                    break;
+                case Display.Inline:
+                default: // Inline is the default
+                    renderer = new InlineRenderer(this, parent);
+                    break;
+            }
+
+            foreach (var child in Children)
+            {
+                renderer.Children.Add(child.CreateRenderer(renderer));
+            }
+
+            return renderer;
+        }
+
+        public StyleValue GetStyleValue(string name)
+        {
+            // TODO: Evaluate InheritStyleValue and InitialStyleValue here?
+
+            return Styles?[name]?.Value;
+        }
+
+        public T GetStyleValue<T>(string name) where T: StyleValue
+        {
+            return GetStyleValue(name) as T;
         }
 
         public bool Equals(INode other)
