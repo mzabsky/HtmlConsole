@@ -6,11 +6,11 @@ namespace HtmlConsole.Rendering
     /// <summary>
     /// A node in the rendering tree, based in the <see cref="RenderView"/>.
     /// </summary>
-    public abstract class Renderer
+    public abstract class Renderer : IRenderer
     {
         public INode DomNode { get; }
-        public Renderer Parent { get; set; }
-        public List<Renderer> Children { get; set; } = new List<Renderer>();
+        public IRenderer Parent { get; set; }
+        public List<IRenderer> Children { get; set; } = new List<IRenderer>();
 
         // reference na renderview?
         // aspect ratio elements?
@@ -18,7 +18,7 @@ namespace HtmlConsole.Rendering
         // Anonymous blocks
         // enclosing box (utility only )
 
-        protected Renderer(INode domNode, Renderer parent = null)
+        protected Renderer(INode domNode, IRenderer parent = null)
         {
             Parent = parent;
             DomNode = domNode;
@@ -27,42 +27,42 @@ namespace HtmlConsole.Rendering
 
     public class ElementRenderer : Renderer
     {
-        public ElementRenderer(ElementNode domNode, Renderer parent = null) : base(domNode, parent)
+        public ElementRenderer(ElementNode domNode, IRenderer parent = null) : base(domNode, parent)
         {
         }
     }
 
     public class InlineRenderer : ElementRenderer
     {
-        public InlineRenderer(ElementNode domNode, Renderer parent = null) : base(domNode, parent)
+        public InlineRenderer(ElementNode domNode, IRenderer parent = null) : base(domNode, parent)
         {
         }
     }
 
     public class BlockRenderer : ElementRenderer
     {
-        public BlockRenderer(ElementNode domNode, Renderer parent = null) : base(domNode, parent)
+        public BlockRenderer(ElementNode domNode, IRenderer parent = null) : base(domNode, parent)
         {
         }
     }
 
     public class TextRenderer : Renderer
     {
-        public TextRenderer(TextNode domNode, Renderer parent = null) : base(domNode, parent)
+        public TextRenderer(TextNode domNode, IRenderer parent = null) : base(domNode, parent)
         {
         }
     }
 
     public class ReplacedContentRenderer : Renderer
     {
-        public ReplacedContentRenderer(ElementNode domNode, Renderer parent = null) : base(domNode, parent)
+        public ReplacedContentRenderer(ElementNode domNode, IRenderer parent = null) : base(domNode, parent)
         {
         }
     }
 
     public class VoidRenderer : Renderer
     {
-        public VoidRenderer(ElementNode domNode, Renderer parent = null) : base(domNode, parent)
+        public VoidRenderer(ElementNode domNode, IRenderer parent = null) : base(domNode, parent)
         {
         }
     }
