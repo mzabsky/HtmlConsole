@@ -97,7 +97,15 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Rendering\BlockRenderer.cs" />
+    <Compile Include="Rendering\ElementRenderer.cs" />
+    <Compile Include="Rendering\InlineRenderer.cs" />
+    <Compile Include="Rendering\IRenderer.cs" />
     <Compile Include="Rendering\Renderer.cs" />
+    <Compile Include="Rendering\RenderView.cs" />
+    <Compile Include="Rendering\ReplacedContentRenderer.cs" />
+    <Compile Include="Rendering\TextRenderer.cs" />
+    <Compile Include="Rendering\VoidRenderer.cs" />
     <Compile Include="SystemConsoleWriter.cs" />
   </ItemGroup>
   <ItemGroup>
