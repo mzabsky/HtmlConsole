@@ -13,7 +13,7 @@ namespace HtmlConsole.Tests.Css
 
         private StyleValue[] CreateStyleValues(string propertyName, string code)
         {
-            var property = StyleProperty.GetAllProperties()[propertyName];
+            var property = StyleProperties.Get(propertyName);
             return StyleValue.Create(property, _parser.TestingGetSyntaxTree(code, StyleParserMode.StyleValue)).ToArray();
         }
 

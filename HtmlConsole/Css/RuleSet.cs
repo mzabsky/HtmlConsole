@@ -24,7 +24,7 @@ namespace HtmlConsole.Css
 
         internal static Dictionary<string, Declaration> CreateDeclarations(Match declarationsMatch)
         {
-            var allProperties = StyleProperty.GetAllProperties();
+            var allProperties = StyleProperties.All();
 
             Debug.Assert(declarationsMatch.Name == "declarations");
 
