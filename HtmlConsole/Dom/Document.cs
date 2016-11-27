@@ -18,7 +18,8 @@ namespace HtmlConsole.Dom
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
 
-            var rootNode = ElementNode.ParseNode(htmlDocument.DocumentNode.FirstChild);
+            var firstChild = htmlDocument.DocumentNode.FirstChild;
+            var rootNode = firstChild != null ? ElementNode.ParseNode(firstChild) : null;
 
             var document = new Document
             {
@@ -26,9 +27,12 @@ namespace HtmlConsole.Dom
                 StyleParser = new StyleParser()
             };
 
-            foreach (var node in rootNode.GetAllNodes())
+            if (rootNode != null)
             {
-                node.Document = document;
+                foreach (var node in rootNode.GetAllNodes())
+                {
+                    node.Document = document;
+                }
             }
 
             return document;

@@ -59,14 +59,13 @@ namespace HtmlConsole.Tests.Dom
             Assert.AreEqual(expectedRendererTree, GetRendererString(renderer).Trim());
         }
 
-        // TODO: Document crashes when ParseHtml empty string
-        /*[TestMethod]
+        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void CreateRenderer_StylesNotYetCalculated_ThrowsException()
         {
-            var document = Document.ParseHtml("");
+            var document = Document.ParseHtml("<xyz/>");
             document.RootNode.CreateRenderer();
-        }*/
+        }
 
         [TestMethod]
         public void CreateRenderer_UnspecifiedDisplay_CreatesInlineRenderer()

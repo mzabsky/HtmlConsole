@@ -11,9 +11,22 @@ namespace HtmlConsole.Tests.Dom
     {
         private void TestParseNode(INode expectedRoot, string html)
         {
-            var calculated = Document.ParseHtml(html);
+            var actualDocument = Document.ParseHtml(html);
 
-            Assert.IsTrue(expectedRoot.Equals(calculated.RootNode));
+            if (expectedRoot == null)
+            {
+                Assert.IsNull(actualDocument.RootNode);
+            }
+            else
+            {
+                Assert.IsTrue(expectedRoot.Equals(actualDocument.RootNode));
+            }
+        }
+
+        [TestMethod]
+        public void ParseNode_EmptyString_NullRootNode()
+        {
+            TestParseNode(null, "");
         }
 
         [TestMethod]
