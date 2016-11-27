@@ -58,7 +58,7 @@ namespace HtmlConsole.Dom
             if(Styles == null) throw new InvalidOperationException("Styles are not computed yet (call ComputeStyles on the Document first).");
 
             Renderer renderer;
-            switch (GetStyleValue<EnumStyleValue<Display>>("display")?.EnumValue)
+            switch (GetStyleValue<EnumStyleValue<Display>>(StyleProperties.Display)?.EnumValue)
             {
                 // TODO: Replaced content renderer
                 case Display.Block:
@@ -91,6 +91,11 @@ namespace HtmlConsole.Dom
         public T GetStyleValue<T>(string name) where T: StyleValue
         {
             return GetStyleValue(name) as T;
+        }
+
+        public T GetStyleValue<T>(StyleProperty property) where T: StyleValue
+        {
+            return GetStyleValue<T>(property.PropertyName);
         }
 
         public bool Equals(INode other)
