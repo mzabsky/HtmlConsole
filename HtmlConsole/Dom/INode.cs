@@ -9,7 +9,7 @@ namespace HtmlConsole.Dom
         ElementNode Parent { get; set; }
         IEnumerable<INode> Children { get; }
         Document Document { get; set; }
-        
-        Renderer CreateRenderer(Renderer parent = null);
+
+        IRenderer CreateRenderer();
     }
 }

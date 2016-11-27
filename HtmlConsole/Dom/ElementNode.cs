@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HtmlAgilityPack;
 using HtmlConsole.Css;
+using HtmlConsole.Extensions;
 using HtmlConsole.Rendering;
 
 namespace HtmlConsole.Dom
@@ -53,32 +54,82 @@ namespace HtmlConsole.Dom
             }
         }
 
-        Renderer INode.CreateRenderer(Renderer parent)
+        IRenderer INode.CreateRenderer()
         {
             if(Styles == null) throw new InvalidOperationException("Styles are not computed yet (call ComputeStyles on the Document first).");
 
-            Renderer renderer;
+            var childRenderers = Children.Select(p => p.CreateRenderer()).ToList();
+            var hasBlockChildren = childRenderers.Any(p => p.IsBlock);
+
+            Renderer selfRenderer;
             switch (GetStyleValue<EnumStyleValue<Display>>(StyleProperties.Display)?.EnumValue)
             {
                 // TODO: Replaced content renderer
                 case Display.Block:
-                    renderer = new BlockRenderer(this, parent);
+                    selfRenderer = new BlockRenderer(this);
                     break;
                 case Display.None:
-                    renderer = new VoidRenderer(this, parent);
+                    selfRenderer = new VoidRenderer(this);
                     break;
                 case Display.Inline:
                 default: // Inline is the default
-                    renderer = new InlineRenderer(this, parent);
+                    selfRenderer = new InlineRenderer(this);
                     break;
             }
 
-            foreach (var child in Children)
+            IRenderer actualRenderer;
+            if (selfRenderer.IsInline && hasBlockChildren)
             {
-                renderer.Children.Add(child.CreateRenderer(renderer));
+                // Inline renderers can't have block children -> wrap the whole thing in a block renderer and split the inline block so that it doesn't contain any block children
+                actualRenderer = new AnonymousBlockRenderer();
+            }
+            else
+            {
+                actualRenderer = selfRenderer;
+            }
+            
+            List<IRenderer> actualChildRenderers = new List<IRenderer>();
+            var childRendererSegments = childRenderers.Segmentize(p => p.IsInline);
+            foreach (var segment in childRendererSegments)
+            {
+                if (childRendererSegments.Count > 1 && segment.Any(p => p.IsInline))
+                {
+                    // A continuous segment of inline children on the same levels of non-inline children
+                    // Wrapping in an anonymous block is required
+                    
+                    var anonymousBlock = new AnonymousBlockRenderer();
+
+                    // If the current box is an inline, it needs to be split around its block children
+                    if (selfRenderer.IsInline)
+                    {
+                        var inlineCopy = selfRenderer.Clone();
+                        foreach (var childInline in segment)
+                        {
+                            inlineCopy.Children.Add(childInline);
+                        }
+                        anonymousBlock.Children.Add(inlineCopy);
+                    }
+                    else
+                    {
+                        foreach (var childInline in segment)
+                        {
+                            anonymousBlock.Children.Add(childInline);
+                        }
+                    }
+
+                    actualChildRenderers.Add(anonymousBlock);
+                }
+                else
+                {
+                    // This is either a block segment or a segment of all the parent renderer's inline children
+                    // -> wrapping is not required
+                    actualChildRenderers.AddRange(segment);   
+                }
             }
 
-            return renderer;
+            actualRenderer.Children = actualChildRenderers;
+
+            return actualRenderer;
         }
 
         public StyleValue GetStyleValue(string name)

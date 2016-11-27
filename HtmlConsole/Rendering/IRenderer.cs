@@ -8,5 +8,10 @@ namespace HtmlConsole.Rendering
         INode DomNode { get; }
         IRenderer Parent { get; set; }
         List<IRenderer> Children { get; set; }
+
+        bool IsBlock { get; }
+        bool IsInline { get; }
+
+        IRenderer Clone();
     }
 }

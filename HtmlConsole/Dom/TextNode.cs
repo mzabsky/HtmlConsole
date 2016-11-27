@@ -11,7 +11,7 @@ namespace HtmlConsole.Dom
         public ElementNode Parent { get; set; }
         public IEnumerable<INode> Children { get; } = new INode[0];
         public Document Document { get; set; }
-        public Renderer Renderer { get; set; }
+        public IRenderer Renderer { get; set; }
 
         public TextNode(string text)
         {
@@ -34,9 +34,9 @@ namespace HtmlConsole.Dom
             return Text == textNode.Text;
         }
         
-        public Renderer CreateRenderer(Renderer parent = null)
+        public IRenderer CreateRenderer()
         {
-            return new TextRenderer(this, parent);
+            return new TextRenderer(this);
         }
     }
 }

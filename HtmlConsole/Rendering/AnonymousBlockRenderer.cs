@@ -2,18 +2,18 @@
 
 namespace HtmlConsole.Rendering
 {
-    public class BlockRenderer : ElementRenderer
+    public class AnonymousBlockRenderer : ElementRenderer
     {
         public override bool IsBlock => true;
         public override bool IsInline => false;
 
-        public BlockRenderer(ElementNode domNode) : base(domNode)
+        public AnonymousBlockRenderer() : base(null)
         {
         }
 
         public override IRenderer Clone()
         {
-            return new BlockRenderer((ElementNode)DomNode);
+            return new AnonymousBlockRenderer();
         }
     }
 }

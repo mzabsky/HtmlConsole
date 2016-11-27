@@ -5,7 +5,7 @@ namespace HtmlConsole.Rendering
     public class RenderView
     {
         public Document Document { get; }
-        public Renderer RootRenderer { get; }
+        public IRenderer RootRenderer { get; }
 
         public RenderView(Document document)
         {

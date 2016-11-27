@@ -99,6 +99,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Rendering\AnonymousBlockRenderer.cs" />
     <Compile Include="Rendering\BlockRenderer.cs" />
     <Compile Include="Rendering\ElementRenderer.cs" />
     <Compile Include="Rendering\InlineRenderer.cs" />

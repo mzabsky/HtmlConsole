@@ -45,5 +45,28 @@ namespace HtmlConsole.Extensions
                 }
             }
         }
+
+        public static List<List<T>> Segmentize<T>(this IEnumerable<T> collection,
+            Predicate<T> segmentationPredicate)
+        {
+            List<List<T>> result = new List<List<T>>();
+            bool isFirst = true;
+            bool lastConditionValue = true; // Doesn't matter, the first item gets a new segment anyways;
+            foreach (var item in collection)
+            {
+                var currentConditionValue = segmentationPredicate(item);
+                if (isFirst || currentConditionValue != lastConditionValue)
+                {
+                    result.Add(new List<T>());
+                }
+                
+                result.Last().Add(item);
+
+                lastConditionValue = currentConditionValue;
+                isFirst = false;
+            }
+
+            return result;
+        }
     }
 }
