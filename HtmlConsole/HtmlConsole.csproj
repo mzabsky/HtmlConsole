@@ -93,8 +93,6 @@
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\MatchExtensions.cs" />
-    <Compile Include="HtmlConsolePresentation.cs" />
-    <Compile Include="IConsolePresentation.cs" />
     <Compile Include="IConsoleWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
