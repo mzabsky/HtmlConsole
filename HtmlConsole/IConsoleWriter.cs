@@ -4,7 +4,7 @@ namespace HtmlConsole
 {
     public interface IConsoleWriter
     {
-        void Write(string str);
+        void Write(char c);
         void SetForegroundColor(ConsoleColor color);
         void SetBackgroundColor(ConsoleColor color);
         int GetConsoleWidth();

@@ -4,9 +4,9 @@ namespace HtmlConsole
 {
     public class SystemConsoleWriter : IConsoleWriter
     {
-        public void Write(string str)
+        public void Write(char c)
         {
-            Console.Write(str);
+            Console.Write(c);
         }
 
         public void SetForegroundColor(ConsoleColor color)
