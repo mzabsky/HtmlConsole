@@ -98,6 +98,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Rendering\AnonymousBlockRenderer.cs" />
+    <Compile Include="Rendering\Position.cs" />
+    <Compile Include="Rendering\Size.cs" />
     <Compile Include="Rendering\VisualLayer.cs" />
     <Compile Include="Rendering\BlockRenderer.cs" />
     <Compile Include="Rendering\ElementRenderer.cs" />

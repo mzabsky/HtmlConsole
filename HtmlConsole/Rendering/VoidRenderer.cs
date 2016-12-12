@@ -11,6 +11,10 @@ namespace HtmlConsole.Rendering
         {
         }
 
+        public override void Paint(VisualLayer target)
+        {
+        }
+
         public override IRenderer Clone()
         {
             return new VoidRenderer((ElementNode)DomNode);

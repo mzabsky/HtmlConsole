@@ -1,4 +1,5 @@
-﻿using HtmlConsole.Dom;
+﻿using HtmlConsole.Css;
+using HtmlConsole.Dom;
 
 namespace HtmlConsole.Rendering
 {
@@ -9,6 +10,13 @@ namespace HtmlConsole.Rendering
 
         public TextRenderer(TextNode domNode) : base(domNode)
         {
+        }
+
+        public override void Paint(VisualLayer target)
+        {
+            // TODO: Get proper color
+            // TODO: Get proper z index
+            target.Write(Position, ((TextNode)DomNode).Text, Color.FromNamedColor("white"), 0);
         }
 
         public override IRenderer Clone()

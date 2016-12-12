@@ -11,6 +11,14 @@ namespace HtmlConsole.Rendering
         {
         }
 
+        public override void Paint(VisualLayer target)
+        {
+            foreach (var child in Children)
+            {
+                child.Paint(target);
+            }
+        }
+
         public override IRenderer Clone()
         {
             return new BlockRenderer((ElementNode)DomNode);

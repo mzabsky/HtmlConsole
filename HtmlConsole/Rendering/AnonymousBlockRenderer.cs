@@ -2,7 +2,7 @@
 
 namespace HtmlConsole.Rendering
 {
-    public class AnonymousBlockRenderer : ElementRenderer
+    public class AnonymousBlockRenderer : BlockRenderer
     {
         public override bool IsBlock => true;
         public override bool IsInline => false;

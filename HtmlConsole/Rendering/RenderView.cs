@@ -12,5 +12,10 @@ namespace HtmlConsole.Rendering
             Document = document;
             RootRenderer = document.RootNode.CreateRenderer();
         }
+
+        public void Paint(VisualLayer target)
+        {
+            RootRenderer?.Paint(target);
+        }
     }
 }

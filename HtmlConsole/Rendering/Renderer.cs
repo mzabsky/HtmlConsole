@@ -8,6 +8,11 @@ namespace HtmlConsole.Rendering
     /// </summary>
     public abstract class Renderer : IRenderer
     {
+        public Position Position { get; protected set; }
+        public Size ClientSize { get; protected set; }
+        public Size MinimumSize { get; protected set; }
+        public Size MaximumSize { get; protected set; }
+
         public INode DomNode { get; }
         public IRenderer Parent { get; set; }
         public List<IRenderer> Children { get; set; } = new List<IRenderer>();
@@ -25,6 +30,7 @@ namespace HtmlConsole.Rendering
             DomNode = domNode;
         }
 
+        public abstract void Paint(VisualLayer target);
         public abstract IRenderer Clone();
     }
 }
