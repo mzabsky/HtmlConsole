@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using HtmlConsole.Css;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -10,7 +11,7 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void MapStyleValues_EmptyValueSequence_ReturnsEmptyDictionary()
         {
-            var property = new SimpleStyleProperty();
+            var property = new SimpleStyleProperty("a", new Type[0]);
             var actual = property.MapStyleValues(new StyleValue[0]).ToArray();
             Assert.AreEqual(0, actual.Length);
         }
@@ -18,7 +19,7 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void MapStyleValues_SingleValue_ReturnsIt()
         {
-            var property = new SimpleStyleProperty { PropertyName = "hello" };
+            var property = new SimpleStyleProperty("hello", new Type[0]);
             var styleValue = new AutoStyleValue();
             var actual = property.MapStyleValues(new StyleValue[] { styleValue }).ToArray();
             Assert.AreEqual(1, actual.Length);
@@ -28,7 +29,7 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void MapStyleValues_MultipleValues_ReturnsOnlyFirst()
         {
-            var property = new SimpleStyleProperty { PropertyName = "hello" };
+            var property = new SimpleStyleProperty("hello", new Type[0]);
             var styleValue = new AutoStyleValue();
             var styleValue2 = new AutoStyleValue();
             var styleValue3 = new AutoStyleValue();

@@ -6,12 +6,17 @@ namespace HtmlConsole.Css
 {
     public class SequenceStyleProperty : StyleProperty
     {
-        // This is not a dictionary, because a dictionary is not ordered
-        public KeyValuePair<string, Type[]>[] PropertySequence { get; set; } = new KeyValuePair<string, Type[]>[0];
+        // This is not a dictionary because a dictionary is not ordered
+        public KeyValuePair<string, Type[]>[] PropertySequence { get; }
 
         protected override IEnumerable<Type> GetAllowedTypesCore()
         {
             return PropertySequence.SelectMany(p => p.Value);
+        }
+
+        public SequenceStyleProperty(string propertyName, KeyValuePair<string, Type[]>[] propertySequence, bool isInherited = false, StyleValue initialValue = null) : base(propertyName, initialValue, isInherited)
+        {
+            PropertySequence = propertySequence;
         }
 
         public override IEnumerable<KeyValuePair<string, StyleValue>> MapStyleValues(StyleValue[] values)

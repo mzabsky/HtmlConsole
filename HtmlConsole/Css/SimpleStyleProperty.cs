@@ -7,7 +7,17 @@ namespace HtmlConsole.Css
     public class SimpleStyleProperty : StyleProperty
     {
         public Type[] AllowedTypes { get; set; }
-        
+
+        public SimpleStyleProperty(string propertyName, Type allowedType, StyleValue initialValue = null, bool isInherited = false) : base(propertyName, initialValue, isInherited)
+        {
+            AllowedTypes = new [] {allowedType};
+        }
+
+        public SimpleStyleProperty(string propertyName, Type[] allowedTypes, StyleValue initialValue = null, bool isInherited = false) : base(propertyName, initialValue, isInherited)
+        {
+            AllowedTypes = allowedTypes;
+        }
+
         protected override IEnumerable<Type> GetAllowedTypesCore()
         {
             return AllowedTypes;

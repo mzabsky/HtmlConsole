@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using HtmlConsole.Css;
 using HtmlConsole.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,7 +12,7 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void MapStyleValues_EmptyValueSequence_ReturnsEmptyDictionary()
         {
-            var property = new BoxStyleProperty();
+            var property = new BoxStyleProperty("a", "a-{0}", new Type[0]);
             var actual = property.MapStyleValues(new StyleValue[0]).ToArray();
             Assert.AreEqual(0, actual.Length);
         }
@@ -19,7 +20,7 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void MapStyleValues_SingleValue_ReturnsSameAllDirections()
         {
-            var property = new BoxStyleProperty { PropertyName = "hello", NamePattern = "hel-{0}-lo"};
+            var property = new BoxStyleProperty("hello", "hel-{0}-lo", new Type[0]);
             var styleValue = new AutoStyleValue();
             var actual = property.MapStyleValues(new StyleValue[] { styleValue }).ToDictionary();
             Assert.AreEqual(4, actual.Count);
@@ -32,7 +33,7 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void MapStyleValues_twoValues_ReturnsPairedDirections()
         {
-            var property = new BoxStyleProperty { PropertyName = "hello", NamePattern = "hel-{0}-lo" };
+            var property = new BoxStyleProperty("hello", "hel-{0}-lo", new Type[0]);
             var styleValueVertical = new AutoStyleValue();
             var styleValueHorizontal = new AutoStyleValue();
             var actual = property.MapStyleValues(new StyleValue[] { styleValueVertical, styleValueHorizontal }).ToDictionary();
@@ -46,7 +47,7 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void MapStyleValues_ThreeValues_FillsInLeft()
         {
-            var property = new BoxStyleProperty { PropertyName = "hello", NamePattern = "hel-{0}-lo" };
+            var property = new BoxStyleProperty("hello", "hel-{0}-lo", new Type[0]);
             var styleValue1 = new AutoStyleValue();
             var styleValue2 = new AutoStyleValue();
             var styleValue3 = new AutoStyleValue();
@@ -61,7 +62,7 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void MapStyleValues_ThreeValues_MapsInCorrectDirections()
         {
-            var property = new BoxStyleProperty { PropertyName = "hello", NamePattern = "hel-{0}-lo" };
+            var property = new BoxStyleProperty("hello", "hel-{0}-lo", new Type[0]);
             var styleValue1 = new AutoStyleValue();
             var styleValue2 = new AutoStyleValue();
             var styleValue3 = new AutoStyleValue();
@@ -77,7 +78,7 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void MapStyleValues_FiveValues_DiscardsFifth()
         {
-            var property = new BoxStyleProperty { PropertyName = "hello", NamePattern = "hel-{0}-lo" };
+            var property = new BoxStyleProperty("hello", "hel-{0}-lo", new Type[0]);
             var styleValue1 = new AutoStyleValue();
             var styleValue2 = new AutoStyleValue();
             var styleValue3 = new AutoStyleValue();

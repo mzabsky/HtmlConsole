@@ -8,13 +8,20 @@ namespace HtmlConsole.Css
     {
         private Type[] _cachedAllowedTypes;
 
-        public string PropertyName { get; set; }
-        public bool IsInherited { get; set; } = false;
-        public StyleValue InitialValue { get; set; }
+        public string PropertyName { get; }
+        public bool IsInherited { get; }
+        public StyleValue InitialValue { get; }
 
         protected abstract IEnumerable<Type> GetAllowedTypesCore();
 
         public abstract IEnumerable<KeyValuePair<string, StyleValue>> MapStyleValues(StyleValue[] values);
+
+        protected StyleProperty(string propertyName, StyleValue initialValue, bool isInherited)
+        {
+            PropertyName = propertyName;
+            IsInherited = isInherited;
+            InitialValue = initialValue;
+        }
 
         public Type[] GetAllowedTypes()
         {

@@ -5,12 +5,24 @@ namespace HtmlConsole.Css
 {
     public class BoxStyleProperty : StyleProperty
     {
-        public Type[] AllowedTypes { get; set; }
-        public string NamePattern { get; set; }
+        public string NamePattern { get; }
+        public Type[] AllowedTypes { get; }
 
         protected override IEnumerable<Type> GetAllowedTypesCore()
         {
             return AllowedTypes;
+        }
+
+        public BoxStyleProperty(string propertyName, string namePattern, Type allowedType, bool isInherited = false, StyleValue initialValue = null) : base(propertyName, initialValue, isInherited)
+        {
+            NamePattern = namePattern;
+            AllowedTypes = new [] {allowedType};
+        }
+
+        public BoxStyleProperty(string propertyName, string namePattern, Type[] allowedTypes, bool isInherited = false, StyleValue initialValue = null) : base(propertyName, initialValue, isInherited)
+        {
+            NamePattern = namePattern;
+            AllowedTypes = allowedTypes;
         }
 
         public override IEnumerable<KeyValuePair<string, StyleValue>> MapStyleValues(StyleValue[] values)

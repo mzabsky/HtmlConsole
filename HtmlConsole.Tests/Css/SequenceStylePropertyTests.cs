@@ -13,16 +13,13 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void GetAllowedTypes_ThreeByThreeSequence_ContainsAllTypes()
         {
-            var property = new SequenceStyleProperty
-            {
-                PropertySequence = new []
+            var property = new SequenceStyleProperty("a", new[]
                 {
                     new KeyValuePair<string, Type[]>("a", new []{ typeof(AutoStyleValue), typeof(Display) }),
                     new KeyValuePair<string, Type[]>("b", new []{ typeof(BorderThickness) }),
                     new KeyValuePair<string, Type[]>("c", new []{ typeof(BorderStyle) }),
-                }
-            };
-
+                });
+            
             var actual = property.GetAllowedTypes();
             Assert.AreEqual(4, actual.Length);
             Assert.IsTrue(actual.Contains(typeof(AutoStyleValue)));
@@ -34,7 +31,7 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void MapStyleValues_EmptyValueSequenceEmptyTypeSequence_ReturnsEmptyDictionary()
         {
-            var property = new SequenceStyleProperty();
+            var property = new SequenceStyleProperty("a", new KeyValuePair < string, Type[] >[0]);
             var actual = property.MapStyleValues(new StyleValue[0]).ToArray();
             Assert.AreEqual(0, actual.Length);
         }
@@ -42,15 +39,12 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void MapStyleValues_EmptyValueSequenceHasTypeSequence_ReturnsEmptyDictionary()
         {
-            var property = new SequenceStyleProperty
-            {
-                PropertySequence = new[]
+            var property = new SequenceStyleProperty("a", new[]
                 {
                     new KeyValuePair<string, Type[]>("a", new []{ typeof(AutoStyleValue), typeof(Display) }),
                     new KeyValuePair<string, Type[]>("b", new []{ typeof(BorderThickness) }),
                     new KeyValuePair<string, Type[]>("c", new []{ typeof(BorderStyle) }),
-                }
-            };
+                });
             
             var actual = property.MapStyleValues(new StyleValue[0]).ToArray();
             Assert.AreEqual(0, actual.Length);
@@ -59,15 +53,12 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void MapStyleValues_ExactMatchTypeSequence_ReturnsCorrectMappings()
         {
-            var property = new SequenceStyleProperty
-            {
-                PropertySequence = new[]
+            var property = new SequenceStyleProperty("a", new[]
                 {
                     new KeyValuePair<string, Type[]>("a", new []{ typeof(AutoStyleValue), typeof(Display) }),
                     new KeyValuePair<string, Type[]>("b", new []{ typeof(BorderThickness) }),
                     new KeyValuePair<string, Type[]>("c", new []{ typeof(BorderStyle) }),
-                }
-            };
+                });
 
             StyleValue styleValue1, styleValue2, styleValue3;
             var actual = property.MapStyleValues(new []
@@ -86,15 +77,12 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void MapStyleValues_MissingPropertyInSequence_SkipsThatProperty()
         {
-            var property = new SequenceStyleProperty
-            {
-                PropertySequence = new[]
+            var property = new SequenceStyleProperty("a", new[]
                 {
                     new KeyValuePair<string, Type[]>("a", new []{ typeof(AutoStyleValue), typeof(Display) }),
                     new KeyValuePair<string, Type[]>("b", new []{ typeof(BorderThickness) }),
                     new KeyValuePair<string, Type[]>("c", new []{ typeof(BorderStyle) }),
-                }
-            };
+                });
 
             StyleValue styleValue1, styleValue3;
             var actual = property.MapStyleValues(new []
@@ -111,15 +99,12 @@ namespace HtmlConsole.Tests.Css
         [TestMethod]
         public void MapStyleValues_MissingPropertyAtEndOfSequence_SkipsThatProperty()
         {
-            var property = new SequenceStyleProperty
-            {
-                PropertySequence = new[]
+            var property = new SequenceStyleProperty("a", new[]
                 {
                     new KeyValuePair<string, Type[]>("a", new []{ typeof(AutoStyleValue), typeof(Display) }),
                     new KeyValuePair<string, Type[]>("b", new []{ typeof(BorderThickness) }),
                     new KeyValuePair<string, Type[]>("c", new []{ typeof(BorderStyle) }),
-                }
-            };
+                });
 
             StyleValue styleValue1, styleValue2;
             var actual = property.MapStyleValues(new []
