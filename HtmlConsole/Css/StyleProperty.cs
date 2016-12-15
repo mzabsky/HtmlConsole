@@ -10,7 +10,8 @@ namespace HtmlConsole.Css
 
         public string PropertyName { get; set; }
         public bool IsInherited { get; set; } = false;
-        
+        public StyleValue InitialValue { get; set; }
+
         protected abstract IEnumerable<Type> GetAllowedTypesCore();
 
         public abstract IEnumerable<KeyValuePair<string, StyleValue>> MapStyleValues(StyleValue[] values);

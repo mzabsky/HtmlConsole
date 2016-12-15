@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Net.Http;
 using System.Text.RegularExpressions;
 
 namespace HtmlConsole.Css
 {
     public class Color
     {
+        public static Color Transparent = new Color(1, 1, 1, 0);
+        public static Color White = new Color(1, 1, 1, 1);
+        public static Color Black = new Color(0, 0, 0, 1);
+
         // http://www.w3schools.com/colors/colors_names.asp
         private static readonly Dictionary<string, string> NamedColorMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {

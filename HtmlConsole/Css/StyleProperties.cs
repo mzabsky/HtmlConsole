@@ -28,6 +28,7 @@ namespace HtmlConsole.Css
             {
                 PropertyName = "background-color",
                 AllowedTypes = new[] { typeof(ColorStyleValue) },
+                InitialValue = new ColorStyleValue(Color.Transparent)
             });
             
             propertyList.Add(BorderTop = new SequenceStyleProperty
@@ -45,6 +46,7 @@ namespace HtmlConsole.Css
             {
                 PropertyName = "display",
                 AllowedTypes = new[] { typeof(Display) },
+                InitialValue = new EnumStyleValue<Display>(Css.Display.Inline)
             });
 
             propertyList.Add(Margin = new BoxStyleProperty
@@ -58,12 +60,14 @@ namespace HtmlConsole.Css
             {
                 PropertyName = "margin-top",
                 AllowedTypes = new[] { typeof(LengthStyleValue) },
+                InitialValue = new LengthStyleValue(0, LengthUnit.None)
             });
 
             propertyList.Add(Width = new SimpleStyleProperty
             {
                 PropertyName = "width",
                 AllowedTypes = new[] { typeof(LengthStyleValue), typeof(PercentageStyleValue), typeof(AutoStyleValue) },
+                InitialValue = new AutoStyleValue()
             });
 
             PropertyIndex = propertyList.ToDictionary(p => p.PropertyName, p => p);
