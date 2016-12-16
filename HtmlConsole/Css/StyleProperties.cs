@@ -10,6 +10,7 @@ namespace HtmlConsole.Css
         private static readonly Dictionary<string, StyleProperty> PropertyIndex;
 
         public static StyleProperty BackgroundColor;
+        public static StyleProperty Color;
 
         public static StyleProperty BorderTop;
 
@@ -28,10 +29,19 @@ namespace HtmlConsole.Css
                 new SimpleStyleProperty(
                     "background-color", 
                     typeof(ColorStyleValue), 
-                    new ColorStyleValue(Color.Transparent)
+                    new ColorStyleValue(Css.Color.Transparent)
                 )
             );
-            
+
+            propertyList.Add(Color =
+                new SimpleStyleProperty(
+                    "color",
+                    typeof(ColorStyleValue),
+                    new ColorStyleValue(Css.Color.Black),
+                    true
+                )
+            );
+
             propertyList.Add(BorderTop = 
                 new SequenceStyleProperty(
                     "border-top", 

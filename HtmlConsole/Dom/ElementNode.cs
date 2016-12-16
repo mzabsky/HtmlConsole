@@ -134,9 +134,28 @@ namespace HtmlConsole.Dom
 
         public StyleValue GetStyleValue(string name)
         {
-            // TODO: Evaluate InheritStyleValue and InitialStyleValue here?
+            var property = StyleProperties.Get(name);
+            if (property == null)
+            {
+                return null;
+            }
 
-            return Styles?[name]?.Value;
+            return GetStyleValue(property);
+        }
+
+        public StyleValue GetStyleValue(StyleProperty property)
+        {
+            var value = Styles?[property.PropertyName]?.Value;
+            if(value is InheritStyleValue || (value == null && property.IsInherited))
+            {
+                return Parent?.GetStyleValue(property);
+            }
+            else if (value is InitialStyleValue || value == null)
+            {
+                return property.InitialValue;
+            }
+
+            return value;
         }
 
         public T GetStyleValue<T>(string name) where T: StyleValue
@@ -146,7 +165,7 @@ namespace HtmlConsole.Dom
 
         public T GetStyleValue<T>(StyleProperty property) where T: StyleValue
         {
-            return GetStyleValue<T>(property.PropertyName);
+            return GetStyleValue(property) as T;
         }
 
         public bool Equals(INode other)

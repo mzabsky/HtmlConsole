@@ -232,5 +232,10 @@ namespace HtmlConsole.Css
 
             return null;
         }
+
+        public override string ToString()
+        {
+            return $"#{(int) (Red * 255):X2}{(int) (Green * 255):X2}{(int) (Blue * 255):X2}{(Alpha != 1 ? ((int) (Alpha * 255)).ToString("X2") : "")}";
+        }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
+using HtmlConsole.Css;
 using HtmlConsole.Dom;
 using HtmlConsole.Rendering;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -146,6 +148,81 @@ namespace HtmlConsole.Tests.Dom
     AnonymousBlockRenderer
         InlineRenderer - xyz
             InlineRenderer - z");
+        }
+
+        [TestMethod]
+        public void GetStyleValue_NormalValueByName_ReturnsThatValue()
+        {
+            var doc = Document.ParseHtml("<xyz>aaa</xyz>");
+            doc.AddStylesheet("xyz { display: block }");
+            doc.ComputeStyles();
+            var node = doc.Find("xyz").Single();
+
+            Assert.AreEqual(Display.Block, node.GetStyleValue<EnumStyleValue<Display>>("display").EnumValue);
+        }
+
+        [TestMethod]
+        public void GetStyleValue_NormalValueByProperty_ReturnsThatValue()
+        {
+            var doc = Document.ParseHtml("<xyz>aaa</xyz>");
+            doc.AddStylesheet("xyz { display: block }");
+            doc.ComputeStyles();
+            var node = doc.Find("xyz").Single();
+
+            Assert.AreEqual(Display.Block, node.GetStyleValue<EnumStyleValue<Display>>(StyleProperties.Get("display")).EnumValue);
+        }
+
+        [TestMethod]
+        public void GetStyleValue_NoValue_ReturnsInitialValue()
+        {
+            var doc = Document.ParseHtml("<xyz>aaa</xyz>");
+            doc.ComputeStyles();
+            var node = doc.Find("xyz").Single();
+
+            Assert.AreEqual(Display.Inline, node.GetStyleValue<EnumStyleValue<Display>>("display").EnumValue);
+        }
+
+        [TestMethod]
+        public void GetStyleValue_InheritValue_ReturnsParentsValue()
+        {
+            var doc = Document.ParseHtml("<xyz><abc>aaa</abc></xyz>");
+            doc.AddStylesheet("xyz { display: block } abc { display: inherit; }");
+            doc.ComputeStyles();
+            var node = doc.Find("abc").Single();
+
+            Assert.AreEqual(Display.Block, node.GetStyleValue<EnumStyleValue<Display>>("display").EnumValue);
+        }
+
+        [TestMethod]
+        public void GetStyleValue_NoValueButParentHasValueButNotInheritedProperty_ReturnsInitialValue()
+        {
+            var doc = Document.ParseHtml("<xyz><abc>aaa</abc></xyz>");
+            doc.AddStylesheet("xyz { display: block }");
+            doc.ComputeStyles();
+            var node = doc.Find("abc").Single();
+
+            Assert.AreEqual(Display.Inline, node.GetStyleValue<EnumStyleValue<Display>>("display").EnumValue);
+        }
+
+        [TestMethod]
+        public void GetStyleValue_NoValueButParentHasValueButInheritedProperty_ReturnsParentsValue()
+        {
+            var doc = Document.ParseHtml("<xyz><abc>aaa</abc></xyz>");
+            doc.AddStylesheet("xyz { color: red }");
+            doc.ComputeStyles();
+            var node = doc.Find("abc").Single();
+
+            Assert.AreEqual("#FF0000", node.GetStyleValue<ColorStyleValue>("color").Color.ToString());
+        }
+
+        [TestMethod]
+        public void GetStyleValue_InvalidProperty_ReturnsNull()
+        {
+            var doc = Document.ParseHtml("<xyz>aaa</xyz>");
+            doc.ComputeStyles();
+            var node = doc.Find("xyz").Single();
+
+            Assert.IsNull(node.GetStyleValue<EnumStyleValue<Display>>("notaproperty"));
         }
     }
 }
