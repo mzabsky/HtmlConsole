@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using HtmlConsole.Css;
 
 namespace HtmlConsole
 {
@@ -9,24 +11,38 @@ namespace HtmlConsole
             Console.Write(c);
         }
 
-        public void SetForegroundColor(ConsoleColor color)
+        public void SetForegroundColor(Color color)
         {
-            Console.ForegroundColor = color;
+            Console.ForegroundColor = ConsoleColor.Black; // TODO: Translate color
         }
 
-        public void SetBackgroundColor(ConsoleColor color)
+        public void SetBackgroundColor(Color color)
         {
-            Console.BackgroundColor = color;
+            Console.BackgroundColor = ConsoleColor.White; // TODO: Translate color
         }
 
         public int GetConsoleWidth()
         {
-            return Console.WindowWidth; // TODO: BufferWidth?
+            try
+            {
+                return Console.WindowWidth; // TODO: BufferWidth?
+            }
+            catch (IOException)
+            {
+                return 80;
+            }
         }
 
         public int GetConsoleHeight()
         {
-            return Console.WindowHeight; // TODO: BufferHeight?
+            try
+            {
+                return Console.WindowHeight; // TODO: BufferHeight?
+            }
+            catch (Exception)
+            {
+                return 80;
+            }
         }
     }
 }

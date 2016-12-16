@@ -13,7 +13,7 @@ namespace HtmlConsole.Dom
 
         public List<Stylesheet> Stylesheets { get; set; } = new List<Stylesheet>();
 
-        public static Document ParseHtml(string html)
+        public static Document ParseHtml(string html, StyleParser styleParser = null)
         {
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
@@ -24,7 +24,7 @@ namespace HtmlConsole.Dom
             var document = new Document
             {
                 RootNode = rootNode,
-                StyleParser = new StyleParser()
+                StyleParser = styleParser ?? new StyleParser()
             };
 
             if (rootNode != null)
@@ -42,6 +42,19 @@ namespace HtmlConsole.Dom
         {
             var stylesheet = StyleParser.ParseStylesheet(css);
             Stylesheets.Add(stylesheet);
+        }
+
+        public void AddStylesheet(Stylesheet stylesheet)
+        {
+            Stylesheets.Add(stylesheet);
+        }
+
+        public void AddStylesheets(IEnumerable<Stylesheet> stylesheets)
+        {
+            foreach (var stylesheet in stylesheets)
+            {
+                Stylesheets.Add(stylesheet);
+            }
         }
 
         public void ComputeStyles()

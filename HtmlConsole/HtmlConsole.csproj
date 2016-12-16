@@ -89,7 +89,7 @@
     <Compile Include="Dom\NodeExtensions.cs" />
     <Compile Include="Dom\ElementNode.cs" />
     <Compile Include="Dom\TextNode.cs" />
-    <Compile Include="Extensions\ConsolePresentationExtensions.cs" />
+    <Compile Include="Extensions\ConsoleWriterExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\MatchExtensions.cs" />
@@ -111,6 +111,7 @@
     <Compile Include="Rendering\TextRenderer.cs" />
     <Compile Include="Rendering\VoidRenderer.cs" />
     <Compile Include="SystemConsoleWriter.cs" />
+    <Compile Include="Terminal.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="standard-conformance.md" />
