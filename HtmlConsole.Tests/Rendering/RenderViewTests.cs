@@ -1,6 +1,7 @@
 ﻿using System;
 using HtmlConsole.Dom;
 using HtmlConsole.Rendering;
+using HtmlConsole.Tests.Testing.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HtmlConsole.Tests.Rendering
@@ -8,6 +9,22 @@ namespace HtmlConsole.Tests.Rendering
     [TestClass]
     public class RenderViewTests
     {
+        private string GetRendererLayoutString(RenderView view)
+        {
+            return view.RootRenderer.GetRendererString(p => $"{p.Position} {p.ClientSize}");
+        }
+
+        private void TestLayout(string html, string css, string expected)
+        {
+            var document = Document.ParseHtml(html);
+            document.AddStylesheet(css);
+            document.ComputeStyles();
+            var view = new RenderView(document);
+            view.Layout(new Size(10, 10));
+
+            Assert.AreEqual(expected, GetRendererLayoutString(view));
+        }
+
         [TestMethod]
         public void Construct_SimpleDocument_CreatesAppropriateView()
         {
@@ -17,6 +34,22 @@ namespace HtmlConsole.Tests.Rendering
 
             Assert.AreEqual(document, view.Document);
             Assert.AreEqual(typeof(InlineRenderer), view.RootRenderer.GetType());
+        }
+        
+        [TestMethod]
+        public void Layout_SequenceOfInlines_RendersJustText()
+        {
+            TestLayout("<xyz><a>aa</a>t<b>bb</b>t<c>cc</c></xyz>", "", 
+@"InlineRenderer - [0, 0] [8, 1]
+    InlineRenderer - [0, 0] [2, 1]
+        TextRenderer - [0, 0] [2, 1]
+    TextRenderer - [2, 0] [1, 1]
+    InlineRenderer - [3, 0] [2, 1]
+        TextRenderer - [3, 0] [2, 1]
+    TextRenderer - [5, 0] [1, 1]
+    InlineRenderer - [6, 0] [2, 1]
+        TextRenderer - [6, 0] [2, 1]
+");
         }
 
         [TestMethod]
@@ -34,12 +67,13 @@ namespace HtmlConsole.Tests.Rendering
         [TestMethod]
         public void Paint_Color_SetsCorrectColors()
         {
-            var document = Document.ParseHtml("<xyz><a>aa</a>t<b>bb</b>t<c>cc</c><xyz/>");
+            var document = Document.ParseHtml("<xyz><a>aa</a>t<b>bb</b>t<c>cc</c></xyz>");
             document.AddStylesheet("xyz { color: black} a {color:red} b {color: lime} c {color: blue}");
             document.ComputeStyles();
             var view = new RenderView(document);
 
             var layer = new VisualLayer(new Size(9, 1));
+            view.Layout(new Size(0, 0));
             view.Paint(layer);
             
             Assert.AreEqual("#FF0000", layer.GetColor(new Position(0, 0)).ToString());

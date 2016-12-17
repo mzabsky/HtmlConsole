@@ -30,5 +30,10 @@
         {
             return !(a == b);
         }
+
+        public override string ToString()
+        {
+            return $"[{Width}, {Height}]";
+        }
     }
 }

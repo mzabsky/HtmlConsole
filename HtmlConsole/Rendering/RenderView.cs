@@ -13,6 +13,14 @@ namespace HtmlConsole.Rendering
             RootRenderer = document.RootNode.CreateRenderer();
         }
 
+        public void Layout(Size viewportSize)
+        {
+            RootRenderer.Layout(new LayoutContext
+            {
+                Position = new Position(0, 0)
+            });
+        }
+
         public void Paint(VisualLayer target)
         {
             RootRenderer?.Paint(target);

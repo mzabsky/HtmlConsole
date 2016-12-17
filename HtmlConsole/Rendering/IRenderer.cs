@@ -17,6 +17,7 @@ namespace HtmlConsole.Rendering
         bool IsBlock { get; }
         bool IsInline { get; }
 
+        void Layout(LayoutContext context);
         void Paint(VisualLayer target);
 
         IRenderer Clone();

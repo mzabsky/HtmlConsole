@@ -1,4 +1,5 @@
-﻿using HtmlConsole.Dom;
+﻿using System.Linq;
+using HtmlConsole.Dom;
 
 namespace HtmlConsole.Rendering
 {
@@ -17,6 +18,32 @@ namespace HtmlConsole.Rendering
             {
                 child.Paint(target);
             }
+        }
+
+        public override void Layout(LayoutContext context)
+        {
+            Position = context.Position;
+
+            var currentWidth = 0;
+            var maximumHeight = 0;
+
+            // Assuming all children are inlines here
+            foreach (var child in Children)
+            {
+                child.Layout(new LayoutContext
+                {
+                    Position = context.Position + new Position(currentWidth, 0)
+                });
+
+                currentWidth += child.ClientSize.Width;
+
+                if (child.ClientSize.Height > maximumHeight)
+                {
+                    maximumHeight = child.ClientSize.Height;
+                }
+            }
+
+            ClientSize = new Size(currentWidth, maximumHeight);
         }
 
         public override IRenderer Clone()

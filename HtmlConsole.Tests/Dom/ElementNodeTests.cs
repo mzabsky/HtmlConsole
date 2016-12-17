@@ -4,6 +4,7 @@ using System.Text;
 using HtmlConsole.Css;
 using HtmlConsole.Dom;
 using HtmlConsole.Rendering;
+using HtmlConsole.Tests.Testing.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HtmlConsole.Tests.Dom
@@ -13,38 +14,21 @@ namespace HtmlConsole.Tests.Dom
     {
         private string GetRendererString(IRenderer renderer)
         {
-            StringBuilder sb = new StringBuilder();
-            GetRendererString(renderer, sb, 0);
-            return sb.ToString();
-        }
-
-        private void GetRendererString(IRenderer renderer, StringBuilder sb, int level)
-        {
-            /*switch (renderer.DomNode)
+            return renderer.GetRendererString(p =>
             {
-                case ElementNode elementNode2:
-                    break;
-            }*/
-
-            string domNodeString;
-            if (renderer.DomNode is ElementNode elementNode)
-            {
-                domNodeString = $" - {elementNode.Element}";
-            }
-            else if (renderer.DomNode is TextNode textNode)
-            {
-                domNodeString = $" - {textNode.Text}";
-            }
-            else
-            {
-                domNodeString = "";
-            }
-
-            sb.AppendLine($"{new string(' ', level*4)}{renderer.GetType().Name}{domNodeString}");
-            foreach (var child in renderer.Children)
-            {
-                GetRendererString(child, sb, level + 1);
-            }
+                if (p.DomNode is ElementNode elementNode)
+                {
+                    return elementNode.Element.ToString();
+                }
+                else if (p.DomNode is TextNode textNode)
+                {
+                    return textNode.Text;
+                }
+                else
+                {
+                    return "";
+                }
+            });
         }
 
         private void TestCreateRenderer(string html, string expectedRendererTree)

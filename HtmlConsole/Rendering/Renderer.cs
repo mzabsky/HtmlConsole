@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom;
+using System.Collections.Generic;
 using HtmlConsole.Dom;
 
 namespace HtmlConsole.Rendering
@@ -32,5 +33,9 @@ namespace HtmlConsole.Rendering
 
         public abstract void Paint(VisualLayer target);
         public abstract IRenderer Clone();
+        public virtual void Layout(LayoutContext context) // TODO: Abstract
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

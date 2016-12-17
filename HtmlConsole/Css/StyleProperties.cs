@@ -20,6 +20,7 @@ namespace HtmlConsole.Css
         public static StyleProperty MarginTop;
 
         public static StyleProperty Width;
+        public static StyleProperty Height;
 
         static StyleProperties()
         {
@@ -75,6 +76,14 @@ namespace HtmlConsole.Css
             propertyList.Add(Width = 
                 new SimpleStyleProperty(
                     "width", 
+                    new[] { typeof(LengthStyleValue), typeof(PercentageStyleValue), typeof(AutoStyleValue) }, 
+                    new AutoStyleValue()
+                )
+            );
+
+            propertyList.Add(Height = 
+                new SimpleStyleProperty(
+                    "height", 
                     new[] { typeof(LengthStyleValue), typeof(PercentageStyleValue), typeof(AutoStyleValue) }, 
                     new AutoStyleValue()
                 )
