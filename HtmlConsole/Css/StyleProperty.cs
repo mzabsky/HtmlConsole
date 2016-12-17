@@ -32,5 +32,10 @@ namespace HtmlConsole.Css
 
             return _cachedAllowedTypes;
         }
+
+        public override string ToString()
+        {
+            return PropertyName;
+        }
     }
 }

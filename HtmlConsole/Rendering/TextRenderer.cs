@@ -14,9 +14,8 @@ namespace HtmlConsole.Rendering
 
         public override void Paint(VisualLayer target)
         {
-            // TODO: Get proper color
             // TODO: Get proper z index
-            target.Write(Position, ((TextNode)DomNode).Text, Color.FromNamedColor("white"), 0);
+            target.Write(Position, ((TextNode)DomNode).Text, DomNode.Parent.GetStyleValue<ColorStyleValue>("color").Color, 0);
         }
 
         public override IRenderer Clone()

@@ -146,7 +146,7 @@ namespace HtmlConsole.Dom
         public StyleValue GetStyleValue(StyleProperty property)
         {
             var value = Styles?[property.PropertyName]?.Value;
-            if(value is InheritStyleValue || (value == null && property.IsInherited))
+            if(value is InheritStyleValue || (value == null && property.IsInherited && Parent != null))
             {
                 return Parent?.GetStyleValue(property);
             }
