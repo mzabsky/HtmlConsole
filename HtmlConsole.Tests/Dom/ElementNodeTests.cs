@@ -151,6 +151,13 @@ namespace HtmlConsole.Tests.Dom
         }
 
         [TestMethod]
+        public void CreateRenderer_TextNode_CreatesTextNode()
+        {
+            TestCreateRenderer("<xyz>aaa</xyz>", "xyz {display: block}", @"BlockRenderer - xyz
+    TextRenderer - aaa");
+        }
+
+        [TestMethod]
         public void GetStyleValue_NormalValueByName_ReturnsThatValue()
         {
             var doc = Document.ParseHtml("<xyz>aaa</xyz>");
