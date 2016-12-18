@@ -32,7 +32,8 @@ namespace HtmlConsole.Rendering
             {
                 child.Layout(new LayoutContext
                 {
-                    Position = context.Position + new Position(currentWidth, 0)
+                    Position = context.Position + new Position(currentWidth, 0),
+                    Size = context.Size
                 });
 
                 currentWidth += child.ClientSize.Width;

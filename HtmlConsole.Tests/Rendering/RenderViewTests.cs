@@ -37,7 +37,7 @@ namespace HtmlConsole.Tests.Rendering
         }
         
         [TestMethod]
-        public void Layout_SequenceOfInlines_RendersJustText()
+        public void Layout_SequenceOfInlines_LayoutsOneAfterOther()
         {
             TestLayout("<xyz><a>aa</a>t<b>bb</b>t<c>cc</c></xyz>", "", 
 @"InlineRenderer - [0, 0] [8, 1]
@@ -49,6 +49,23 @@ namespace HtmlConsole.Tests.Rendering
     TextRenderer - [5, 0] [1, 1]
     InlineRenderer - [6, 0] [2, 1]
         TextRenderer - [6, 0] [2, 1]
+");
+        }
+
+        [TestMethod]
+        public void Layout_SequenceOfBlocks_LayoutsOneAfterOther()
+        {
+            TestLayout("<xyz><a>aa</a><b><ba>ba</ba><bb>bb</bb></b><c>cc</c></xyz>", "xyz, a, b, ba, bb, c {display: block}",
+@"BlockRenderer - [0, 0] [10, 4]
+    BlockRenderer - [0, 0] [10, 1]
+        TextRenderer - [0, 0] [2, 1]
+    BlockRenderer - [0, 1] [10, 2]
+        BlockRenderer - [0, 1] [10, 1]
+            TextRenderer - [0, 1] [2, 1]
+        BlockRenderer - [0, 2] [10, 1]
+            TextRenderer - [0, 2] [2, 1]
+    BlockRenderer - [0, 3] [10, 1]
+        TextRenderer - [0, 3] [2, 1]
 ");
         }
 
